@@ -324,70 +324,66 @@
 
     
         
-        <form method= "POST">
-            <div class="input-container">
-                <input type="text" id="nome" required placeholder=" ">
-                <label for="nome">Primeiro nome <span class="required">*</span></label>
-            </div>
-
-            <div class="input-container">
-                <input type="text" id="carterinha" name="carterinha" placeholder=" " required>
-                <label for="carterinha">Carterinha do paciente <span class="required">*</span></label>
-            </div>
-
-            <div class="input-container">
-                <select id="exame_tipo" name="exame_tipo" required>
-                    <option value="" disabled selected></option>
-                    <option value="raiox">Raio-X</option>
-                    <option value="ultrasson">Ultrasson</option>
-                    <option value="eletro">Eletrocardiograma</option>
-                    <option value="hemograma">Hemograma</option>
-                </select>
-                <label for="exame_tipo">Tipo de exame <span class="required">*</span></label>
-            </div>
-
-            <div class="input-container" style="flex: 1 1 100%;">
-                <input type="file" id="pdf_arquivo" name="pdf_arquivo" accept=".pdf" required>
-                <label for="pdf_arquivo">Anexar exame <span class="required">*</span></label>
-            </div>
-
-            <div style="flex: 1 1 100%;">
-                <input type="submit" value="Enviar">
-            </div>
-        </form>
+        <form method="POST" enctype="multipart/form-data">
+    <div class="input-container">
+        <input type="text" id="nome_cliente" name="nome_cliente" required placeholder=" ">
+        <label for="nome_cliente">Primeiro nome <span class="required">*</span></label>
     </div>
 
-    <?php
-include("conexao.php");
+    <div class="input-container">
+        <input type="text" id="carterinha" name="carterinha" placeholder=" " required>
+        <label for="carterinha">Carterinha do paciente <span class="required">*</span></label>
+    </div>
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Verifica se o arquivo foi enviado sem erros
-    if (isset($_FILES['arquivo']) && $_FILES['arquivo']['error'] == 0) {
-        $nome_cliente = $_POST['nome_cliente'];
-        $carterinha = $_POST['carterinha'];
-        $tipo_exame = $_POST['tipo_exame'];
-        $pdf_arquivo = file_get_contents($_FILES['arquivo']['tmp_name']);
-        
-        // Prepara a instrução SQL para inserir os dados no banco de dados
-        $stmt = $mysqli->prepare("INSERT INTO documento (nome_cliente, carterinha, tipo_exame, pdf_arquivo) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("siss", $nome_cliente, $carterinha, $tipo_exame, $pdf_arquivo);
-        
-        // Executa a instrução SQL
-        if ($stmt->execute()) {
-            echo "Arquivo enviado com sucesso!";
+    <div class="input-container">
+        <select id="exame_tipo" name="exame_tipo" required>
+            <option value="" disabled selected></option>
+            <option value="raiox">Raio-X</option>
+            <option value="ultrasson">Ultrasson</option>
+            <option value="eletro">Eletrocardiograma</option>
+            <option value="hemograma">Hemograma</option>
+        </select>
+        <label for="exame_tipo">Tipo de exame <span class="required">*</span></label>
+    </div>
+
+    <div class="input-container" style="flex: 1 1 100%;">
+        <input type="file" id="pdf_arquivo" name="pdf_arquivo" accept=".pdf" required>
+        <label for="pdf_arquivo">Anexar exame <span class="required">*</span></label>
+    </div>
+
+    <div style="flex: 1 1 100%;">
+        <input type="submit" value="Enviar">
+    </div>
+</form>
+
+    </div>
+    <?php
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    include_once("conexao.php");
+
+    $nome_cliente = $_POST['nome_cliente'];
+    $carterinha = $_POST['carterinha'];
+    $exame_tipo = $_POST['exame_tipo'];
+
+    // Check if the file was uploaded without errors
+    if (isset($_FILES['pdf_arquivo']) && $_FILES['pdf_arquivo']['error'] == 0) {
+        $conteudo_pdf = file_get_contents($_FILES['pdf_arquivo']['tmp_name']);
+        $stmt = $mysqli->prepare("INSERT INTO documento(nome_cliente, carterinha, tipo_exame, pdf_arquivo) VALUES(?,?,?,?)");
+        $stmt->bind_param('ssss', $nome_cliente, $carterinha, $exame_tipo, $conteudo_pdf);
+
+        if($stmt->execute()){
+            echo "Deu certo";
         } else {
-            echo "Erro ao enviar arquivo: " . $stmt->error;
+            echo "Deu errado";
         }
 
         $stmt->close();
+        $mysqli->close();
     } else {
-        echo "Erro ao fazer o upload do arquivo.";
+        echo "Erro ao enviar o arquivo. Por favor, tente novamente.";
     }
 }
-
-$mysqli->close();
 ?>
-
 
 </body>
 </html>

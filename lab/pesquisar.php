@@ -322,25 +322,26 @@
             </div>
         </form>
         <div class="results">
-            <?php
-            include("conexao.php");
+           
+    <?php
+        include("conexao.php");
 
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $Pesquisar = $_POST['Pesquisar'];
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $Pesquisar = $_POST['Pesquisar'];
 
-                $sql = "SELECT * FROM documento WHERE nome_cliente LIKE '%$Pesquisar%'";
-                $query = mysqli_query($mysqli, $sql);
+            $sql = "SELECT * FROM documento WHERE nome_cliente LIKE '%$Pesquisar%'";
+            $query = mysqli_query($mysqli,$sql);
 
-                while ($retorno = $query->fetch_assoc()) {
-                    $nome = $retorno['nome_cliente'];
-                    $carterinha = $retorno['carterinha'];
-                    $id = $retorno['id'];
+            while($retorno = $query->fetch_assoc()){
+                $nome = $retorno['nome_cliente'];
+                $carterinha = $retorno['carterinha'];
+                $id = $retorno['id'];
 
-                    echo "<a href='baixar.php?id=".$id."'>".$nome." pertence a ".$carterinha."</a>";
-                    echo "<br>";
-                }
+                echo "<a href='baixar.php?id=".$id."'>".$nome." pertence a ".$carterinha."</a>";
+                echo "<br>";
             }
-            ?>
+        }
+    ?>
         </div>
     </div>
   </body>
