@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/add-department.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:43:17 GMT -->
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-  <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.png" />
-  <title>Preclinic - Medical & Hospital - Bootstrap 5 Admin Template</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
-  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css" />
-
-  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
-  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
-
-  <link rel="stylesheet" type="text/css" href="../assets/css/select2.min.css" />
-
-  <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
-
-  <link rel="stylesheet" href="../assets/css/feather.css" />
-
-  <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <title>Higia</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/select2.min.css" />
+    <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
+    <link rel="stylesheet" href="../assets/css/feather.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  </head>
 
 <body>
   <div vw class="enabled">
@@ -249,13 +247,13 @@
 
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg" alt /></span>
-                <span> Departments </span> <span class="menu-arrow"></span></a>
+                <span> Departamento</span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
                 <li>
                   <a class="" href="departments.html">Departamento</a>
                 </li>
-               <li><a href="/admin/add-department.html">Add departamento</a></li>
-               <li><a href="/admin/edit-department.html">Editar departamento</a></li>
+               <li><a href="/admin/add-department.html">Add Departamento</a></li>
+               <li><a href="/admin/edit-department.html">Editar Departamento</a></li>
               </ul>
             </li>
 
@@ -282,12 +280,12 @@
             <div class="col-sm-12">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="departments.html">Department </a>
+                  <a href="departments.html">Departamento </a>
                 </li>
                 <li class="breadcrumb-item">
                   <i class="feather-chevron-right"></i>
                 </li>
-                <li class="breadcrumb-item active">Add Department</li>
+                <li class="breadcrumb-item active">Add Departamento</li>
               </ul>
             </div>
           </div>
@@ -301,33 +299,33 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="form-heading">
-                        <h4>Add Department</h4>
+                        <h4>Add Departamento</h4>
                       </div>
                     </div>
                     <div class="col-12 col-md-6 col-xl-6">
                       <div class="input-block local-forms">
-                        <label>Department Name
+                        <label>Nome do Departamento
                           <span class="login-danger">*</span></label>
                         <input class="form-control" type="text" />
                       </div>
                     </div>
                     <div class="col-12 col-md-6 col-xl-6">
                       <div class="input-block local-forms">
-                        <label>Department Head
+                        <label>Médico do Departamento
                           <span class="login-danger">*</span></label>
                         <input class="form-control" type="text" />
                       </div>
                     </div>
                     <div class="col-12 col-sm-12">
                       <div class="input-block local-forms">
-                        <label>Description
+                        <label>Descrição
                           <span class="login-danger">*</span></label>
                         <textarea class="form-control" rows="3" cols="30"></textarea>
                       </div>
                     </div>
                     <div class="col-12 col-md-6 col-xl-6">
                       <div class="input-block local-forms cal-icon">
-                        <label>Department Date
+                        <label>Data do departamento
                           <span class="login-danger">*</span></label>
                         <input class="form-control datetimepicker" type="text" />
                       </div>
@@ -337,12 +335,12 @@
                         <label class="gen-label">Status <span class="login-danger">*</span></label>
                         <div class="form-check-inline">
                           <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input" />Active
+                            <input type="radio" name="gender" class="form-check-input" />Ativa
                           </label>
                         </div>
                         <div class="form-check-inline">
                           <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input" />In Active
+                            <input type="radio" name="gender" class="form-check-input" />Em ativo
                           </label>
                         </div>
                       </div>
@@ -350,10 +348,10 @@
                     <div class="col-12">
                       <div class="doctor-submit text-end">
                         <button type="submit" class="btn btn-primary submit-form me-2">
-                          Create Department
+                          Criar departamento
                         </button>
                         <button type="submit" class="btn btn-primary cancel-form">
-                          Cancel
+                      Cancelar
                         </button>
                       </div>
                     </div>

@@ -1,44 +1,62 @@
+<?php
+
+
+if(isset($_POST['submit'])){
+
+    include_once('conexao.php');
+
+        $carterinha = $_POST['carterinha'];
+        $nomeCompleto = $_POST['nomeCompleto'];
+        $nomeSocial = $_POST['nomeSocial'];
+        $email = $_POST['email'];
+        $telefone = $_POST['telefone'];
+        $nascimento = $_POST['nascimento'];
+        $idade = $_POST['idade'];
+        $deficiencia = $_POST['deficiencia'];
+        $doenca = $_POST['doenca'];
+        $cep = $_POST['cep'];
+        $cpf = $_POST['cpf'];
+        $rg = $_POST['rg'];
+        $genero = $_POST['genero'];
+        $plano = $_POST['plano'];
+        $obsPaciente = $_POST['obsPaciente'];
+
+        $result = mysqli_query($mysqli, "INSERT INTO clientes(carterinha, nomeCompleto, nomeSocial, email, telefone, nascimento, idade, deficiencia, doenca, cep, cpf, rg, genero, plano, obsPaciente)
+         VALUES ('$carterinha', '$nomeCompleto', '$nomeSocial', '$email', '$telefone', '$nascimento', '$idade', '$deficiencia', '$doenca', '$cep', '$cpf', '$rg', '$genero', '$plano', '$obsPaciencia'
+            )");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png" />
-  <link rel="manifest" href="../site.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
   <title>Higia</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
   <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css" />
+
   <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
   <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
-  <link rel="stylesheet" type="text/css" href="../assets/css/select2.min.css" />
-  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
-  <link rel="stylesheet" href="../assets/css/feather.css" />
-  <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <link rel="stylesheet" type="text/css" href="../assets/css/select2.min.css" />
+
+  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
+
+  <link rel="stylesheet" href="../assets/css/feather.css" />
+
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
 </head>
 
-
 <body>
-  <div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper"></div>
-    </div>
-  </div>
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
-  </script>
-
-
   <div class="main-wrapper">
-
-
     <div class="header">
       <div class="header-left">
         <a href="index.html" class="logo">
@@ -57,7 +75,7 @@
       <ul class="nav user-menu float-end">
         <li class="nav-item dropdown d-none d-md-block">
           <!-- <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
-                    src="../assets/img/icons/note-icon-02.svg" alt><span class="pulse"></span> </a> -->
+                          src="../assets/img/icons/note-icon-02.svg" alt><span class="pulse"></span> </a> -->
           <div class="dropdown-menu notifications">
             <div class="topnav-dropdown-header">
               <span>Notificações</span>
@@ -143,9 +161,9 @@
           </div>
         </li>
         <!-- <li class="nav-item dropdown d-none d-md-block">
-            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
-                    src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
-        </li> -->
+                  <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
+                          src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
+              </li> -->
         <li class="nav-item dropdown has-arrow user-profile-list">
           <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
             <div class="user-names">
@@ -164,9 +182,9 @@
           </div>
         </li>
         <!-- <li class="nav-item ">
-            <a href="settings.html" class="hasnotifications nav-link"><img
-                    src="../assets/img/icons/setting-icon-01.svg" alt> </a>
-        </li> -->
+                  <a href="settings.html" class="hasnotifications nav-link"><img
+                          src="../assets/img/icons/setting-icon-01.svg" alt> </a>
+              </li> -->
       </ul>
       <div class="dropdown mobile-user-menu float-end">
         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
@@ -179,6 +197,7 @@
         </div>
       </div>
     </div>
+
      <div class="sidebar" id="sidebar">
       <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -189,41 +208,41 @@
                 <span> Controle </span>
                 <span class="menu-arrow"></span></a>
               <ul style="display: none">
-               <li><a href="/admin/index.html">Painel do Admin</a></li>
+               <li><a href="index.html">Painel do Admin</a></li>
               </ul>
             </li>
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-02.svg" alt="" /></span>
                 <span> Médicos </span> <span class="menu-arrow"></span></a>
                 <ul>
-                 <li><a href="/admin/doctors.html">Lista de Médicos</a></li>
-                 <li><a href="/admin/add-doctor.html">Adicionar Médico</a></li>
-                 <li><a href="/admin/edit-doctor.html">Editar Médico</a></li>
-                 <li><a href="/admin/doctor-profile.html">Perfil do Médico</a></li>
-              </ul>
+                  <li><a href="doctors.html">Lista de Médicos</a></li>
+                  <li><a href="">Adicionar Médico</a></li>
+                  <li><a href="edit-doctor.html">Editar Médico</a></li>
+                  <li><a href="doctor-profile.html">Perfil do Médico</a></li>
+                </ul>
             </li>
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-03.svg" alt="" /></span>
                 <span> Pacientes </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
-               <li><a href="/admin/patients.html">Lista de Pacientes</a></li>
-               <li><a href="/admin/add-patient.html">Adicionar Paciente</a></li>
-               <li><a href="/admin/edit-patient.html">Editar Paciente</a></li>
-               <li><a href="/admin/patient-profile.html">Perfil do Paciente</a></li>
+               <li><a href="patients.html">Lista de Pacientes</a></li>
+               <li><a href="add-patient.html">Adicionar Paciente</a></li>
+               <li><a href="edit-patient.html">Editar Paciente</a></li>
+               <li><a href="patient-profile.html">Perfil do Paciente</a></li>
               </ul>
             </li>
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-08.svg" alt="" /></span>
                 <span> Funcionários </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
-               <li><a href="/admin/staff-list.html">Lista de Funcionários</a></li>
-               <li><a href="/admin/add-staff.html">Adicionar Funcionário</a></li>
+               <li><a href="staff-list.html">Lista de Funcionários</a></li>
+               <li><a href="add-staff.html">Adicionar Funcionário</a></li>
                 <li>
                   <a href="staff-profile.html">Perfil do Funcionário</a>
                 </li>
-               <li><a href="/admin/staff-leave.html">Licenças</a></li>
-               <li><a href="/admin/staff-holiday.html">Feriados</a></li>
-               <li><a href="/admin/staff-attendance.html">Presenças</a></li>
+               <li><a href="staff-leave.html">Licenças</a></li>
+               <li><a href="staff-holiday.html">Feriados</a></li>
+               <li><a href="staff-attendance.html">Presenças</a></li>
               </ul>
             </li>
             <!-- <li class="submenu">
@@ -275,6 +294,7 @@
       </div>
     </div>
 
+
     <div class="page-wrapper">
       <div class="content">
         <div class="page-header">
@@ -282,12 +302,12 @@
             <div class="col-sm-12">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="departments.html">Department </a>
+                  <a href="doctors.html">Pacientes </a>
                 </li>
                 <li class="breadcrumb-item">
                   <i class="feather-chevron-right"></i>
                 </li>
-                <li class="breadcrumb-item active">Edit Department</li>
+                <li class="breadcrumb-item active">Adicione um paciente</li>
               </ul>
             </div>
           </div>
@@ -301,61 +321,130 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="form-heading">
-                        <h4>Editar Departamento</h4>
+                        <h4>Cadastrar paciente</h4>
                       </div>
                     </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Nome do Departamento
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="Urologia" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Médico
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="Lorem Ipsum" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-12">
-                      <div class="input-block local-forms">
-                        <label>Descrição
-                          <span class="login-danger">*</span></label>
-                        <textarea class="form-control" rows="3" cols="30">
-        Investiga e trata problemas...</textarea>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms cal-icon">
-                        <label>Data do Departamento
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control datetimepicker" type="text" value="28-11-22" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block select-gender">
-                        <label class="gen-label">Status <span class="login-danger">*</span></label>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input" checked />Ativo
-                          </label>
-                        </div>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input" />Inativo
-                          </label>
+
+
+
+
+                    <form action="add-pacient.php" method="post">
+                      <div class="col-12 col-md-6 col-xl-4">
+                        <div class="input-block local-forms">
+                          <label for="carterinha">Carterinha
+                            <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" placeholder name="carterinha" id="carterinha" required/>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="doctor-submit text-end">
-                        <button type="submit" class="btn btn-primary submit-form me-2">
-                         Salvar   
-                        </button>
-                        <button type="submit" class="btn btn-primary cancel-form">
-                          Cancelar
-                        </button>
+                      <div class="col-12 col-md-6 col-xl-4">
+                        <div class="input-block local-forms">
+                          <label for="nomeCompleto">Nome completo:<span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" placeholder name="nomeCompleto" id="nomeCompleto" required/>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-4">
+                        <div class="input-block local-forms">
+                          <label for="nomeSocial">Nome social:
+                            <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" placeholder name="nomeSocial" id="nomeSocial" required/>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms">
+                          <label for="telefone">Telefone <span class="login-danger">*</span></label>
+                          <input class="form-control" type="number" name="telefone" id="telefone" required/>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms">
+                          <label for="email">E-mail<span class="login-danger">*</span></label>
+                          <input class="form-control" type="email" placeholder name="email" id="email" required/>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms">
+                          <label for="deficiencia">É portador de alguma deficiência? <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="deficiencia" id="deficiencia" required placeholder />
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms">
+                          <label for="doenca">Possui alguma doença?
+                            <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="doenca" id="doenca" required placeholder/>
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms cal-icon">
+                          <label for="nascimento">
+                            Data de nascimento:
+                            <span class="login-danger">*</span></label>
+                          <input type="date" name="nascimento" id="nascimento" required />
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms">
+                          <label for="genero">Genêro:
+                            <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="genero" id="genero" required placeholder/>
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-6 col-xl-4">
+                        <div class="input-block local-forms">
+                          <label for="idade">Idade:<span class="login-danger">*</span></label>
+                          <input class="form-control" type="number" name="idade" id="idade" required placeholder />
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-6 col-xl-4">
+                        <div class="input-block local-forms">
+                          <label for="rg">RG:<span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="rg" id="rg" required placeholder />
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-6 col-xl-4">
+                        <div class="input-block local-forms">
+                          <label for="idade">Plano:<span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="plano" id="plano" required placeholder />
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-sm-12">
+                        <div class="input-block local-forms">
+                          <label for="obs">Observação:<span class="login-danger">*</span></label>
+                          <textarea class="form-control" rows="3" cols="30" name="obsPaciencia" id="obsPaciencia"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms">
+                          <label for="cep">CEP: <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="cep" id="cep" required placeholder />
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-6">
+                        <div class="input-block local-forms">
+                          <label for="cpf">CPF:
+                            <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="cpf" id="cpf" required placeholder/>
+                        </div>
+                      </div>
+
+                      
+                     
+                      <div class="col-12">
+                        <div class="doctor-submit text-end">
+                          <button type="submit" name="submit" class="btn btn-primary submit-form me-2">
+                            Enviar
+                          </button>
+                          <button type="submit" class="btn btn-primary cancel-form">
+                            Cancelar
+                          </button>
+                    </form>
+
                       </div>
                     </div>
                   </div>
@@ -364,7 +453,6 @@
             </div>
           </div>
         </div>
-        
       </div>
       <div class="notification-box">
         <div class="msg-sidebar notifications msg-noti">
@@ -380,10 +468,11 @@
                       <span class="avatar">R</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author">Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -396,9 +485,10 @@
                     </div>
                     <div class="list-body">
                       <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">1 Ago</span>
+                      <span class="message-time">1 de agosto</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -410,10 +500,11 @@
                       <span class="avatar">T</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author"> Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -426,9 +517,10 @@
                     </div>
                     <div class="list-body">
                       <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -440,10 +532,11 @@
                       <span class="avatar">C</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author"> Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -455,10 +548,11 @@
                       <span class="avatar">D</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author"> Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -470,10 +564,11 @@
                       <span class="avatar">B</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author"> Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -485,10 +580,11 @@
                       <span class="avatar">R</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author"> Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -500,10 +596,11 @@
                       <span class="avatar">C</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author"> Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -515,10 +612,11 @@
                       <span class="avatar">M</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
+                      <span class="message-author">Lorem Ipsum </span>
                       <span class="message-time">12:28 AM</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -530,10 +628,11 @@
                       <span class="avatar">J</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author">Lorem Ipsum </span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -545,10 +644,11 @@
                       <span class="avatar">L</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author">lorenGatlin</span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -560,10 +660,11 @@
                       <span class="avatar">T</span>
                     </div>
                     <div class="list-body">
-                      <span class="message-author">Lorem Ipsum</span>
-                      <span class="message-time">12:28 AM</span>
+                      <span class="message-author">Tara: no show do trabalho</span>
+                      <span class="message-time">12:28</span>
                       <div class="clearfix"></div>
-                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                      <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                        adipiscing</span>
                     </div>
                   </div>
                 </a>
@@ -571,21 +672,20 @@
             </ul>
           </div>
           <div class="topnav-dropdown-footer">
-            <a href="chat.html">Ver todas as mensagens</a>
+            <a href="chat.html">See all messages</a>
           </div>
         </div>
       </div>
-      >
     </div>
     <div id="delete_patient" class="modal fade delete-modal" role="dialog">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-body text-center">
             <img src="../assets/img/sent.png" alt width="50" height="46" />
-            <h3>Are you sure want to delete this ?</h3>
+            <h3>Você tem certeza que deseja deletar isso ?</h3>
             <div class="m-t-20">
-              <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
-              <button type="submit" class="btn btn-danger">Delete</button>
+              <a href="#" class="btn btn-white" data-bs-dismiss="modal">Fechar</a>
+              <button type="submit" class="btn btn-danger">Excluir</button>
             </div>
           </div>
         </div>
@@ -593,19 +693,23 @@
     </div>
   </div>
   <div class="sidebar-overlay" data-reff></div>
-  <script src="../assets/js/jquery-3.7.1.min.js" type="e171492cedd333a95371061b-text/javascript"></script>
-  <script src="../assets/js/bootstrap.bundle.min.js" type="e171492cedd333a95371061b-text/javascript"></script>
-  <script src="../assets/js/feather.min.js" type="e171492cedd333a95371061b-text/javascript"></script>
-  <script src="../assets/js/jquery.slimscroll.js" type="e171492cedd333a95371061b-text/javascript"></script>
-  <script src="../assets/js/select2.min.js" type="e171492cedd333a95371061b-text/javascript"></script>
 
-  <script src="../assets/plugins/moment/moment.min.js" type="e171492cedd333a95371061b-text/javascript"></script>
-  <script src="../assets/js/bootstrap-datetimepicker.min.js" type="e171492cedd333a95371061b-text/javascript"></script>
-  <script src="../assets/js/app.js" type="e171492cedd333a95371061b-text/javascript"></script>
+  <script src="../assets/js/jquery-3.7.1.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+
+  <script src="../assets/js/bootstrap.bundle.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+
+  <script src="../assets/js/feather.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+
+  <script src="../assets/js/jquery.slimscroll.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+
+  <script src="../assets/js/select2.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+
+  <script src="../assets/plugins/moment/moment.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+  <script src="../assets/js/bootstrap-datetimepicker.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+
+  <script src="../assets/js/app.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
   <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
-    data-cf-settings="e171492cedd333a95371061b-|49" defer></script>
+    data-cf-settings="47d543a399884d7bc4ffb078-|49" defer></script>
 </body>
-
-<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/edit-department.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:43:17 GMT -->
 
 </html>
