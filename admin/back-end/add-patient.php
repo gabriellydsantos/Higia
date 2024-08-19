@@ -249,9 +249,9 @@ if(isset($_POST['submit'])){
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg" alt="" /></span>
                 <span> Consultas </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
-               <li><a href="/admin/appointments.html">Lista de Consultas</a></li>
-               <li><a href="/admin/add-appointment.html">Agendar Consulta</a></li>
-               <li><a href="/admin/edit-appointment.html">Editar Consulta</a></li>
+                <li><a href="../admin/appointments.html">Lista de Consultas</a></li>
+                <li><a href="../admin/add-appointment.html">Agendar Consulta</a></li>
+                <li><a href="../admin/edit-appointment.html">Editar Consulta</a></li>
               </ul>
             </li> -->
             <!-- <li class="submenu">
@@ -259,9 +259,9 @@ if(isset($_POST['submit'])){
                 <span> Agenda do Médico </span>
                 <span class="menu-arrow"></span></a>
               <ul style="display: none">
-               <li><a href="/admin/schedule.html">Lista de Agendas</a></li>
-               <li><a href="/admin/add-schedule.html">Adicionar Agenda</a></li>
-               <li><a href="/admin/edit-schedule.html">Editar Agenda</a></li>
+                <li><a href="../admin/schedule.html">Lista de Agendas</a></li>
+                <li><a href="../admin/add-schedule.html">Adicionar Agenda</a></li>
+                <li><a href="../admin/edit-schedule.html">Editar Agenda</a></li>
               </ul>
             </li> -->
 
@@ -273,8 +273,8 @@ if(isset($_POST['submit'])){
                 <li>
                   <a class="" href="departments.html">Departamento</a>
                 </li>
-               <li><a href="/admin/add-department.html">Add departamento</a></li>
-               <li><a href="/admin/edit-department.html">Editar departamento</a></li>
+                <li><a href="../admin/add-department.html">Add departamento</a></li>
+                <li><a href="../admin/edit-department.html">Editar departamento</a></li>
               </ul>
             </li>
 
