@@ -290,225 +290,188 @@
           <div class="col-sm-12">
             <div class="card">
               <div class="card-body">
-                <form>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="form-heading">
-                        <h4>Detalhes do paciente</h4>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Primeiro nome
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Sobrenome<span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Nome de usuário
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Telefone <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>E-mail<span class="login-danger">*</span></label>
-                        <input class="form-control" type="email" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Senha <span class="login-danger">*</span></label>
-                        <input class="form-control" type="password" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Carterinha
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms cal-icon">
-                        <label>
-                          Data de nascimento
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control datetimepicker" type="text" placeholder />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block select-gender">
-                        <label class="gen-label">Gênero<span class="login-danger">*</span></label>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input mt-0" />Masculino
-                          </label>
-                        </div>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input mt-0" />Feminino
-                          </label>
-                        </div>
-                      </div>
-                    </div>
+              <form action="add-patient.php" method="POST" enctype="multipart/form-data">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-heading">
+        <h4>Detalhes do paciente</h4>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="input-block local-forms">
+        <label>Primeiro nome<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="first_name" placeholder="Digite o primeiro nome" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="input-block local-forms">
+        <label>Sobrenome<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="last_name" placeholder="Digite o sobrenome" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="input-block local-forms">
+        <label>Nome de usuário<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="username" placeholder="Digite o nome de usuário" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="input-block local-forms">
+        <label>Telefone<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="phone" placeholder="Digite o telefone" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="input-block local-forms">
+        <label>E-mail<span class="login-danger">*</span></label>
+        <input class="form-control" type="email" name="email" placeholder="Digite o e-mail" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="input-block local-forms">
+        <label>Senha<span class="login-danger">*</span></label>
+        <input class="form-control" type="password" name="password" placeholder="Digite a senha" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="input-block local-forms">
+        <label>Carteirinha<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="carteirinha" placeholder="Digite a carteirinha" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="input-block local-forms cal-icon">
+        <label>Data de nascimento<span class="login-danger">*</span></label>
+        <input class="form-control datetimepicker" type="text" name="birth_date" placeholder="dd/mm/aaaa" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="input-block select-gender">
+        <label class="gen-label">Gênero<span class="login-danger">*</span></label>
+        <div class="form-check-inline">
+          <label class="form-check-label">
+            <input type="radio" name="gender" value="masculino" class="form-check-input mt-0" required />Masculino
+          </label>
+        </div>
+        <div class="form-check-inline">
+          <label class="form-check-label">
+            <input type="radio" name="gender" value="feminino" class="form-check-input mt-0" required />Feminino
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12">
+      <div class="input-block local-forms">
+        <label>Endereço<span class="login-danger">*</span></label>
+        <textarea class="form-control" name="address" rows="3" cols="30" placeholder="Digite o endereço" required></textarea>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="input-block local-forms">
+        <label>Cidade<span class="login-danger">*</span></label>
+        <select class="form-control select" name="city" required>
+          <option value="">Selecione a cidade</option>
+          <option value="São Paulo">São Paulo</option>
+          <option value="Rio de Janeiro">Rio de Janeiro</option>
+          <option value="Santos">Santos</option>
+          <option value="Campinas">Campinas</option>
+          <option value="Guarulhos">Guarulhos</option>
+          <option value="São Bernardo do Campo">São Bernardo do Campo</option>
+          <option value="Osasco">Osasco</option>
+          <option value="Barueri">Barueri</option>
+          <option value="Santo André">Santo André</option>
+          <option value="Niterói">Niterói</option>
+          <option value="Duque de Caxias">Duque de Caxias</option>
+          <option value="Nova Iguaçu">Nova Iguaçu</option>
+          <option value="São Gonçalo">São Gonçalo</option>
+          <option value="Petrópolis">Petrópolis</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="input-block local-forms">
+        <label>País<span class="login-danger">*</span></label>
+        <select class="form-control select" name="country" required>
+          <option value="Brasil">Brasil</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="input-block local-forms">
+        <label>Estado<span class="login-danger">*</span></label>
+        <select class="form-control select" name="state" required>
+          <option value="">Selecione o estado</option>
+          <option value="Acre">Acre</option>
+          <option value="Alagoas">Alagoas</option>
+          <option value="Amapá">Amapá</option>
+          <option value="Amazonas">Amazonas</option>
+          <option value="Bahia">Bahia</option>
+          <option value="Ceará">Ceará</option>
+          <option value="Distrito Federal">Distrito Federal</option>
+          <option value="Espírito Santo">Espírito Santo</option>
+          <option value="Goiás">Goiás</option>
+          <option value="Maranhão">Maranhão</option>
+          <option value="Mato Grosso">Mato Grosso</option>
+          <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+          <option value="Minas Gerais">Minas Gerais</option>
+          <option value="Pará">Pará</option>
+          <option value="Paraíba">Paraíba</option>
+          <option value="Paraná">Paraná</option>
+          <option value="Pernambuco">Pernambuco</option>
+          <option value="Piauí">Piauí</option>
+          <option value="Rio de Janeiro">Rio de Janeiro</option>
+          <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+          <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+          <option value="Rondônia">Rondônia</option>
+          <option value="Roraima">Roraima</option>
+          <option value="Santa Catarina">Santa Catarina</option>
+          <option value="São Paulo">São Paulo</option>
+          <option value="Sergipe">Sergipe</option>
+          <option value="Tocantins">Tocantins</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="input-block local-forms">
+        <label>CEP<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="zipcode" placeholder="Digite o CEP" required />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="input-block local-top-form">
+        <label class="local-top">Foto<span class="login-danger">*</span></label>
+        <div class="settings-btn upload-files-avator">
+          <input type="file" accept="image/*" name="image" id="file" class="hide-input" required />
+          <label for="file" class="upload">Escolher arquivo</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+    <div class="input-block select-gender">
+        <label class="gen-label">Status<span class="login-danger">*</span></label>
+        <div class="form-check-inline">
+            <label class="form-check-label">
+                <input type="radio" name="status" value="Ativa" class="form-check-input mt-0" required />Ativa
+            </label>
+        </div>
+        <div class="form-check-inline">
+            <label class="form-check-label">
+                <input type="radio" name="status" value="Inativo" class="form-check-input mt-0" required />Inativo
+            </label>
+        </div>
+    </div>
+</div>
 
-                    <!-- <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Educação <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div> -->
-                    <!-- <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>designação<span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div> -->
 
-                    <!-- <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Departamento
-                          <span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione Departamento</option>
-                          <option>Ortopedia</option>
-                          <option>Radiologia</option>
-                          <option>Dentista</option>
-                        </select>
-                      </div>
-                    </div> -->
+    <div class="col-12">
+      <div class="doctor-submit text-end">
+        <button type="submit" class="btn btn-primary submit-form me-2">Enviar</button>
+        <button type="reset" class="btn btn-secondary cancel-form">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</form>
 
-                    <div class="col-12 col-sm-12">
-                      <div class="input-block local-forms">
-                        <label>Endereço <span class="login-danger">*</span></label>
-                        <textarea class="form-control" rows="3" cols="30"></textarea>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>Cidade<span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione a cidade</option>
-                          <option>São Paulo</option>
-                          <option>Rio de Janeiro</option>
-                          <option>Santos</option>
-                          <option>Campinas</option>
-                          <option>Guarulhos</option>
-                          <option>São Bernardo do Campo</option>
-                          <option>Osasco</option>
-                          <option>Barueri</option>
-                          <option>Santo André</option>
-                          <option>Niterói</option>
-                          <option>Duque de Caxias</option>
-                          <option>Nova Iguaçu</option>
-                          <option>São Gonçalo</option>
-                          <option>Petrópolis</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>País <span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione o estado</option>
-                          <option>Brasil</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>Estado <span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione o estado</option>
-                          <option>Acre</option>
-                          <option>Alagoas</option>
-                          <option>Amapá</option>
-                          <option>Amazonas</option>
-                          <option>Bahia</option>
-                          <option>Ceará</option>
-                          <option>Distrito Federal</option>
-                          <option>Espírito Santo</option>
-                          <option>Goiás</option>
-                          <option>Maranhão</option>
-                          <option>Mato Grosso</option>
-                          <option>Mato Grosso do Sul</option>
-                          <option>Minas Gerais</option>
-                          <option>Pará</option>
-                          <option>Paraíba</option>
-                          <option>Paraná</option>
-                          <option>Pernambuco</option>
-                          <option>Piauí</option>
-                          <option>Rio de Janeiro</option>
-                          <option>Rio Grande do Norte</option>
-                          <option>Rio Grande do Sul</option>
-                          <option>Rondônia</option>
-                          <option>Roraima</option>
-                          <option>Santa Catarina</option>
-                          <option>São Paulo</option>
-                          <option>Sergipe</option>
-                          <option>Tocantins</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>Cep<span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder />
-                      </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-top-form">
-                        <label class="local-top">Foto <span class="login-danger">*</span></label>
-                        <div class="settings-btn upload-files-avator">
-                          <input type="file" accept="image/*" name="image" id="file"
-                            onchange="if (!window.__cfRLUnblockHandlers) return false; loadFile(event)"
-                            class="hide-input" data-cf-modified-47d543a399884d7bc4ffb078- />
-                          <label for="file" class="upload">Escolher arquivo</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block select-gender">
-                        <label class="gen-label">Status <span class="login-danger">*</span></label>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input mt-0" />Ativa
-                          </label>
-                        </div>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input mt-0" />Inativo
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="doctor-submit text-end">
-                        <button type="submit" class="btn btn-primary submit-form me-2">
-                          Enviar
-                        </button>
-                        <button type="submit" class="btn btn-primary cancel-form">
-                          Cancelar
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
@@ -772,6 +735,84 @@
   <script src="../assets/js/app.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
   <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
     data-cf-settings="47d543a399884d7bc4ffb078-|49" defer></script>
+
+
+
+
+    <?php
+// Conectar ao banco de dados
+include 'database.php'; // Ajuste o caminho conforme necessário para o arquivo database.php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recebe os dados do formulário
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $username = $_POST['username'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $carteirinha = $_POST['carteirinha'];
+    $birthDate = $_POST['birth_date'];
+    $gender = $_POST['gender'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $country = $_POST['country'];
+    $zipcode = $_POST['zipcode'];
+    $status = $_POST['status'];
+
+    // Converte a data de nascimento para o formato correto (Y-m-d)
+    $birthDate = DateTime::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
+
+    // Processa a imagem de upload
+    $targetDir = "../uploads/";  // Diretório fora da pasta admin
+
+    // Verifica se o diretório existe; se não existir, cria-o
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true);  // Cria o diretório com permissões apropriadas
+    }
+
+    // Define o caminho do arquivo de destino
+    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+
+    // Move o arquivo temporário para o diretório de destino
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+        $imagePath = $targetFile;
+    } else {
+        echo "Erro ao enviar a imagem.";
+        $imagePath = null;
+    }
+
+    // Valida o valor de status
+    $validStatuses = ['Ativa', 'Inativo'];
+    if (!in_array($status, $validStatuses)) {
+        echo "Status inválido.";
+        exit;
+    }
+
+    // Prepara a consulta SQL
+    $sql = "INSERT INTO patients (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath);
+
+        if ($stmt->execute()) {
+            echo "Novo paciente cadastrado com sucesso!";
+        } else {
+            echo "Erro: " . $stmt->error;
+        }
+
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $conn->error;
+    }
+
+    $conn->close();
+}
+?>
+
+
 </body>
 
 </html>

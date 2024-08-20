@@ -22,7 +22,7 @@
 
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
 
-    <link rel="stylesheet" href="../assets/css/feather.css" />
+    <link rel="stylesheet" href="../assets/css/feather.css" />  
 
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
 </head>
@@ -329,309 +329,81 @@
                                     </div>
                                 </div>
 
-                                <div class="table-responsive">
-                                    <table class="table border-0 custom-table comman-table datatable mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </th>
-                                                <th>Nome</th>
-                                                <th>Carterinha</th>
-                                                <!-- <th>Especialização</th> -->
-                                                <th>Telefone</th>
-                                                <th>E-mail</th>
-                                                <th>Data de ingresso</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-01.jpg"
-                                                            class="rounded-circle m-r-5" alt> Lorem Ipsum</a></td>
+                                <?php
+// Conectar ao banco de dados
+$servername = "localhost";
+$username = "root";
+$password = "200812";
+$dbname = "higia";
 
-                                                <td>Lorem Ipsum</td>
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="https://preclinic.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                                        class="__cf_email__"
-                                                        data-cfemail="0e6b766f637e626b4e6b636f6762206d6163">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-02.jpg"
-                                                            class="rounded-circle m-r-5" alt>Lorem Ipsum</a></td>
+// Verificar a conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
+}
 
-                                                <td>Lorem Ipsum</td>
+// Consultar os dados dos pacientes
+$sql = "SELECT id, first_name, last_name, carteirinha, phone, email, created_at, image FROM patients";
+$result = $conn->query($sql);
+?>
 
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="" class="__cf_email__"
-                                                        data-cfemail="f6938e979b869a93b6939b979f9ad895999b">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i> Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-03.jpg"
-                                                            class="rounded-circle m-r-5" alt> Lorem Ipsum</a>
-                                                </td>
-
-                                                <td>Lorem Ipsum</td>
-
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="https://preclinic.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                                        class="__cf_email__"
-                                                        data-cfemail="43263b222e332f2603262e222a2f6d202c2e">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i>Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-04.jpg"
-                                                            class="rounded-circle m-r-5" alt> Lorem Ipsum</a></td>
-
-                                                <td>Lorem Ipsum</td>
-
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="https://preclinic.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                                        class="__cf_email__"
-                                                        data-cfemail="96f3eef7fbe6faf3d6f3fbf7fffab8f5f9fb">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i> Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-06.jpg"
-                                                            class="rounded-circle m-r-5" alt>Lorem Ipsum</a></td>
-
-                                                <td>Lorem Ipsum</td>
-
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="https://preclinic.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                                        class="__cf_email__"
-                                                        data-cfemail="e08598818d908c85a0858d81898cce838f8d">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i> Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-05.jpg"
-                                                            class="rounded-circle m-r-5" alt>Lorem Ipsum</a></td>
-
-                                                <td>Lorem Ipsum</td>
-
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="https://preclinic.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                                        class="__cf_email__"
-                                                        data-cfemail="e98c91888499858ca98c84888085c78a8684">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i> Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-01.jpg"
-                                                            class="rounded-circle m-r-5" alt> Lorem Ipsum</a></td>
-
-                                                <td>Lorem Ipsum</td>
-
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="https://preclinic.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                                        class="__cf_email__"
-                                                        data-cfemail="cfaab7aea2bfa3aa8faaa2aea6a3e1aca0a2">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i> Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something">
-                                                    </div>
-                                                </td>
-                                                <td class="profile-image"><a href="profile.html"><img width="28"
-                                                            height="28" src="../assets/img/profiles/avatar-02.jpg"
-                                                            class="rounded-circle m-r-5" alt>Lorem Ipsum</a></td>
-
-                                                <td>Lorem Ipsum</td>
-
-                                                <td><a href="javascript:;">+55 11 987654321</a></td>
-                                                <td><a href="https://preclinic.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                                        class="__cf_email__"
-                                                        data-cfemail="aacfd2cbc7dac6cfeacfc7cbc3c684c9c5c7">[email&#160;protected]</a>
-                                                </td>
-                                                <td>01.10.2022</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-doctor.html"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_patient"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i> Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+<div class="table-responsive">
+    <table class="table border-0 custom-table comman-table datatable mb-0">
+        <thead>
+            <tr>
+                <th>
+                    <div class="form-check check-tables">
+                        <input class="form-check-input" type="checkbox" value="something">
+                    </div>
+                </th>
+                <th>Nome</th>
+                <th>Carterinha</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th>Data de ingresso</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if ($result->num_rows > 0) {
+                // Exibir os dados de cada paciente
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>
+                            <div class='form-check check-tables'>
+                                <input class='form-check-input' type='checkbox' value='something'>
+                            </div>
+                          </td>";
+                    echo "<td class='profile-image'><a href='profile.html'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
+                    echo "<td>" . $row['carteirinha'] . "</td>";
+                    echo "<td><a href='javascript:;'>" . $row['phone'] . "</a></td>";
+                    echo "<td><a href='mailto:" . $row['email'] . "'>" . $row['email'] . "</a></td>";
+                    echo "<td>" . date("d.m.Y", strtotime($row['created_at'])) . "</td>";
+                    echo "<td class='text-end'>
+                            <div class='dropdown dropdown-action'>
+                                <a href='#' class='action-icon dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'><i class='fa fa-ellipsis-v'></i></a>
+                                <div class='dropdown-menu dropdown-menu-end'>
+                                    <a class='dropdown-item' href='edit-patient.php?id=" . $row['id'] . "'><i class='fa-solid fa-pen-to-square m-r-5'></i> Editar</a>
+                                    <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#delete_patient'><i class='fa fa-trash-alt m-r-5'></i> Excluir</a>
                                 </div>
+                            </div>
+                          </td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='7'>Nenhum paciente encontrado.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+<?php
+$conn->close();
+?>
+
                             </div>
                         </div>
                     </div>
