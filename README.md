@@ -26,7 +26,7 @@ Adicionar no GitHub:
 1. **Clonar o Repositório:**
 
    ```
-   git clone https://github.com/gabriellydsantos/tcc-esculapio.git
+   git clone https://github.com/gabriellydsantos/Higia.git
    ```
 
 2. **Adicionar Arquivos Modificados:**
