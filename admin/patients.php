@@ -312,9 +312,11 @@
                                                         <a href="add-doctor.php"
                                                             class="btn btn-primary add-pluss ms-2"><img
                                                                 src="../assets/img/icons/plus.svg" alt></a>
-                                                        <a href="javascript:;"
-                                                            class="btn btn-primary doctor-refresh ms-2"><img
-                                                                src="../assets/img/icons/re-fresh.svg" alt></a>
+                                                                <a href="javascript:;" id="refresh-button" class="btn btn-primary doctor-refresh ms-2">
+    <img src="../assets/img/icons/re-fresh.svg" alt>
+</a>
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -646,7 +648,26 @@ $conn->close();
             </div>
         </div>
     </div>
+
+
+    
     <div class="sidebar-overlay" data-reff></div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const refreshButton = document.getElementById('refresh-button');
+
+        refreshButton.addEventListener('click', function() {
+            fetch('fetch_patients.php')
+                .then(response => response.text())
+                .then(data => {
+                    // Atualiza o conteúdo da tabela com os novos dados
+                    document.querySelector('.table-responsive').innerHTML = data;
+                })
+                .catch(error => console.error('Erro ao atualizar a lista de pacientes:', error));
+        });
+    });
+</script>
 
     <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="../assets/js/jquery-3.7.1.min.js" type="2baeca2c3f656ada6eadd5bb-text/javascript"></script>
