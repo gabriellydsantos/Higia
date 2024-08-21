@@ -43,7 +43,7 @@
 
     <div class="header">
       <div class="header-left">
-        <a href="index.html" class="logo">
+        <a href="index.php" class="logo">
           <img src="../assets/img/logo 1.png" width="100" height="40" alt />
         </a>
       </div>
@@ -67,7 +67,7 @@
             <div class="drop-scroll">
               <ul class="notification-list">
                 <li class="notification-message">
-                  <a href="activities.html">
+                  <a href="activities.php">
                     <div class="media">
                       <span class="avatar">
                         <img alt="John Doe" src="../assets/img/user.jpg" class="img-fluid" />
@@ -86,7 +86,7 @@
                   </a>
                 </li>
                 <li class="notification-message">
-                  <a href="activities.html">
+                  <a href="activities.php">
                     <div class="media">
                       <span class="avatar">V</span>
                       <div class="media-body">
@@ -104,7 +104,7 @@
                   </a>
                 </li>
                 <li class="notification-message">
-                  <a href="activities.html">
+                  <a href="activities.php">
                     <div class="media">
                       <span class="avatar">L</span>
                       <div class="media-body">
@@ -124,7 +124,7 @@
                   </a>
                 </li>
                 <li class="notification-message">
-                  <a href="activities.html">
+                  <a href="activities.php">
                     <div class="media">
                       <span class="avatar">G</span>
                       <div class="media-body">
@@ -159,14 +159,14 @@
             </span>
           </a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="profile.html">Meu Perfil</a>
-            <a class="dropdown-item" href="edit-profile.html">Editar Perfil</a>
-            <a class="dropdown-item" href="settings.html">Configurações</a>
-            <a class="dropdown-item" href="login.html">Sair</a>
+            <a class="dropdown-item" href="profile.php">Meu Perfil</a>
+            <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
+            <a class="dropdown-item" href="settings.php">Configurações</a>
+            <a class="dropdown-item" href="login.php">Sair</a>
           </div>
         </li>
         <!-- <li class="nav-item ">
-                  <a href="settings.html" class="hasnotifications nav-link"><img
+                  <a href="settings.php" class="hasnotifications nav-link"><img
                           src="../assets/img/icons/setting-icon-01.svg" alt> </a>
               </li> -->
       </ul>
@@ -174,10 +174,10 @@
         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
             class="fa-solid fa-ellipsis-vertical"></i></a>
         <div class="dropdown-menu dropdown-menu-end">
-          <a class="dropdown-item" href="profile.html">Meu Perfil</a>
-          <a class="dropdown-item" href="edit-profile.html">Editar Perfil</a>
-          <a class="dropdown-item" href="settings.html">Configurações</a>
-          <a class="dropdown-item" href="login.html">Sair</a>
+          <a class="dropdown-item" href="profile.php">Meu Perfil</a>
+          <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
+          <a class="dropdown-item" href="settings.php">Configurações</a>
+          <a class="dropdown-item" href="login.php">Sair</a>
         </div>
       </div>
     </div>
@@ -192,50 +192,50 @@
                 <span> Controle </span>
                 <span class="menu-arrow"></span></a>
               <ul style="display: none">
-                <li><a href="../admin/index.html">Painel do Admin</a></li>
+                <li><a href="../admin/index.php">Painel do Admin</a></li>
               </ul>
             </li>
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-02.svg" alt="" /></span>
                 <span> Médicos </span> <span class="menu-arrow"></span></a>
               <ul>
-                <li><a href="../admin/doctors.html">Lista de Médicos</a></li>
-                <li><a href="../admin/add-doctor.html">Adicionar Médico</a></li>
-                <li><a href="../admin/edit-doctor.html">Editar Médico</a></li>
-                <li><a href="../admin/doctor-profile.html">Perfil do Médico</a></li>
+                <li><a href="../admin/doctors.php">Lista de Médicos</a></li>
+                <li><a href="../admin/add-doctor.php">Adicionar Médico</a></li>
+                <li><a href="../admin/edit-doctor.php">Editar Médico</a></li>
+                <li><a href="../admin/doctor-profile.php">Perfil do Médico</a></li>
               </ul>
             </li>
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-03.svg" alt="" /></span>
                 <span> Pacientes </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
-                <li><a href="../admin/patients.html">Lista de Pacientes</a></li>
-                <li><a href="../admin/add-patient.html">Adicionar Paciente</a></li>
-                <li><a href="../admin/edit-patient.html">Editar Paciente</a></li>
-                <li><a href="../admin/patient-profile.html">Perfil do Paciente</a></li>
+                <li><a href="../admin/patients.php">Lista de Pacientes</a></li>
+                <li><a href="../admin/add-patient.php">Adicionar Paciente</a></li>
+                <li><a href="../admin/edit-patient.php">Editar Paciente</a></li>
+                <li><a href="../admin/patient-profile.php">Perfil do Paciente</a></li>
               </ul>
             </li>
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-08.svg" alt="" /></span>
                 <span> Funcionários </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
-                <li><a href="../admin/staff-list.html">Lista de Funcionários</a></li>
-                <li><a href="../admin/add-staff.html">Adicionar Funcionário</a></li>
+                <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
+                <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
                 <li>
-                  <a href="staff-profile.html">Perfil do Funcionário</a>
+                  <a href="staff-profile.php">Perfil do Funcionário</a>
                 </li>
-                <li><a href="../admin/staff-leave.html">Licenças</a></li>
-                <li><a href="../admin/staff-holiday.html">Feriados</a></li>
-                <li><a href="../admin/staff-attendance.html">Presenças</a></li>
+                <li><a href="../admin/staff-leave.php">Licenças</a></li>
+                <li><a href="../admin/staff-holiday.php">Feriados</a></li>
+                <li><a href="../admin/staff-attendance.php">Presenças</a></li>
               </ul>
             </li>
             <!-- <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg" alt="" /></span>
                 <span> Consultas </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
-                <li><a href="../admin/appointments.html">Lista de Consultas</a></li>
-                <li><a href="../admin/add-appointment.html">Agendar Consulta</a></li>
-                <li><a href="../admin/edit-appointment.html">Editar Consulta</a></li>
+                <li><a href="../admin/appointments.php">Lista de Consultas</a></li>
+                <li><a href="../admin/add-appointment.php">Agendar Consulta</a></li>
+                <li><a href="../admin/edit-appointment.php">Editar Consulta</a></li>
               </ul>
             </li> -->
             <!-- <li class="submenu">
@@ -243,9 +243,9 @@
                 <span> Agenda do Médico </span>
                 <span class="menu-arrow"></span></a>
               <ul style="display: none">
-                <li><a href="../admin/schedule.html">Lista de Agendas</a></li>
-                <li><a href="../admin/add-schedule.html">Adicionar Agenda</a></li>
-                <li><a href="../admin/edit-schedule.html">Editar Agenda</a></li>
+                <li><a href="../admin/schedule.php">Lista de Agendas</a></li>
+                <li><a href="../admin/add-schedule.php">Adicionar Agenda</a></li>
+                <li><a href="../admin/edit-schedule.php">Editar Agenda</a></li>
               </ul>
             </li> -->
 
@@ -255,10 +255,10 @@
                 <span> Departments </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
                 <li>
-                  <a class="" href="departments.html">Departamento</a>
+                  <a class="" href="departments.php">Departamento</a>
                 </li>
-                <li><a href="../admin/add-department.html">Add departamento</a></li>
-                <li><a href="../admin/edit-department.html">Editar departamento</a></li>
+                <li><a href="../admin/add-department.php">Add departamento</a></li>
+                <li><a href="../admin/edit-department.php">Editar departamento</a></li>
               </ul>
             </li>
 
@@ -271,7 +271,7 @@
 
           </ul>
           <div class="logout-btn">
-            <a href="login.html"><span class="menu-side"><img src="../assets/img/icons/logout.svg" alt="" /></span>
+            <a href="login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg" alt="" /></span>
               <span>Sair</span></a>
           </div>
         </div>
@@ -287,7 +287,7 @@
             <div class="col-sm-12">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="doctors.html">Médicos </a>
+                  <a href="doctors.php">Médicos </a>
                 </li>
                 <li class="breadcrumb-item">
                   <i class="feather-chevron-right"></i>
@@ -531,7 +531,7 @@
           <div class="drop-scroll msg-list-scroll" id="msg_list">
             <ul class="list-box">
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">R</span>
@@ -547,7 +547,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item new-message">
                     <div class="list-left">
                       <span class="avatar">J</span>
@@ -563,7 +563,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">T</span>
@@ -579,7 +579,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">M</span>
@@ -595,7 +595,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">C</span>
@@ -611,7 +611,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">D</span>
@@ -627,7 +627,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">B</span>
@@ -643,7 +643,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">R</span>
@@ -659,7 +659,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">C</span>
@@ -675,7 +675,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">M</span>
@@ -691,7 +691,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">J</span>
@@ -707,7 +707,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">L</span>
@@ -723,7 +723,7 @@
                 </a>
               </li>
               <li>
-                <a href="chat.html">
+                <a href="chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">T</span>
@@ -741,7 +741,7 @@
             </ul>
           </div>
           <div class="topnav-dropdown-footer">
-            <a href="chat.html">See all messages</a>
+            <a href="chat.php">See all messages</a>
           </div>
         </div>
       </div>
