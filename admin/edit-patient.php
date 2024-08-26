@@ -302,226 +302,319 @@
           <div class="col-sm-12">
             <div class="card">
               <div class="card-body">
-              <?php
-// Incluindo o arquivo de conexão ao banco de dados
-include('database.php');
+              
+                <?php
+  // Incluindo o arquivo de conexão ao banco de dados
+  include('database.php');
 
-// Inicializando variáveis vazias para evitar warnings
-$first_name = '';
-$last_name = '';
-$username = '';
-$phone = '';
-$email = '';
-$password = '';
-$carteirinha = '';
-$birth_date = '';
-$gender = '';
-$address = '';
-$zipcode = '';
-$city = '';
-$country = '';
-$state = '';
-$avatar = '';
-$status = '';
+  // Inicializando variáveis vazias para evitar warnings
+  $first_name = '';
+  $last_name = '';
+  $username = '';
+  $phone = '';
+  $email = '';
+  $password = '';
+  $carteirinha = '';
+  $birth_date = '';
+  $gender = '';
+  $address = '';
+  $zipcode = '';
+  $city = '';
+  $country = '';
+  $state = '';
+  $avatar = '';
+  $status = '';
 
-// Verificando se o ID foi passado pela URL
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $id = intval($_GET['id']); // Convertendo para inteiro para segurança
+  // Verificando se o ID foi passado pela URL
+  if (isset($_GET['id']) && !empty($_GET['id'])) {
+      $id = $_GET['id'];
 
-    // Executando a consulta no banco de dados para buscar os dados do paciente
-    $query = "SELECT * FROM patients WHERE id = $id";
-    $result = mysqli_query($conn, $query);
+      // Executando a consulta no banco de dados para buscar os dados do paciente
+      $query = "SELECT * FROM patients WHERE id = ?";
+      $stmt = $conn->prepare($query);
+      $stmt->bind_param("i", $id);
+      $stmt->execute();
+      $result = $stmt->get_result();
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        // Atribuindo os valores do banco de dados às variáveis
-        $row = mysqli_fetch_assoc($result);
-        $first_name = htmlspecialchars($row['first_name']);
-        $last_name = htmlspecialchars($row['last_name']);
-        $username = htmlspecialchars($row['username']);
-        $phone = htmlspecialchars($row['phone']);
-        $email = htmlspecialchars($row['email']);
-        $password = htmlspecialchars($row['password']);
-        $carteirinha = htmlspecialchars($row['carteirinha']);
-        $birth_date = htmlspecialchars($row['birth_date']);
-        $gender = htmlspecialchars($row['gender']);
-        $address = htmlspecialchars($row['address']);
-        $zipcode = htmlspecialchars($row['zipcode']);
-        $city = htmlspecialchars($row['city']);
-        $country = htmlspecialchars($row['country']);
-        $state = htmlspecialchars($row['state']);
-        $avatar = htmlspecialchars($row['image']); // Ajustado para 'image'
-        $status = htmlspecialchars($row['status']);
-    } else {
-        echo "Paciente não encontrado.";
+      if ($result && $result->num_rows > 0) {
+          // Atribuindo os valores do banco de dados às variáveis
+          $row = $result->fetch_assoc();
+          $first_name = $row['first_name'];
+          $last_name = $row['last_name'];
+          $username = $row['username'];
+          $phone = $row['phone'];
+          $email = $row['email'];
+          $password = $row['password'];
+          $carteirinha = $row['carteirinha'];
+          $birth_date = $row['birth_date'];
+          $gender = $row['gender'];
+          $address = $row['address'];
+          $zipcode = $row['zipcode'];
+          $city = $row['city'];
+          $country = $row['country'];
+          $state = $row['state'];
+          $avatar = $row['image'];
+          $status = $row['status'];
+      } else {
+          echo "Paciente não encontrado.";
+      }
+  } else {
+      echo "ID do paciente não fornecido.";
+  }
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Captura os dados do formulário
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $username = $_POST['username'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $carteirinha = $_POST['carteirinha'];
+    $birth_date = $_POST['birth_date'];
+    $gender = $_POST['gender'];
+    $address = $_POST['address'];
+    $zipcode = $_POST['zipcode'];
+    $city = $_POST['city'];
+    $country = $_POST['country'];
+    $state = $_POST['state'];
+    $status = $_POST['status'];
+
+    // Convertendo a data para o formato YYYY-MM-DD
+    $birth_date = date('Y-m-d', strtotime(str_replace('/', '-', $birth_date)));
+
+    // Verifica se o arquivo de imagem foi enviado
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
+        $avatar = 'uploads/' . basename($_FILES['avatar']['name']);
+        move_uploaded_file($_FILES['avatar']['tmp_name'], $avatar);
     }
-} else {
-    echo "ID do paciente não fornecido.";
+
+    // Debugging: Verifica o valor de status
+    //var_dump($status);
+
+    // Atualiza os dados do paciente no banco de dados usando prepared statements
+    $query = "UPDATE patients SET 
+        first_name = ?,
+        last_name = ?,
+        username = ?,
+        phone = ?,
+        email = ?,
+        password = ?,
+        carteirinha = ?,
+        birth_date = ?,
+        gender = ?,
+        address = ?,
+        zipcode = ?,
+        city = ?,
+        country = ?,
+        state = ?,
+        status = ?,
+        image = ?
+        WHERE id = ?";
+
+    $stmt = $conn->prepare($query);
+
+    // A string de tipo deve ter 16 's' e 1 'i' para corresponder a 17 parâmetros
+    $stmt->bind_param(
+        "ssssssssssssssssi",
+        $first_name, 
+        $last_name, 
+        $username, 
+        $phone, 
+        $email, 
+        $password, 
+        $carteirinha, 
+        $birth_date, 
+        $gender, 
+        $address, 
+        $zipcode, 
+        $city, 
+        $country, 
+        $state, 
+        $status, 
+        $avatar, 
+        $id
+    );
+
+    if ($stmt->execute()) {
+        echo "Registro atualizado com sucesso!";
+    } else {
+        echo "Erro ao atualizar o registro: " . $stmt->error;
+    }
 }
-?>
 
-<form action="edit-patient.php" method="POST" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-12">
-            <div class="form-heading">
-                <h4>Detalhes do paciente</h4> <!-- Corrigido para 'paciente' -->
-            </div>
-        </div>
+  ?>
 
-        <!-- Formulário com campos -->
-        <div class="col-12 col-md-6 col-xl-4">
-            <div class="input-block local-forms">
-                <label>Primeiro nome<span class="login-danger">*</span></label>
-                <input class="form-control" type="text" name="first_name" value="<?php echo $first_name; ?>" required />
-            </div>
-        </div>
+  <form action="edit-patient.php?id=<?php echo htmlspecialchars($id); ?>" method="POST" enctype="multipart/form-data">
+      <div class="row">
+          <div class="col-12">
+              <div class="form-heading">
+                  <h4>Detalhes do Paciente</h4>
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-4">
-            <div class="input-block local-forms">
-                <label>Sobrenome<span class="login-danger">*</span></label>
-                <input class="form-control" type="text" name="last_name" value="<?php echo $last_name; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-4">
+              <div class="input-block local-forms">
+                  <label>Primeiro nome<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="first_name" value="<?php echo htmlspecialchars($first_name); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-4">
-            <div class="input-block local-forms">
-                <label>Nome de usuário<span class="login-danger">*</span></label>
-                <input class="form-control" type="text" name="username" value="<?php echo $username; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-4">
+              <div class="input-block local-forms">
+                  <label>Sobrenome<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="last_name" value="<?php echo htmlspecialchars($last_name); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block local-forms">
-                <label>Telefone<span class="login-danger">*</span></label>
-                <input class="form-control" type="text" name="phone" value="<?php echo $phone; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-4">
+              <div class="input-block local-forms">
+                  <label>Nome de usuário<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="username" value="<?php echo htmlspecialchars($username); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block local-forms">
-                <label>E-mail<span class="login-danger">*</span></label>
-                <input class="form-control" type="email" name="email" value="<?php echo $email; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block local-forms">
+                  <label>Telefone<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="phone" value="<?php echo htmlspecialchars($phone); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block local-forms">
-                <label>Senha<span class="login-danger">*</span></label>
-                <input class="form-control" type="password" name="password" value="<?php echo $password; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block local-forms">
+                  <label>E-mail<span class="login-danger">*</span></label>
+                  <input class="form-control" type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block local-forms">
-                <label>Carteirinha<span class="login-danger">*</span></label>
-                <input class="form-control" type="text" name="carteirinha" value="<?php echo $carteirinha; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block local-forms">
+                  <label>Senha<span class="login-danger">*</span></label>
+                  <input class="form-control" type="password" name="password" value="<?php echo htmlspecialchars($password); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block local-forms cal-icon">
-                <label>Data de nascimento<span class="login-danger">*</span></label>
-                <input class="form-control datetimepicker" type="text" name="birth_date" value="<?php echo $birth_date; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block local-forms">
+                  <label>Carteirinha<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="carteirinha" value="<?php echo htmlspecialchars($carteirinha); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block select-gender">
-                <label class="gen-label">Gênero<span class="login-danger">*</span></label>
-                <div class="form-check-inline">
-                    <label class="form-check-label">
-                        <input type="radio" name="gender" value="Masculino" class="form-check-input" <?php echo ($gender == 'Masculino') ? 'checked' : ''; ?> />Masculino
-                    </label>
-                </div>
-                <div class="form-check-inline">
-                    <label class="form-check-label">
-                        <input type="radio" name="gender" value="Feminino" class="form-check-input" <?php echo ($gender == 'Feminino') ? 'checked' : ''; ?> />Feminino
-                    </label>
-                </div>
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block local-forms cal-icon">
+                  <label>Data de nascimento<span class="login-danger">*</span></label>
+                  <input class="form-control datetimepicker" type="text" name="birth_date" value="<?php echo htmlspecialchars(date('d/m/Y', strtotime($birth_date))); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-sm-12">
-            <div class="input-block local-forms">
-                <label>Endereço<span class="login-danger">*</span></label>
-                <input class="form-control" type="text" name="address" value="<?php echo $address; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block select-gender">
+                  <label class="gen-label">Gênero<span class="login-danger">*</span></label>
+                  <div class="form-check-inline">
+                      <label class="form-check-label">
+                          <input type="radio" name="gender" value="Masculino" class="form-check-input" <?php echo ($gender == 'Masculino') ? 'checked' : ''; ?> />Masculino
+                      </label>
+                  </div>
+                  <div class="form-check-inline">
+                      <label class="form-check-label">
+                          <input type="radio" name="gender" value="Feminino" class="form-check-input" <?php echo ($gender == 'Feminino') ? 'checked' : ''; ?> />Feminino
+                      </label>
+                  </div>
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="input-block local-forms">
-                <label>CEP<span class="login-danger">*</span></label>
-                <input class="form-control" type="text" name="zipcode" value="<?php echo $zipcode; ?>" required />
-            </div>
-        </div>
+          <div class="col-12 col-sm-12">
+              <div class="input-block local-forms">
+                  <label>Endereço<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="address" id="address" value="<?php echo htmlspecialchars($address); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="input-block local-forms">
-                <label>Cidade<span class="login-danger">*</span></label>
-                <select class="form-control select" name="city" required>
-                    <option value="">Selecione a cidade</option>
-                    <option value="São Paulo" <?php echo ($city == 'São Paulo') ? 'selected' : ''; ?>>São Paulo</option>
-                    <option value="Rio de Janeiro" <?php echo ($city == 'Rio de Janeiro') ? 'selected' : ''; ?>>Rio de Janeiro</option>
-                    <option value="Santos" <?php echo ($city == 'Santos') ? 'selected' : ''; ?>>Santos</option>
-                </select>
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-3">
+              <div class="input-block local-forms">
+                  <label>CEP<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="zipcode" id="zipcode" value="<?php echo htmlspecialchars($zipcode); ?>" required onblur="buscarEndereco()" />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="input-block local-forms">
-                <label>País<span class="login-danger">*</span></label>
-                <select class="form-control select" name="country" required>
-                    <option value="Brasil" <?php echo ($country == 'Brasil') ? 'selected' : ''; ?>>Brasil</option>
-                </select>
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-3">
+              <div class="input-block local-forms">
+                  <label>Cidade<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="city" id="city" value="<?php echo htmlspecialchars($city); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="input-block local-forms">
-                <label>Estado<span class="login-danger">*</span></label>
-                <select class="form-control select" name="state" required>
-                    <option value="">Selecione o estado</option>
-                    <option value="AC" <?php echo ($state == 'AC') ? 'selected' : ''; ?>>Acre</option>
-                    <option value="SP" <?php echo ($state == 'SP') ? 'selected' : ''; ?>>São Paulo</option>
-                </select>
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-3">
+              <div class="input-block local-forms">
+                  <label>Estado<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="state" id="state" value="<?php echo htmlspecialchars($state); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block local-top-form">
-                <label class="local-top">Avatar<span class="login-danger">*</span></label>
-                <div class="settings-btn upload-files-avator">
-                    <input type="file" accept="image/*" name="avatar" id="file" class="hide-input" />
-                    <label for="file" class="upload">Escolher arquivo</label>
-                </div>
-                <div class="upload-images upload-size">
-                    <img src="<?php echo $avatar; ?>" alt="Avatar" />
-                </div>
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-3">
+              <div class="input-block local-forms">
+                  <label>País<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" name="country" id="country" value="<?php echo htmlspecialchars($country); ?>" required />
+              </div>
+          </div>
 
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="input-block select-gender">
-                <label>Status<span class="login-danger">*</span></label>
-                <div class="form-check-inline">
-                    <label class="form-check-label">
-                        <input type="radio" name="status" value="Ativa" class="form-check-input" <?php echo ($status == 'Ativa') ? 'checked' : ''; ?> />Ativa
-                    </label>
-                </div>
-                <div class="form-check-inline">
-                    <label class="form-check-label">
-                        <input type="radio" name="status" value="Inativo" class="form-check-input" <?php echo ($status == 'Inativo') ? 'checked' : ''; ?> />Inativo
-                    </label>
-                </div>
-            </div>
-        </div>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block local-forms">
+                  <label>Status<span class="login-danger">*</span></label>
+                  <select class="form-control" name="status" required>
+                      <option value="Ativo" <?php echo ($status == 'Ativo') ? 'selected' : ''; ?>>Ativo</option>
+                      <option value="Inativo" <?php echo ($status == 'Inativo') ? 'selected' : ''; ?>>Inativo</option>
+                  </select>
+              </div>
+          </div>
 
-        <div class="col-12">
-            <div class="submit-section">
-                <button class="btn btn-primary submit-btn" type="submit">Salvar</button>
-            </div>
-        </div>
-    </div>
-</form>
+          <div class="col-12 col-md-6 col-xl-6">
+              <div class="input-block local-forms">
+                  <label>Avatar</label>
+                  <input class="form-control" type="file" name="avatar" />
+                  <?php if ($avatar): ?>
+                      <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar" width="100" height="100" />
+                  <?php endif; ?>
+              </div>
+          </div>
+
+          <div class="col-12 col-md-12 col-xl-12">
+              <button class="btn btn-primary" type="submit">Atualizar</button>
+              <a href="patients.php" class="btn btn-primary">Cancelar</a>
+
+          </div>
+      </div>
+  </form>
+
+  <script>
+      function buscarEndereco() {
+          var cep = document.getElementById('zipcode').value;
+          var url = 'https://viacep.com.br/ws/' + cep + '/json/';
+          
+          if (cep.length == 8) { // Verifica se o CEP tem 8 dígitos
+              fetch(url)
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.erro) {
+                          alert('CEP não encontrado.');
+                      } else {
+                          document.getElementById('address').value = data.logradouro;
+                          document.getElementById('city').value = data.localidade;
+                          document.getElementById('state').value = data.uf;
+                          document.getElementById('country').value = 'Brasil'; // País fixo como Brasil
+                      }
+                  })
+                  .catch(error => {
+                      console.error('Erro:', error);
+                      alert('Erro ao buscar o endereço.');
+                  });
+          }
+      }
+  </script>
+
+
 
               </div>
             </div>

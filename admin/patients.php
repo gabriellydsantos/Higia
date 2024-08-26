@@ -332,18 +332,8 @@
                                 </div>
 
                                 <?php
-// Conectar ao banco de dados
-$servername = "localhost";
-$username = "root";
-$password = "200812";
-$dbname = "higia";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar a conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
-}
+// Incluindo o arquivo de conexão ao banco de dados
+include('database.php');
 
 // Consultar os dados dos pacientes
 $sql = "SELECT id, first_name, last_name, carteirinha, phone, email, created_at, image FROM patients";
@@ -360,7 +350,7 @@ $result = $conn->query($sql);
                     </div>
                 </th>
                 <th>Nome</th>
-                <th>Carterinha</th>
+                <th>Carteirinha</th>
                 <th>Telefone</th>
                 <th>E-mail</th>
                 <th>Data de ingresso</th>
@@ -378,7 +368,7 @@ $result = $conn->query($sql);
                                 <input class='form-check-input' type='checkbox' value='something'>
                             </div>
                           </td>";
-                    echo "<td class='profile-image'><a href='profile.php'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
+                    echo "<td class='profile-image'><a href='profile.php?id=" . $row['id'] . "'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
                     echo "<td>" . $row['carteirinha'] . "</td>";
                     echo "<td><a href='javascript:;'>" . $row['phone'] . "</a></td>";
                     echo "<td><a href='mailto:" . $row['email'] . "'>" . $row['email'] . "</a></td>";
