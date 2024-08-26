@@ -302,231 +302,227 @@
           <div class="col-sm-12">
             <div class="card">
               <div class="card-body">
-                <form>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="form-heading">
-                        <h4>Detalhes do médico</h4>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Primeiro nome
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="Lorem ipsum" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Sobrenome
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="Lorem ipsum" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Nome de usuário
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="Lorem ipsum" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Móvel <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="+55 11 987456321" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>E-mail <span class="login-danger">*</span></label>
-                        <input class="form-control" type="email" value="examplo@email.com" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Senha <span class="login-danger">*</span></label>
-                        <input class="form-control" type="password" value="senha" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms">
-                        <label>Confirme sua senha
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="password" value="senha" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-forms cal-icon">
-                        <label>Data de nascimento
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control datetimepicker" type="text" value="24112022" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block select-gender">
-                        <label class="gen-label">Gênero<span class="login-danger">*</span></label>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input" checked />Masculino
-                          </label>
-                        </div>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender" class="form-check-input" />Feminino
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Educação <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="Lorem ipsum" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>designação
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="Médica" />
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-4">
-                      <div class="input-block local-forms">
-                        <label>Departamento
-                          <span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione Departamento</option>
-                          <option>Ortopedia</option>
-                          <option>Radiologia</option>
-                          <option>Dentista</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-12">
-                      <div class="input-block local-forms">
-                        <label>Endereço <span class="login-danger">*</span></label>
-                        <textarea class="form-control" rows="3" cols="30">
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos ipsum qui eum dolore non tempora impedit.</textarea>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>Cidade<span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione a cidade</option>
-                          <option>São Paulo</option>
-                          <option>Rio de Janeiro</option>
-                          <option>Santos</option>
-                          <option>Campinas</option>
-                          <option>Guarulhos</option>
-                          <option>São Bernardo do Campo</option>
-                          <option>Osasco</option>
-                          <option>Barueri</option>
-                          <option>Santo André</option>
-                          <option>Niterói</option>
-                          <option>Duque de Caxias</option>
-                          <option>Nova Iguaçu</option>
-                          <option>São Gonçalo</option>
-                          <option>Petrópolis</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>País <span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione o estado</option>
-                          <option>Brasil</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>Estado <span class="login-danger">*</span></label>
-                        <select class="form-control select">
-                          <option>Selecione o estado</option>
-                          <option>Acre</option>
-                          <option>Alagoas</option>
-                          <option>Amapá</option>
-                          <option>Amazonas</option>
-                          <option>Bahia</option>
-                          <option>Ceará</option>
-                          <option>Distrito Federal</option>
-                          <option>Espírito Santo</option>
-                          <option>Goiás</option>
-                          <option>Maranhão</option>
-                          <option>Mato Grosso</option>
-                          <option>Mato Grosso do Sul</option>
-                          <option>Minas Gerais</option>
-                          <option>Pará</option>
-                          <option>Paraíba</option>
-                          <option>Paraná</option>
-                          <option>Pernambuco</option>
-                          <option>Piauí</option>
-                          <option>Rio de Janeiro</option>
-                          <option>Rio Grande do Norte</option>
-                          <option>Rio Grande do Sul</option>
-                          <option>Rondônia</option>
-                          <option>Roraima</option>
-                          <option>Santa Catarina</option>
-                          <option>São Paulo</option>
-                          <option>Sergipe</option>
-                          <option>Tocantins</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3">
-                      <div class="input-block local-forms">
-                        <label>Postal Code
-                          <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" value="91403" />
-                      </div>
-                    </div>
+              <?php
+// Incluindo o arquivo de conexão ao banco de dados
+include('database.php');
 
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block local-top-form">
-                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
-                        <div class="settings-btn upload-files-avator">
-                          <input type="file" accept="image/*" name="image" id="file"
-                            onchange="if (!window.__cfRLUnblockHandlers) return false; loadFile(event)"
-                            class="hide-input" data-cf-modified-59a698b85aa9560b4d73d8b9- />
-                          <label for="file" class="upload">Escolher arquivo</label>
-                        </div>
-                        <div class="upload-images upload-size">
-                          <img src="../assets/img/favicon.png" alt="Image" />
-                          <a href="javascript:void(0);" class="btn-icon logo-hide-btn">
-                            <i class="feather-x-circle"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="input-block select-gender">
-                        <label class="gen-label">Status <span class="login-danger">*</span></label>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender1" class="form-check-input" checked />Ativa
-                          </label>
-                        </div>
-                        <div class="form-check-inline">
-                          <label class="form-check-label">
-                            <input type="radio" name="gender1" class="form-check-input" />Não ativo
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="doctor-submit text-end">
-                        <button type="submit" class="btn btn-primary submit-form me-2">
-                          Submit
-                        </button>
-                        <button type="submit" class="btn btn-primary cancel-form">
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
+// Inicializando variáveis vazias para evitar warnings
+$first_name = '';
+$last_name = '';
+$username = '';
+$phone = '';
+$email = '';
+$password = '';
+$carteirinha = '';
+$birth_date = '';
+$gender = '';
+$address = '';
+$zipcode = '';
+$city = '';
+$country = '';
+$state = '';
+$avatar = '';
+$status = '';
+
+// Verificando se o ID foi passado pela URL
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $id = intval($_GET['id']); // Convertendo para inteiro para segurança
+
+    // Executando a consulta no banco de dados para buscar os dados do paciente
+    $query = "SELECT * FROM patients WHERE id = $id";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        // Atribuindo os valores do banco de dados às variáveis
+        $row = mysqli_fetch_assoc($result);
+        $first_name = htmlspecialchars($row['first_name']);
+        $last_name = htmlspecialchars($row['last_name']);
+        $username = htmlspecialchars($row['username']);
+        $phone = htmlspecialchars($row['phone']);
+        $email = htmlspecialchars($row['email']);
+        $password = htmlspecialchars($row['password']);
+        $carteirinha = htmlspecialchars($row['carteirinha']);
+        $birth_date = htmlspecialchars($row['birth_date']);
+        $gender = htmlspecialchars($row['gender']);
+        $address = htmlspecialchars($row['address']);
+        $zipcode = htmlspecialchars($row['zipcode']);
+        $city = htmlspecialchars($row['city']);
+        $country = htmlspecialchars($row['country']);
+        $state = htmlspecialchars($row['state']);
+        $avatar = htmlspecialchars($row['image']); // Ajustado para 'image'
+        $status = htmlspecialchars($row['status']);
+    } else {
+        echo "Paciente não encontrado.";
+    }
+} else {
+    echo "ID do paciente não fornecido.";
+}
+?>
+
+<form action="edit-patient.php" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-heading">
+                <h4>Detalhes do paciente</h4> <!-- Corrigido para 'paciente' -->
+            </div>
+        </div>
+
+        <!-- Formulário com campos -->
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="input-block local-forms">
+                <label>Primeiro nome<span class="login-danger">*</span></label>
+                <input class="form-control" type="text" name="first_name" value="<?php echo $first_name; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="input-block local-forms">
+                <label>Sobrenome<span class="login-danger">*</span></label>
+                <input class="form-control" type="text" name="last_name" value="<?php echo $last_name; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="input-block local-forms">
+                <label>Nome de usuário<span class="login-danger">*</span></label>
+                <input class="form-control" type="text" name="username" value="<?php echo $username; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block local-forms">
+                <label>Telefone<span class="login-danger">*</span></label>
+                <input class="form-control" type="text" name="phone" value="<?php echo $phone; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block local-forms">
+                <label>E-mail<span class="login-danger">*</span></label>
+                <input class="form-control" type="email" name="email" value="<?php echo $email; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block local-forms">
+                <label>Senha<span class="login-danger">*</span></label>
+                <input class="form-control" type="password" name="password" value="<?php echo $password; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block local-forms">
+                <label>Carteirinha<span class="login-danger">*</span></label>
+                <input class="form-control" type="text" name="carteirinha" value="<?php echo $carteirinha; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block local-forms cal-icon">
+                <label>Data de nascimento<span class="login-danger">*</span></label>
+                <input class="form-control datetimepicker" type="text" name="birth_date" value="<?php echo $birth_date; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block select-gender">
+                <label class="gen-label">Gênero<span class="login-danger">*</span></label>
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                        <input type="radio" name="gender" value="Masculino" class="form-check-input" <?php echo ($gender == 'Masculino') ? 'checked' : ''; ?> />Masculino
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                        <input type="radio" name="gender" value="Feminino" class="form-check-input" <?php echo ($gender == 'Feminino') ? 'checked' : ''; ?> />Feminino
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-12">
+            <div class="input-block local-forms">
+                <label>Endereço<span class="login-danger">*</span></label>
+                <input class="form-control" type="text" name="address" value="<?php echo $address; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="input-block local-forms">
+                <label>CEP<span class="login-danger">*</span></label>
+                <input class="form-control" type="text" name="zipcode" value="<?php echo $zipcode; ?>" required />
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="input-block local-forms">
+                <label>Cidade<span class="login-danger">*</span></label>
+                <select class="form-control select" name="city" required>
+                    <option value="">Selecione a cidade</option>
+                    <option value="São Paulo" <?php echo ($city == 'São Paulo') ? 'selected' : ''; ?>>São Paulo</option>
+                    <option value="Rio de Janeiro" <?php echo ($city == 'Rio de Janeiro') ? 'selected' : ''; ?>>Rio de Janeiro</option>
+                    <option value="Santos" <?php echo ($city == 'Santos') ? 'selected' : ''; ?>>Santos</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="input-block local-forms">
+                <label>País<span class="login-danger">*</span></label>
+                <select class="form-control select" name="country" required>
+                    <option value="Brasil" <?php echo ($country == 'Brasil') ? 'selected' : ''; ?>>Brasil</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="input-block local-forms">
+                <label>Estado<span class="login-danger">*</span></label>
+                <select class="form-control select" name="state" required>
+                    <option value="">Selecione o estado</option>
+                    <option value="AC" <?php echo ($state == 'AC') ? 'selected' : ''; ?>>Acre</option>
+                    <option value="SP" <?php echo ($state == 'SP') ? 'selected' : ''; ?>>São Paulo</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block local-top-form">
+                <label class="local-top">Avatar<span class="login-danger">*</span></label>
+                <div class="settings-btn upload-files-avator">
+                    <input type="file" accept="image/*" name="avatar" id="file" class="hide-input" />
+                    <label for="file" class="upload">Escolher arquivo</label>
+                </div>
+                <div class="upload-images upload-size">
+                    <img src="<?php echo $avatar; ?>" alt="Avatar" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="input-block select-gender">
+                <label>Status<span class="login-danger">*</span></label>
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                        <input type="radio" name="status" value="Ativa" class="form-check-input" <?php echo ($status == 'Ativa') ? 'checked' : ''; ?> />Ativa
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                        <input type="radio" name="status" value="Inativo" class="form-check-input" <?php echo ($status == 'Inativo') ? 'checked' : ''; ?> />Inativo
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="submit-section">
+                <button class="btn btn-primary submit-btn" type="submit">Salvar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
               </div>
             </div>
           </div>
