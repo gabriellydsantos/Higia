@@ -24,6 +24,9 @@
   <link rel="stylesheet" href="../assets/css/feather.css" />
 
   <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
 </head>
 
 <body>
@@ -573,10 +576,17 @@
           <div class="col-12 col-md-6 col-xl-6">
               <div class="input-block local-forms">
                   <label>Avatar</label>
-                  <input class="form-control" type="file" name="avatar" />
+                  <input class="form-control" type="file" name="avatar"  />
                   <?php if ($avatar): ?>
-                      <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar" width="100" height="100" />
+                    <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar" width="100" height="100" class="avatar-img" />
                   <?php endif; ?>
+                  <style>
+                    .avatar-img {
+               margin-top: 0.80rem;
+                  }
+
+                 
+                  </style>
               </div>
           </div>
 
@@ -589,6 +599,13 @@
   </form>
 
   <script>
+
+$(document).ready(function(){
+  $('input[name="phone"]').mask('(00) 00000-0000');
+});
+
+
+
       function buscarEndereco() {
           var cep = document.getElementById('zipcode').value;
           var url = 'https://viacep.com.br/ws/' + cep + '/json/';

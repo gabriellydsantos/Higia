@@ -24,6 +24,10 @@
   <link rel="stylesheet" href="../assets/css/feather.css" />
 
   <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+
 </head>
 
 <body>
@@ -320,11 +324,12 @@
     </div>
 
     <div class="col-12 col-md-6 col-xl-6">
-      <div class="input-block local-forms">
-        <label>Telefone<span class="login-danger">*</span></label>
-        <input class="form-control" type="text" name="phone" placeholder="Digite o telefone" required />
-      </div>
-    </div>
+  <div class="input-block local-forms">
+    <label>Telefone<span class="login-danger">*</span></label>
+    <input class="form-control" type="text" name="phone" placeholder="Digite o telefone" required />
+  </div>
+</div>
+
 
     <div class="col-12 col-md-6 col-xl-6">
       <div class="input-block local-forms">
@@ -343,7 +348,7 @@
     <div class="col-12 col-md-6 col-xl-6">
       <div class="input-block local-forms">
         <label>Carteirinha<span class="login-danger">*</span></label>
-        <input class="form-control" type="text" name="carteirinha" placeholder="Digite a carteirinha" required />
+        <input class="form-control" type="text" name="carteirinha" placeholder="Digite a carteirinha" value="<?php echo str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT); ?>" required />
       </div>
     </div>
 
@@ -369,23 +374,20 @@
         </div>
       </div>
     </div>
- 
+
     <div class="col-12 col-sm-12">
-    <div class="input-block local-forms">
-      <label>Endereço<span class="login-danger">*</span></label>
-      <input class="form-control" type="text" name="address" placeholder="Digite o endereço" required />
+      <div class="input-block local-forms">
+        <label>Endereço<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="address" placeholder="Digite o endereço" required />
+      </div>
     </div>
-  </div>
 
     <div class="col-12 col-md-6 col-xl-3">
-    <div class="input-block local-forms">
-      <label>CEP<span class="login-danger">*</span></label>
-      <input class="form-control" type="text" name="zipcode" placeholder="Digite o CEP" required />
+      <div class="input-block local-forms">
+        <label>CEP<span class="login-danger">*</span></label>
+        <input class="form-control" type="text" name="zipcode" placeholder="Digite o CEP" required />
+      </div>
     </div>
-  </div>
-
- 
-   
 
     <div class="col-12 col-md-6 col-xl-3">
       <div class="input-block local-forms">
@@ -394,18 +396,7 @@
           <option value="">Selecione a cidade</option>
           <option value="São Paulo">São Paulo</option>
           <option value="Rio de Janeiro">Rio de Janeiro</option>
-          <option value="Santos">Santos</option>
-          <option value="Campinas">Campinas</option>
-          <option value="Guarulhos">Guarulhos</option>
-          <option value="São Bernardo do Campo">São Bernardo do Campo</option>
-          <option value="Osasco">Osasco</option>
-          <option value="Barueri">Barueri</option>
-          <option value="Santo André">Santo André</option>
-          <option value="Niterói">Niterói</option>
-          <option value="Duque de Caxias">Duque de Caxias</option>
-          <option value="Nova Iguaçu">Nova Iguaçu</option>
-          <option value="São Gonçalo">São Gonçalo</option>
-          <option value="Petrópolis">Petrópolis</option>
+          <!-- Outras opções de cidades -->
         </select>
       </div>
     </div>
@@ -418,57 +409,60 @@
         </select>
       </div>
     </div>
+
     <div class="col-12 col-md-6 col-xl-3">
       <div class="input-block local-forms">
         <label>Estado<span class="login-danger">*</span></label>
         <select class="form-control select" name="state" required>
-          <option value="">Selecione o estado</option>
-          <option value="AC">Acre</option>
-          <option value="AL">Alagoas</option>
-          <option value="AP">Amapá</option>
-          <option value="AM">Amazonas</option>
-          <option value="BA">Bahia</option>
-          <option value="CE">Ceará</option>
-          <option value="DF">Distrito Federal</option>
-          <option value="ES">Espírito Santo</option>
-          <option value="GO">Goiás</option>
-          <option value="MA">Maranhão</option>
-          <option value="MT">Mato Grosso</option>
-          <option value="MS">Mato Grosso do Sul</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="PA">Pará</option>
-          <option value="PB">Paraíba</option>
-          <option value="PR">Paraná</option>
-          <option value="PE">Pernambuco</option>
-          <option value="PI">Piauí</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="RN">Rio Grande do Norte</option>
-          <option value="RS">Rio Grande do Sul</option>
-          <option value="RO">Rondônia</option>
-          <option value="RR">Roraima</option>
-          <option value="SC">Santa Catarina</option>
-          <option value="SP">São Paulo</option>
-          <option value="SE">Sergipe</option>
-          <option value="TO">Tocantins</option>
-        </select>
+  <option value="">Selecione o estado</option>
+  <option value="AC">Acre (AC)</option>
+  <option value="AL">Alagoas (AL)</option>
+  <option value="AP">Amapá (AP)</option>
+  <option value="AM">Amazonas (AM)</option>
+  <option value="BA">Bahia (BA)</option>
+  <option value="CE">Ceará (CE)</option>
+  <option value="DF">Distrito Federal (DF)</option>
+  <option value="ES">Espírito Santo (ES)</option>
+  <option value="GO">Goiás (GO)</option>
+  <option value="MA">Maranhão (MA)</option>
+  <option value="MT">Mato Grosso (MT)</option>
+  <option value="MS">Mato Grosso do Sul (MS)</option>
+  <option value="MG">Minas Gerais (MG)</option>
+  <option value="PA">Pará (PA)</option>
+  <option value="PB">Paraíba (PB)</option>
+  <option value="PR">Paraná (PR)</option>
+  <option value="PE">Pernambuco (PE)</option>
+  <option value="PI">Piauí (PI)</option>
+  <option value="RJ">Rio de Janeiro (RJ)</option>
+  <option value="RN">Rio Grande do Norte (RN)</option>
+  <option value="RS">Rio Grande do Sul (RS)</option>
+  <option value="RO">Rondônia (RO)</option>
+  <option value="RR">Roraima (RR)</option>
+  <option value="SC">Santa Catarina (SC)</option>
+  <option value="SP">São Paulo (SP)</option>
+  <option value="SE">Sergipe (SE)</option>
+  <option value="TO">Tocantins (TO)</option>
+</select>
+
       </div>
     </div>
 
     <div class="col-12 col-md-6 col-xl-6">
-    <div class="input-block select-gender">
+      <div class="input-block select-gender">
         <label class="gen-label">Status<span class="login-danger">*</span></label>
         <div class="form-check-inline">
-            <label class="form-check-label">
-                <input type="radio" name="status" value="Ativa" class="form-check-input mt-0" required />Ativa
-            </label>
+          <label class="form-check-label">
+            <input type="radio" name="status" value="Ativa" class="form-check-input mt-0" required />Ativa
+          </label>
         </div>
         <div class="form-check-inline">
-            <label class="form-check-label">
-                <input type="radio" name="status" value="Inativo" class="form-check-input mt-0" required />Inativo
-            </label>
+          <label class="form-check-label">
+            <input type="radio" name="status" value="Inativo" class="form-check-input mt-0" required />Inativo
+          </label>
         </div>
+      </div>
     </div>
-</div>
+
     <div class="col-12 col-md-6 col-xl-6">
       <div class="input-block local-top-form">
         <label class="local-top">Foto<span class="login-danger">*</span></label>
@@ -478,67 +472,77 @@
         </div>
       </div>
     </div>
-<!-- 
-    <div class="col-12 col-md-6 col-xl-6">
-      <div class="input-block local-top-form">
-        <label class="local-top">Documento<span class="login-danger">*</span></label>
-        <div class="settings-btn upload-files-avator">
-          <input type="file" accept=".pdf, .doc, .docx" name="document" id="file" class="hide-input" required />
-          <label for="file" class="upload">Escolher arquivo</label>
-        </div>
-      </div>
-    </div> -->
 
     <div class="col-12">
       <div class="doctor-submit text-end">
         <button type="submit" class="btn btn-primary submit-form me-2">Enviar</button>
-        <button type="reset" class="btn btn-secondary cancel-form">Cancelar</button>
+        <button type="button" class="btn btn-secondary cancel-form" onclick="window.location.href='patients.php';">Cancelar</button>
       </div>
     </div>
   </div>
 
   <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('input[name="zipcode"]').addEventListener('blur', function() {
-          var cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
-          if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-              .then(response => response.json())
-              .then(data => {
-                if (!data.erro) {
-                  // Preenche o campo de Endereço
-                  document.querySelector('input[name="address"]').value = data.logradouro + ', ' + data.bairro;
 
-                  // Atualiza o campo de Estado
-                  var stateSelect = document.querySelector('select[name="state"]');
-                  stateSelect.value = data.uf; // Seleciona o estado correspondente
+$(document).ready(function(){
+  $('input[name="phone"]').mask('(00) 00000-0000');
+});
 
-                  // Força a atualização visual do <select>
-                  if (stateSelect.value !== '') {
-                    var event = new Event('change');
-                    stateSelect.dispatchEvent(event);
-                  }
 
-                  // Atualiza o campo de Cidade
-                  var citySelect = document.querySelector('select[name="city"]');
-                  citySelect.innerHTML = `<option value="${data.localidade}">${data.localidade}</option>`;
-                  
-                  // Preenche o campo de País com 'Brasil'
-                  document.querySelector('select[name="country"]').value = 'Brasil';
-                } else {
-                  alert('CEP não encontrado.');
-                }
-              })
-              .catch(error => {
-                console.error('Erro ao consultar CEP:', error);
-              });
+  document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('input[name="zipcode"]').addEventListener('blur', function() {
+    var cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+    if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(response => response.json())
+        .then(data => {
+          if (!data.erro) {
+            // Preenche o campo de Endereço
+            document.querySelector('input[name="address"]').value = data.logradouro + ', ' + data.bairro;
+
+            // Atualiza o campo de Estado
+            var stateSelect = document.querySelector('select[name="state"]');
+            var optionFound = false;
+
+            // Itera sobre as opções do select de estado para selecionar a correta
+            for (var i = 0; i < stateSelect.options.length; i++) {
+              if (stateSelect.options[i].value === data.uf) {
+                stateSelect.selectedIndex = i;
+                optionFound = true;
+                break;
+              }
+            }
+
+            // Se a opção não foi encontrada, exibe uma mensagem
+            if (!optionFound) {
+              alert('Estado não encontrado no select. Verifique se a sigla do estado está correta.');
+            }
+
+            // Força a atualização do campo visível
+            stateSelect.dispatchEvent(new Event('change'));
+
+            // Atualiza o campo de Cidade
+            var citySelect = document.querySelector('select[name="city"]');
+            citySelect.innerHTML = `<option value="${data.localidade}">${data.localidade}</option>`;
+
+            // Preenche o campo de País com 'Brasil'
+            document.querySelector('select[name="country"]').value = 'Brasil';
           } else {
-            alert('CEP inválido.');
+            alert('CEP não encontrado.');
           }
+        })
+        .catch(error => {
+          console.error('Erro ao buscar CEP:', error);
+          alert('Erro ao buscar CEP. Tente novamente.');
         });
-      });
-    </script>
+    } else {
+      alert('Por favor, insira um CEP válido.');
+    }
+  });
+});
+
+  </script>
 </form>
 
 
