@@ -28,9 +28,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   
+  
 </head>
 
-<body>
+
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left">
@@ -303,21 +314,19 @@
                                                 <h3>Lista dos pacientes</h3>
                                                 <div class="doctor-search-blk">
                                                     <div class="top-nav-search table-search-blk">
-                                                        <form>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="Procure aqui"
-                                                                style="background-color:#c0c4e599;">
-                                                            <a class="btn"><img
-                                                                    src="../assets/img/icons/search-normal.svg" alt></a>
-                                                        </form>
+                                                    <form method="GET">
+    <input type="text" class="form-control" name="query" placeholder="Procure aqui" style="background-color:#c0c4e599;">
+    <button type="submit" class="btn"><img src="../assets/img/icons/search-normal.svg" alt="Search"></button>
+</form>
+
                                                     </div>
                                                     <div class="add-group">
-                                                        <a href="add-doctor.php"
+                                                        <a href="add-patient.php"
                                                             class="btn btn-primary add-pluss ms-2"><img
                                                                 src="../assets/img/icons/plus.svg" alt></a>
                                                                 <a href="javascript:;" id="refresh-button" class="btn btn-primary doctor-refresh ms-2">
     <img src="../assets/img/icons/re-fresh.svg" alt>
-</a>
+</a>    
 
 
                                                     </div>
@@ -338,8 +347,17 @@
 // Incluindo o arquivo de conexão ao banco de dados
 include('database.php');
 
+// Verificando se a pesquisa foi feita
+$query = "";
+if (isset($_GET['query'])) {
+    $query = $_GET['query'];
+}
+
 // Consultar os dados dos pacientes
 $sql = "SELECT id, first_name, last_name, carteirinha, phone, email, created_at, image FROM patients";
+if (!empty($query)) {
+    $sql .= " WHERE CONCAT(first_name, ' ', last_name) LIKE '%$query%' OR carteirinha LIKE '%$query%'";
+}
 $result = $conn->query($sql);
 ?>
 
@@ -684,6 +702,6 @@ $conn->close();
         data-cf-settings="2baeca2c3f656ada6eadd5bb-|49" defer></script>
 </body>
 
-<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/doctors.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:43:06 GMT -->
+
 
 </html>

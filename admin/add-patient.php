@@ -30,7 +30,17 @@
 
 </head>
 
-<body>
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script> 
   <div class="main-wrapper">
     <div class="header">
       <div class="header-left">
@@ -872,10 +882,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath);
 
         if ($stmt->execute()) {
-            echo "Novo paciente cadastrado com sucesso!";
-        } else {
-            echo "Erro: " . $stmt->error;
-        }
+          echo '<div class="message success">Novo paciente cadastrado com sucesso!</div>';
+      } else {
+          echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
+      }
 
         $stmt->close();
     } else {
@@ -884,8 +894,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn->close();
 }
-?>
 
+
+?>
+<!-- 
+<style>
+  .message {
+
+}
+
+
+
+</style> -->
 
 
 
