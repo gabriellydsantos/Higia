@@ -1,42 +1,22 @@
 <?php
-// Conectar ao banco de dados
-$servername = "localhost";
-$username = "root";
-$password = "200812";
-$dbname = "higia";
+// Incluindo o arquivo de conexão ao banco de dados
+include('database.php');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar a conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
+// Verificando se a pesquisa foi feita
+$query = "";
+if (isset($_GET['query'])) {
+    $query = $_GET['query'];
 }
 
 // Consultar os dados dos pacientes
 $sql = "SELECT id, first_name, last_name, carteirinha, phone, email, created_at, image FROM patients";
+if (!empty($query)) {
+    $sql .= " WHERE CONCAT(first_name, ' ', last_name) LIKE '%$query%' OR carteirinha LIKE '%$query%'";
+}
 $result = $conn->query($sql);
 
-// Gerar o HTML da tabela
-echo '<div class="table-responsive">
-        <table class="table border-0 custom-table comman-table datatable mb-0">
-            <thead>
-                <tr>
-                    <th>
-                        <div class="form-check check-tables">
-                            <input class="form-check-input" type="checkbox" value="something">
-                        </div>
-                    </th>
-                    <th>Nome</th>
-                    <th>Carterinha</th>
-                    <th>Telefone</th>
-                    <th>E-mail</th>
-                    <th>Data de ingresso</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>';
-
 if ($result->num_rows > 0) {
+    // Exibir os dados de cada paciente
     while($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>
@@ -44,7 +24,7 @@ if ($result->num_rows > 0) {
                     <input class='form-check-input' type='checkbox' value='something'>
                 </div>
               </td>";
-        echo "<td class='profile-image'><a href='profile.php'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
+        echo "<td class='profile-image'><a href='profile.php?id=" . $row['id'] . "'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
         echo "<td>" . $row['carteirinha'] . "</td>";
         echo "<td><a href='javascript:;'>" . $row['phone'] . "</a></td>";
         echo "<td><a href='mailto:" . $row['email'] . "'>" . $row['email'] . "</a></td>";
@@ -63,10 +43,6 @@ if ($result->num_rows > 0) {
 } else {
     echo "<tr><td colspan='7'>Nenhum paciente encontrado.</td></tr>";
 }
-
-echo '</tbody>
-    </table>
-</div>';
 
 $conn->close();
 ?>

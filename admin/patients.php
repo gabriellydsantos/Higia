@@ -307,43 +307,37 @@
                         <div class="card card-table show-entire">
                             <div class="card-body">
 
-                                <div class="page-table-header mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <div class="doctor-table-blk">
-                                                <h3>Lista dos pacientes</h3>
-                                                <div class="doctor-search-blk">
-                                                    <div class="top-nav-search table-search-blk">
-                                                    <form method="GET">
-    <input type="text" class="form-control" name="query" placeholder="Procure aqui" style="background-color:#c0c4e599;">
-    <button type="submit" class="btn"><img src="../assets/img/icons/search-normal.svg" alt="Search"></button>
-</form>
+                            <div class="page-table-header mb-2">
+    <div class="row align-items-center">
+        <div class="col">
+            <div class="doctor-table-blk">
+                <h3>Lista dos pacientes</h3>
+                <div class="doctor-search-blk">
+                    <div class="top-nav-search table-search-blk">
+                        <form method="GET">
+                            <input type="text" class="form-control" name="query" placeholder="Procure aqui" style="background-color:#c0c4e599;">
+                            <button type="submit" class="btn"><img src="../assets/img/icons/search-normal.svg" alt="Search"></button>
+                        </form>
+                    </div>
+                    <div class="add-group">
+                        <a href="add-patient.php" class="btn btn-primary add-pluss ms-2">
+                            <img src="../assets/img/icons/plus.svg" alt>
+                        </a>
+                        <a href="javascript:;" id="refresh-button" class="btn btn-primary doctor-refresh ms-2">
+                            <img src="../assets/img/icons/re-fresh.svg" alt>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto text-end float-end ms-auto download-grp">
+            <a href="javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-01.svg" alt></a>
+            <a href="javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-02.svg" alt></a>
+        </div>
+    </div>
+</div>
 
-                                                    </div>
-                                                    <div class="add-group">
-                                                        <a href="add-patient.php"
-                                                            class="btn btn-primary add-pluss ms-2"><img
-                                                                src="../assets/img/icons/plus.svg" alt></a>
-                                                                <a href="javascript:;" id="refresh-button" class="btn btn-primary doctor-refresh ms-2">
-    <img src="../assets/img/icons/re-fresh.svg" alt>
-</a>    
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto text-end float-end ms-auto download-grp">
-                                            <a href="javascript:;" class=" me-2"><img
-                                                    src="../assets/img/icons/pdf-icon-01.svg" alt></a>
-                                            <a href="javascript:;" class=" me-2"><img
-                                                    src="../assets/img/icons/pdf-icon-02.svg" alt></a>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <?php
+<?php
 // Incluindo o arquivo de conexão ao banco de dados
 include('database.php');
 
@@ -360,7 +354,6 @@ if (!empty($query)) {
 }
 $result = $conn->query($sql);
 ?>
-
 <div class="table-responsive">
     <table class="table border-0 custom-table comman-table datatable mb-0">
         <thead>
@@ -378,7 +371,7 @@ $result = $conn->query($sql);
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="patients-table-body">
             <?php
             if ($result->num_rows > 0) {
                 // Exibir os dados de cada paciente
@@ -412,6 +405,7 @@ $result = $conn->query($sql);
         </tbody>
     </table>
 </div>
+
 
 <?php
 $conn->close();
@@ -665,22 +659,19 @@ $conn->close();
     
     <div class="sidebar-overlay" data-reff></div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const refreshButton = document.getElementById('refresh-button');
-
-        refreshButton.addEventListener('click', function() {
-            fetch('fetch_patients.php')
-                .then(response => response.text())
-                .then(data => {
-                    // Atualiza o conteúdo da tabela com os novos dados
-                    document.querySelector('.table-responsive').innerHTML = data;
-                })
-                .catch(error => console.error('Erro ao atualizar a lista de pacientes:', error));
-        });
-    });
+    
+<script>
+document.getElementById('refresh-button').addEventListener('click', function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'fetch_patients.php', true);
+    xhr.onload = function() {
+        if (this.status == 200) {
+            document.getElementById('patients-table-body').innerHTML = this.responseText;
+        }
+    };
+    xhr.send();
+});
 </script>
-
     <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="../assets/js/jquery-3.7.1.min.js" type="2baeca2c3f656ada6eadd5bb-text/javascript"></script>
 
