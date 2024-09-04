@@ -226,12 +226,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Erro na consulta: " . mysqli_error($mysqli);
     } else {
         while ($retorno = mysqli_fetch_assoc($query)) {
-            $nome = isset($retorno['nome_cliente']) ? $retorno['nome_cliente'] : 'Nome não disponível';
-            $carterinha = isset($retorno['carterinha']) ? $retorno['carterinha'] : 'Carterinha não disponível';
-            $exame_tipo = isset($retorno['exame_tipo']) ? $retorno['exame_tipo'] : 'Não definido';
-            $id = isset($retorno['id']) ? $retorno['id'] : 'ID não disponível';
+            $nome_cliente= $retorno['nome_cliente'];
+            $data= $retorno['data'];
+            $carterinha = $retorno['carterinha'];
+            $exame_tipo = $retorno['tipo_exame'];
+            $id = $retorno['id'];
 
-            echo "<a href='baixar.php?id=".$id."'>".$nome." | pertence | ".$carterinha." | Tipo: ".$exame_tipo."</a>";
+            echo "<a href='baixar.php?id=".$id."'>".$nome_cliente."_".$carterinha."_".$exame_tipo."_".$data."</a>";
             echo "<br>";  
         }
     }

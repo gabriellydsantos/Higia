@@ -228,9 +228,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include_once("conexao.php");
 
     // Validação e coleta dos dados do formulário
-    $nome_cliente = $_POST['nome_cliente'] ?? null;
-    $carterinha = $_POST['carterinha'] ?? null;
-    $exame_tipo = $_POST['exame_tipo'] ?? null;
+        $data = date('d/m/Y'); 
+        $nome_cliente = $_POST['nome_cliente'];
+        $carterinha = $_POST['carterinha'];
+        $exame_tipo = $_POST['exame_tipo'];
 
     // Verifica se todos os campos necessários foram preenchidos
     if (!$nome_cliente || !$carterinha || !$exame_tipo) {
@@ -248,8 +249,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_FILES['pdf_arquivo']) && $_FILES['pdf_arquivo']['error'] == 0) {
         $conteudo_pdf = file_get_contents($_FILES['pdf_arquivo']['tmp_name']);
-        $stmt = $mysqli->prepare("INSERT INTO documento(nome_cliente, carterinha, exame_tipo, pdf_arquivo) VALUES(?, ?, ?, ?)");
-        $stmt->bind_param('siss', $nome_cliente, $carterinha, $exame_tipo, $conteudo_pdf);
+        $stmt = $mysqli->prepare("INSERT INTO documento(nome_cliente, carterinha, data, tipo_exame, pdf_arquivo) VALUES (?, ?, ?, ?, ?)");
+        // Verificar se a preparação foi bem-sucedida
+        if ($stmt === false) {
+            die('Erro na preparação da declaração: ' . $mysqli->error);
+        }
+
+        // Vincular os parâmetros
+        $stmt->bind_param('sssss', $nome_cliente, $carterinha, $data, $exame_tipo, $conteudo_pdf);
+
+
 
         if ($stmt->execute()) {
             echo "<script>
