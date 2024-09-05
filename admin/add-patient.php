@@ -890,7 +890,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $birthDate = DateTime::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
 
     // Processa a imagem de upload
-    $targetDir = "../uploads/uploads_patient";  // Diretório fora da pasta admin
+    $targetDir = "../uploads/uploads_patient/";  // Diretório fora da pasta admin
 
     // Verifica se o diretório existe; se não existir, cria-o
     if (!is_dir($targetDir)) {

@@ -393,10 +393,9 @@
     // Convertendo a data para o formato YYYY-MM-DD
     $birth_date = date('Y-m-d', strtotime(str_replace('/', '-', $birth_date)));
 
-    // Verifica se o arquivo de imagem foi enviado
-    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
-        $avatar = 'uploads/' . basename($_FILES['avatar']['name']);
-        move_uploaded_file($_FILES['avatar']['tmp_name'], $avatar);
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $image = '../uploads/uploads_patients/' . basename($_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], $image);
     }
 
     // Debugging: Verifica o valor de status
@@ -651,7 +650,7 @@
                                                     document.getElementById('city').value = data.localidade;
                                                     document.getElementById('state').value = data.uf;
                                                     document.getElementById('country').value =
-                                                    'Brasil'; // País fixo como Brasil
+                                                        'Brasil'; // País fixo como Brasil
                                                 }
                                             })
                                             .catch(error => {

@@ -341,7 +341,6 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                     </div>
                                 </div>
                             </div>
-
                             <?php
 // Incluindo o arquivo de conexão ao banco de dados
 include('database.php');
@@ -349,15 +348,15 @@ include('database.php');
 // Verificando se a pesquisa foi feita
 $query = "";
 if (isset($_GET['query'])) {
-    $query = $_GET['query'];
+    $query = $conn->real_escape_string($_GET['query']); // Protege contra injeção de SQL
 }
 
 // Consultar os dados dos médicos
-$sql = "SELECT id, first_name, last_name, departament AS department, phone, email, created_at, image 
+$sql = "SELECT id, first_name, last_name, department, phone, email, created_at, image 
         FROM doctors";
 if (!empty($query)) {
     $sql .= " WHERE CONCAT(first_name, ' ', last_name) LIKE '%$query%' 
-              OR departament LIKE '%$query%'";
+              OR department LIKE '%$query%'";
 }
 $result = $conn->query($sql);
 ?>
@@ -388,7 +387,7 @@ $result = $conn->query($sql);
                                 <input class='form-check-input' type='checkbox' value='something'>
                             </div>
                           </td>";
-                    echo "<td class='profile-image'><a href='profile.php?id=" . $row['id'] . "'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
+                    echo "<td class='profile-image'><a href='profile.php?id=" . $row['id'] . "'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt='Imagem do Médico'> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
                     echo "<td>" . $row['department'] . "</td>";
                     echo "<td><a href='javascript:;'>" . $row['phone'] . "</a></td>";
                     echo "<td><a href='mailto:" . $row['email'] . "'>" . $row['email'] . "</a></td>";
@@ -411,9 +410,11 @@ $result = $conn->query($sql);
                                     </tbody>
                                 </table>
                             </div>
+
                             <?php
 $conn->close();
 ?>
+
                         </div>
                     </div>
                 </div>
