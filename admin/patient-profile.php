@@ -202,7 +202,7 @@
 
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg" alt /></span>
-                <span> Departments </span> <span class="menu-arrow"></span></a>
+                <span> Departamentos </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
                 <li>
                   <a class="" href="departments.php">Departamento</a>

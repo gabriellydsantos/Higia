@@ -264,7 +264,7 @@
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg"
                                         alt /></span>
-                                <span> Departments </span> <span class="menu-arrow"></span></a>
+                                <span> Departamentos </span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li>
                                     <a class="" href="departments.php">Departamento</a>
@@ -473,7 +473,7 @@ if ($stmt->execute()) {
 
                                         <div class="col-12 col-md-6 col-xl-4">
                                             <div class="input-block local-forms">
-                                                <label>Último nome<span class="login-danger">*</span></label>
+                                                <label>Sobrenome<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="last_name"
                                                     value="<?php echo htmlspecialchars($last_name); ?>" required />
                                             </div>
@@ -487,7 +487,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
                                                 <label>Telefone<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="phone"
@@ -495,7 +495,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
                                                 <label>E-mail<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="email" name="email"
@@ -503,7 +503,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
                                                 <label>Senha<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="password" name="password"
@@ -511,7 +511,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
                                                 <label>Carteirinha<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="carteirinha"
@@ -519,7 +519,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
                                                 <label>Data de nascimento<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="date" name="birth_date"
@@ -527,7 +527,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-block local-forms">
                                                 <label>Gênero<span class="login-danger">*</span></label>
                                                 <select class="form-control" name="gender" required>
@@ -544,7 +544,15 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="col-12 col-md-6 col-xl-3">
+                                            <div class="input-block local-forms">
+                                                <label>Departamento<span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" name="department"
+                                                    value="<?php echo htmlspecialchars($department); ?>" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-12">
                                             <div class="input-block local-forms">
                                                 <label>Endereço<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="address" id="address"
@@ -552,7 +560,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-block local-forms">
                                                 <label>CEP<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="zipcode" id="zipcode"
@@ -561,7 +569,7 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-block local-forms">
                                                 <label>Cidade<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="city" id="city"
@@ -569,7 +577,16 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="col-12 col-md-6 col-xl-3">
+                                            <div class="input-block local-forms">
+                                                <label>País<span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" name="country" id="country"
+                                                    value="<?php echo htmlspecialchars($country); ?>" required />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-block local-forms">
                                                 <label>Estado<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="state" id="state"
@@ -577,13 +594,6 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="input-block local-forms">
-                                                <label>País<span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" name="country" id="country"
-                                                    value="<?php echo htmlspecialchars($country); ?>" required />
-                                            </div>
-                                        </div>
 
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
@@ -599,17 +609,10 @@ if ($stmt->execute()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-6">
-                                            <div class="input-block local-forms">
-                                                <label>Departamento<span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" name="department"
-                                                    value="<?php echo htmlspecialchars($department); ?>" required />
-                                            </div>
-                                        </div>
 
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
-                                                <label>Avatar</label>
+                                                <label>Foto</label>
                                                 <input class="form-control" type="file" name="image" />
                                                 <?php if ($image): ?>
                                                 <img src="<?php echo htmlspecialchars($image); ?>" alt="Avatar"
