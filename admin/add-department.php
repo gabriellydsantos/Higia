@@ -291,6 +291,10 @@
                     </div>
                 </div>
 
+
+
+
+
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
@@ -299,24 +303,9 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">
-                                                <h4>Adicionar Departamento</h4>
+                                                <h4>Adicionar aaDepartamento</h4>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-6 col-xl-6">
-                                            <div class="input-block local-forms">
-                                                <label>Nome do Departamento<span class="login-danger">*</span></label>
-                                                <select class="form-control select" id="department"
-                                                    name="department_name" required>
-                                                    <option value="">Selecione o Departamento</option>
-                                                    <option value="PSI">psi</option>
-                                                    <option value="Cardio">Cardio</option>
-
-                                                </select>
-                                                <!-- <input class="form-control" type="text" name="department_name"
-                                                    placeholder="Digite o nome do departamento" required /> -->
-                                            </div>
-                                        </div>
-
 
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
@@ -326,6 +315,15 @@
                                                     placeholder="Digite a carteirinha do médico" required />
                                             </div>
                                         </div>
+
+                                        <div class="col-12 col-md-6 col-xl-6">
+                                            <div class="input-block local-forms">
+                                                <label>Nome do Departamento<span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" name="department_name"
+                                                    placeholder="Digite o nome do departamento" required />
+                                            </div>
+                                        </div>
+
                                         <div class="col-12 col-sm-12">
                                             <div class="input-block local-forms">
                                                 <label>Descrição<span class="login-danger">*</span></label>
@@ -372,6 +370,25 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -631,8 +648,6 @@
 
 </html>
 
-
-
 <?php
 // Inicia o buffer de saída
 ob_start();
@@ -648,17 +663,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $department_date = $_POST['department_date'];
     $status = $_POST['status'];
 
-    // Converte a data para o formato correto
+    // Converte a data para o formato correto (Y-m-d)
     $department_date = DateTime::createFromFormat('d/m/Y', $department_date)->format('Y-m-d');
 
     // Valida o valor de status
     $validStatuses = ['Ativo', 'Inativo'];
     if (!in_array($status, $validStatuses)) {
-        ob_end_flush(); // Libera o buffer caso haja erro
-        exit("Status inválido.");
+        echo "Status inválido.";
+        exit;
     }
 
-    // Prepara a consulta SQL
+    // Prepara a consulta SQL para inserir o novo departamento
     $sql = "INSERT INTO departments (department_name, doctor_carteirinha, description, department_date, status)
             VALUES (?, ?, ?, ?, ?)";
 
@@ -666,22 +681,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssss", $department_name, $doctor_carteirinha, $description, $department_date, $status);
 
         if ($stmt->execute()) {
-            // Fecha a conexão e limpa o buffer de saída antes de redirecionar
+            // Atualiza o departamento na tabela de médicos com base na carteirinha
+            $update_sql = "UPDATE doctors SET department = ? WHERE carteirinha = ?";
+            if ($update_stmt = $conn->prepare($update_sql)) {
+                $update_stmt->bind_param("ss", $department_name, $doctor_carteirinha);
+                $update_stmt->execute();
+                $update_stmt->close();
+            }
+
+            // Fecha a conexão e limpa o buffer de saída
             $stmt->close();
             $conn->close();
             ob_end_clean(); // Limpa o buffer de saída
             header("Location: departments.php?message=success");
             exit();
         } else {
-            ob_end_flush(); // Libera o buffer se houver erro
-            exit("Erro: " . $stmt->error);
+            echo "Erro: " . $stmt->error;
         }
     } else {
-        ob_end_flush(); // Libera o buffer se houver erro
-        exit("Erro ao preparar a consulta: " . $conn->error);
+        echo "Erro ao preparar a consulta: " . $conn->error;
     }
+
+    // Fecha a conexão
+    $conn->close();
 }
 
 // Finaliza o buffer de saída
 ob_end_flush();
 ?>
+
+<!-- Restante do código HTML do formulário -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Quando o campo de carteirinha é alterado
+    $('input[name="doctor_carteirinha"]').on('change', function() {
+        var carteirinha = $(this).val();
+        if (carteirinha) {
+            $.ajax({
+                url: 'get-doctor-name.php', // Arquivo PHP para buscar o nome do médico
+                type: 'POST',
+                data: {
+                    carteirinha: carteirinha
+                },
+                success: function(response) {
+                    // Limpa o campo "Nome do Departamento" quando a carteirinha é alterada
+                    $('input[name="department_name"]').val('');
+                },
+                error: function() {
+                    console.log('Erro ao buscar o nome do médico.');
+                }
+            });
+        } else {
+            // Limpa o campo "Nome do Departamento" se a carteirinha estiver vazia
+            $('input[name="department_name"]').val('');
+        }
+    });
+});
+</script>
