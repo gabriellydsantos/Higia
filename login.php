@@ -11,13 +11,17 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
         $carteirinha = $conn->real_escape_string($_POST['carteirinha']);
         $password = $conn->real_escape_string($_POST['password']);
 
-        $sql_code = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
-        $sql_query = $conn->query($sql_code) or die("Falha na conexão: " . $conn->error);
+        // Verificar se é um paciente
+        $sql_patient = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
+        $query_patient = $conn->query($sql_patient);
 
-        $quantidade = $sql_query->num_rows;
+        // Verificar se é um médico
+        $sql_doctor = "SELECT * FROM doctors WHERE carteirinha = '$carteirinha' AND password = '$password'";
+        $query_doctor = $conn->query($sql_doctor);
 
-        if ($quantidade == 1) {
-            $usuario = $sql_query->fetch_assoc();
+        if ($query_patient->num_rows == 1) {
+            // Login como paciente
+            $usuario = $query_patient->fetch_assoc();
 
             if (!isset($_SESSION)) {
                 session_start();
@@ -27,55 +31,70 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
             $_SESSION['first_name'] = $usuario['first_name'];
             $_SESSION['carteirinha'] = $usuario['carteirinha'];
 
-            header('Location: admin/add-patient.php');  //Vai para a pagina de adicionar paciente/ mudar em breve para o perfil de cliente
+            header('Location: admin/add-patient.php');  // Redireciona para a área do paciente
+            exit();
+        } elseif ($query_doctor->num_rows == 1) {
+            // Login como médico
+            $usuario = $query_doctor->fetch_assoc();
 
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+
+            $_SESSION['id'] = $usuario['id'];
+            $_SESSION['first_name'] = $usuario['first_name'];
+            $_SESSION['carteirinha'] = $usuario['carteirinha'];
+            $_SESSION['department'] = $usuario['department']; // Exemplo de como incluir informações específicas do médico
+
+            header('Location: admin/add-doctor.php');  // Redireciona para a área do médico
             exit();
         } else {
+            // Falha no login
             echo "Falha ao logar: Carteirinha ou senha incorretos.";
         }
     }
 }
 ?>
+
 <div class="container-login">
-<div class="content-box">
-<div class="form-box">
-<h2>Login</h2>
-<form action="" method="post">
-    <p class="input-box">
-        <span class="input-group">N° Carteirinha:</span>
-        <input type="text" required placeholder="000000" name="carteirinha">
-    </p>
+    <div class="content-box">
+        <div class="form-box">
+            <h2>Login</h2>
+            <form action="" method="post">
+                <p class="input-box">
+                    <span class="input-group">N° Carteirinha:</span>
+                    <input type="text" required placeholder="000000" name="carteirinha">
+                </p>
 
-    <p class="input-box">
-        <span class="input-group">Senha:</span>
-        <input type="password" placeholder="Digite sua senha" required name="password">
-    </p>
+                <p class="input-box">
+                    <span class="input-group">Senha:</span>
+                    <input type="password" placeholder="Digite sua senha" required name="password">
+                </p>
 
-    <div class="remember">
-        <label>
-            <input type="checkbox"> Lembrar-me
-        </label>
-        <a href="#"> Esqueceu a senha </a>
-    </div>
+                <div class="remember">
+                    <label>
+                        <input type="checkbox"> Lembrar-me
+                    </label>
+                    <a href="#"> Esqueceu a senha </a>
+                </div>
 
-    <div class="input-box">
-        <input type="submit" value="Entrar">
-    </div>
+                <div class="input-box">
+                    <input type="submit" value="Entrar">
+                </div>
 
-    <div class="input-box">
-        <p>Não Tem Uma Conta? <a href="criarConta.php">Inscrever-se</a></p>
-    </div>
-    </form>
-            </div>
-        </div>
-        <div class="color-box">
+                <div class="input-box">
+                    <p>Não Tem Uma Conta? <a href="criarConta.php">Inscrever-se</a></p>
+                </div>
+            </form>
         </div>
     </div>
+    <div class="color-box">
+    </div>
+</div>
 </body>
 
 
 <style>
-
 * {
     margin: 0;
     padding: 0;
@@ -188,7 +207,7 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
     background: #3286ca;
 }
 
-.content-box .form-box .remember{
+.content-box .form-box .remember {
     margin-bottom: 20px;
     color: #32324f;
     font-weight: 400;
@@ -198,26 +217,28 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
     justify-content: space-between;
 }
 
-.content-box .form-box .remember a{
+.content-box .form-box .remember a {
     text-decoration: none;
     color: #4aa4ee;
 }
-.content-box .form-box .remember a:hover{
+
+.content-box .form-box .remember a:hover {
     color: #3286ca;
 }
 
 .content-box .form-box .input-box p {
     color: #161D53;
 }
-.content-box .form-box .input-box p a{
+
+.content-box .form-box .input-box p a {
     color: #4aa4ee;
 }
 
-.content-box .form-box .input-box p a:hover{
+.content-box .form-box .input-box p a:hover {
     color: #3286ca;
 }
-.content-box .form-box h3
-{
+
+.content-box .form-box h3 {
     color: #607d8b;
     text-decoration: none;
     margin: 40px 0 15px;
@@ -225,37 +246,40 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
     text-align: center;
     font-size: 22px;
 }
+
 @media (max-width:868px) {
-    .container-login .img-box{
+    .container-login .img-box {
         display: none;
     }
+
     .color-box {
         display: none;
     }
-    .container-login .content-box{
+
+    .container-login .content-box {
         width: 100%;
     }
-    .container-login .content-box .form-box{
+
+    .container-login .content-box .form-box {
         width: 100%;
         padding: 40px;
         background: white;
         margin: 50px;
-    } 
-    .container-login .content-box .form-box h3{
+    }
+
+    .container-login .content-box .form-box h3 {
         margin: 30px 0 10px;
-    } 
+    }
 }
+
 @media (max-width:450px) {
-    .container-login .content-box .form-box .remember{
+    .container-login .content-box .form-box .remember {
         flex-wrap: wrap;
     }
-    .container-login .content-box .form-box .remember a{
+
+    .container-login .content-box .form-box .remember a {
         margin-top: 20px;
     }
-    
+
 }
-
-
-
-
 </style>

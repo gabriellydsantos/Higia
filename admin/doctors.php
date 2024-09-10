@@ -659,6 +659,44 @@ $conn->close();
         </div>
     </div>
 </div>
+
+
+
+<!-- Código existente... -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Atualizar a página ao clicar no botão de refresh
+    $('.doctor-refresh').click(function() {
+        location.reload(); // Recarrega a página
+    });
+
+    // Função para carregar os médicos com base na consulta de pesquisa
+    function loadDoctors(query = '') {
+        $.ajax({
+            url: "fetch_doctors.php", // Arquivo PHP que fará a consulta ao banco de dados
+            method: "GET",
+            data: {
+                query: query
+            },
+            success: function(data) {
+                $('#doctors-table-body').html(data); // Atualiza o corpo da tabela com os resultados
+            }
+        });
+    }
+
+    // Chamar a função loadDoctors ao digitar no campo de pesquisa
+    $('.table-search-blk input').on('keyup', function() {
+        var query = $(this).val();
+        loadDoctors(query);
+    });
+
+    // Carregar todos os médicos ao carregar a página
+    loadDoctors();
+});
+</script>
+
 <div class="sidebar-overlay" data-reff></div>
 
 <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

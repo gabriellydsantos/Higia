@@ -342,6 +342,26 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                         </div>
                                     </div>
 
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="input-block local-forms">
+                                            <label>Cpf<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" name="cpf"
+                                                placeholder="Digite o seu cpf" required />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="input-block local-forms">
+                                            <label>Rg<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" name="rg"
+                                                placeholder="Digite o nome de usuário" required />
+                                        </div>
+                                    </div>
+
+
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="input-block local-forms">
                                             <label>Telefone<span class="login-danger">*</span></label>
@@ -499,7 +519,6 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="input-block local-top-form">
                                             <label class="local-top">Foto<span class="login-danger">*</span></label>
@@ -510,6 +529,7 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                             </div>
                                         </div>
                                     </div>
+
 
                                     <div class="col-12">
                                         <div class="doctor-submit text-end">
@@ -860,10 +880,6 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
 <script src="../assets/js/app.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
 <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
     data-cf-settings="47d543a399884d7bc4ffb078-|49" defer></script>
-
-
-
-
 <?php
 // Conectar ao banco de dados
 include 'database.php'; // Ajuste o caminho conforme necessário para o arquivo database.php
@@ -938,6 +954,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 ?>
+
+
 <!-- 
 <style>
   .message {
