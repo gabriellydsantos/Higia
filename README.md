@@ -1,51 +1,68 @@
-# Higia: Sistema de Gerenciamento de Clínica Médica Online
 
-O **Higia** é um sistema de gerenciamento de clínica online desenvolvido como parte do meu trabalho de conclusão de curso (TCC). Este projeto visa facilitar a administração e o atendimento de uma clínica de saúde de forma eficiente e simplificada.
+# 🏥 Higia: Sistema de Gerenciamento de Clínica Médica Online
 
-## Recursos Principais:
+**Higia** é um sistema de gerenciamento de clínicas online desenvolvido como parte do meu trabalho de conclusão de curso (TCC). Este projeto visa facilitar a administração e o atendimento de uma clínica de saúde de forma eficiente e simplificada.
 
-- **Painel de Administração Intuitivo:** Uma interface de usuário amigável para gerenciar pacientes, médicos, consultas e outros aspectos essenciais da clínica.
-- **Gestão de Pacientes e Médicos:** Cadastro, edição e visualização detalhada de informações de pacientes e médicos.
-- **Agendamento de Consultas:** Funcionalidade para agendar consultas entre médicos e pacientes, com lembretes automáticos.
-- **Autenticação de Usuários:** Sistema de login seguro para pacientes e médicos acessarem suas contas de forma segura.
-- **Histórico de Consultas:** Registros detalhados de todas as consultas agendadas e realizadas, para referência futura.
-- **Responsivo e Acessível:** Design responsivo que se adapta a diferentes dispositivos, garantindo uma experiência consistente em desktops, tablets e smartphones.
+## 🛠️ Tecnologias Utilizadas
 
-## Estrutura do Projeto:
+- ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+- ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white)
+- ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+- ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+- ![SQL](https://img.shields.io/badge/SQL-003B57?style=flat-square&logo=database&logoColor=white)
 
-- `src/`: Contém o código-fonte do sistema, incluindo pastas para administração, médicos e pacientes.
-- `database/`: Arquivos relacionados ao banco de dados, como o esquema SQL e os arquivos de sementes.
-- `includes/`: Arquivos PHP comuns incluídos em várias partes do sistema, como cabeçalhos e rodapés.
-- `../assets/`: Recursos estáticos como CSS, JavaScript e imagens.
-- `favicon_io/`: Recursos estáticos como icons
+## 🚀 Recursos Principais
 
-<p style="color:red;">____________________________________________________________________________________________________</p>
+- **📊 Painel de Administração Intuitivo:** Interface amigável para gerenciar pacientes, médicos, consultas e outros aspectos essenciais da clínica.
+- **👨‍⚕️ Gestão de Pacientes e Médicos:** Cadastro, edição e visualização detalhada de informações de pacientes e médicos.
+- **📅 Agendamento de Consultas:** Funcionalidade para agendar consultas entre médicos e pacientes, com lembretes automáticos.
+- **🔐 Autenticação de Usuários:** Sistema de login seguro para pacientes e médicos acessarem suas contas.
+- **🗂️ Histórico de Consultas:** Registros detalhados de todas as consultas agendadas e realizadas para referência futura.
+- **📱 Responsivo e Acessível:** Design responsivo que se adapta a diferentes dispositivos, garantindo uma experiência consistente em desktops, tablets e smartphones.
 
-Adicionar no GitHub:
+## 📁 Estrutura do Projeto
+
+- **`admin/`:** Contém arquivos de administração, como cadastro de pacientes e médicos, agendamento de consultas, entre outros.
+- **`assets/`:** Recursos estáticos como CSS, JavaScript e imagens.
+- **`favicon_io/`:** Ícones e outros recursos relacionados ao favicon.
+- **`lab/`:** Scripts e consultas SQL para o banco de dados.
+- **`medic/`:** Funcionalidades relacionadas aos médicos, como gerenciamento de perfil, agendamento e histórico de consultas.
+- **`uploads/`:** Diretório para uploads de arquivos de pacientes e médicos.
+- **`database.php`:** Script de conexão com o banco de dados.
+- **`higia.sql`:** Esquema do banco de dados.
+- **`login.php`:** Página de login do sistema.
+
+## 🛠️ Configuração do Ambiente
 
 1. **Clonar o Repositório:**
 
-   ```
+   ```bash
    git clone https://github.com/gabriellydsantos/Higia.git
-   ```
+   cd Higia
 
-2. **Adicionar Arquivos Modificados:**
+2. **Configurar o Banco de Dados:**
 
-   ```
-   git add .
-   ```
+   - Crie um banco de dados MySQL.
+   - Importe o arquivo `higia.sql` para configurar as tabelas.
 
-   Substitua `.` pelos nomes dos arquivos específicos, se desejar.
+3. **Configurar o Ambiente de Desenvolvimento:**
 
-3. **Fazer Commit das Alterações:**
+   - Certifique-se de ter o PHP e o MySQL instalados.
+   - Configure o arquivo `database.php` com suas credenciais do MySQL.
+   - Execute o servidor local (por exemplo, usando o Laragon ou XAMPP).
 
-   ```
-   git commit -m "Mensagem do commit"
-   ```
+4. **Instalar Dependências:**
 
-   Substitua `"Mensagem do commit"` por uma mensagem descritiva.
+   - Se houver dependências externas, instale-as via Composer ou NPM, conforme necessário.
 
-4. **Fazer Push das Alterações para o GitHub:**
-   ```
-   git push
-   ```
+## 🏃‍♂️ Executando o Sistema
+
+Após configurar o ambiente, acesse o sistema através do navegador:
+
+- **🌐 URL principal:** `http://localhost/Higia`
+- **🔑 Painel de Administração:** `http://localhost/Higia/admin`
+- **👤 Login:** Use as credenciais criadas no banco de dados.
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
