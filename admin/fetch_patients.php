@@ -40,5 +40,8 @@ if ($result->num_rows > 0) {
     echo "<tr><td colspan='7'>Nenhum paciente encontrado.</td></tr>";
 }
 
+
+
+
 $conn->close();
 ?>

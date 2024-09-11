@@ -28,6 +28,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 
+
+
+
 </head>
 
 
@@ -310,6 +313,82 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
+
+                            <?php
+// Conectar ao banco de dados
+include 'database.php'; // Ajuste o caminho conforme necessário para o arquivo database.php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recebe os dados do formulário
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $username = $_POST['username'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $carteirinha = $_POST['carteirinha'];
+    $birthDate = $_POST['birth_date'];
+    $gender = $_POST['gender'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $country = $_POST['country'];
+    $zipcode = $_POST['zipcode'];
+    $status = $_POST['status'];
+
+    // Converte a data de nascimento para o formato correto (Y-m-d)
+    $birthDate = DateTime::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
+
+    // Processa a imagem de upload
+    $targetDir = "../uploads/uploads_patient/";  // Diretório fora da pasta admin
+
+    // Verifica se o diretório existe; se não existir, cria-o
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true);  // Cria o diretório com permissões apropriadas
+    }
+
+    // Define o caminho do arquivo de destino
+    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+
+    // Move o arquivo temporário para o diretório de destino
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+        $imagePath = $targetFile;
+    } else {
+        echo "Erro ao enviar a imagem.";
+        $imagePath = null;
+    }
+
+    // Valida o valor de status
+    $validStatuses = ['Ativa', 'Inativo'];
+    if (!in_array($status, $validStatuses)) {
+        echo "Status inválido.";
+        exit;
+    }
+
+    // Prepara a consulta SQL
+    $sql = "INSERT INTO patients (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath);
+
+        if ($stmt->execute()) {
+          echo '<div class="message success">Novo paciente cadastrado com sucesso!</div>';
+      } else {
+          echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
+      }
+
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $conn->error;
+    }
+
+    $conn->close();
+}
+
+
+?>
+
                             <form action="add-patient.php" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12">
@@ -342,25 +421,21 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                         </div>
                                     </div>
 
-
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="input-block local-forms">
-                                            <label>Cpf<span class="login-danger">*</span></label>
+                                            <label>CPF<span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" name="cpf"
-                                                placeholder="Digite o seu cpf" required />
+                                                placeholder="Digite o CPF" required />
                                         </div>
                                     </div>
-
-
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="input-block local-forms">
-                                            <label>Rg<span class="login-danger">*</span></label>
-                                            <input class="form-control" type="text" name="rg"
-                                                placeholder="Digite o nome de usuário" required />
+                                            <label>RG<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" name="rg" placeholder="Digite o RG"
+                                                required />
                                         </div>
                                     </div>
-
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="input-block local-forms">
@@ -542,6 +617,14 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                 </div>
 
                                 <script>
+                                // Máscara para CPF
+                                $('input[name="cpf"]').mask('000.000.000-00', {
+                                    reverse: true
+
+                                });
+
+                                // Máscara para RG (ajustar conforme o formato desejado)
+                                $('input[name="rg"]').mask('00.000.000-0');
                                 $(document).ready(function() {
                                     $('input[name="phone"]').mask('(00) 00000-0000');
                                 });
@@ -880,80 +963,7 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
 <script src="../assets/js/app.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
 <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
     data-cf-settings="47d543a399884d7bc4ffb078-|49" defer></script>
-<?php
-// Conectar ao banco de dados
-include 'database.php'; // Ajuste o caminho conforme necessário para o arquivo database.php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recebe os dados do formulário
-    $firstName = $_POST['first_name'];
-    $lastName = $_POST['last_name'];
-    $username = $_POST['username'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $carteirinha = $_POST['carteirinha'];
-    $birthDate = $_POST['birth_date'];
-    $gender = $_POST['gender'];
-    $address = $_POST['address'];
-    $city = $_POST['city'];
-    $state = $_POST['state'];
-    $country = $_POST['country'];
-    $zipcode = $_POST['zipcode'];
-    $status = $_POST['status'];
-
-    // Converte a data de nascimento para o formato correto (Y-m-d)
-    $birthDate = DateTime::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
-
-    // Processa a imagem de upload
-    $targetDir = "../uploads/uploads_patient/";  // Diretório fora da pasta admin
-
-    // Verifica se o diretório existe; se não existir, cria-o
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0777, true);  // Cria o diretório com permissões apropriadas
-    }
-
-    // Define o caminho do arquivo de destino
-    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
-
-    // Move o arquivo temporário para o diretório de destino
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-        $imagePath = $targetFile;
-    } else {
-        echo "Erro ao enviar a imagem.";
-        $imagePath = null;
-    }
-
-    // Valida o valor de status
-    $validStatuses = ['Ativa', 'Inativo'];
-    if (!in_array($status, $validStatuses)) {
-        echo "Status inválido.";
-        exit;
-    }
-
-    // Prepara a consulta SQL
-    $sql = "INSERT INTO patients (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath);
-
-        if ($stmt->execute()) {
-          echo '<div class="message success">Novo paciente cadastrado com sucesso!</div>';
-      } else {
-          echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
-      }
-
-        $stmt->close();
-    } else {
-        echo "Erro ao preparar a consulta: " . $conn->error;
-    }
-
-    $conn->close();
-}
-
-
-?>
 
 
 <!-- 

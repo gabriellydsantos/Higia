@@ -407,6 +407,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </script>
 
                                 <script>
+                                $('input[name="cpf"]').mask('000.000.000-00', {
+                                    reverse: true
+
+                                });
+
+                                // Máscara para RG (ajustar conforme o formato desejado)
+                                $('input[name="rg"]').mask('00.000.000-0');
+                                $(document).ready(function() {
+                                    $('input[name="phone"]').mask('(00) 00000-0000');
+                                });
+
+
                                 $(document).ready(function() {
                                     // Aplica a máscara de telefone
                                     $('input[name="phone"]').mask('(00) 00000-0000');
@@ -438,7 +450,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                         if (!stateFound) {
                                                             alert(
                                                                 'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                                );
+                                                            );
                                                         }
 
                                                         $('select[name="city"]').html(
