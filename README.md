@@ -67,8 +67,3 @@ Após configurar o ambiente, acesse o sistema através do navegador:
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
-## 📄 Licença
-
-Este projeto é licenciado sob a [MIT License](LICENSE).
-
----
