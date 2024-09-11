@@ -37,7 +37,7 @@
 1. **Clonar o Repositório:**
 
    ```bash
-   git clone https://github.com/seu-usuario/Higia.git
+   git clone https://github.com/gabriellydsantos/Higia.git
    cd Higia
 
 2. **Configurar o Banco de Dados:**
