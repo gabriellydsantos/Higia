@@ -81,4 +81,3 @@ Após configurar o ambiente, acesse o sistema através do navegador:
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
->>>>>>> 946fde51af66292d6f5d9c1de9fc96e2ff3432d8
