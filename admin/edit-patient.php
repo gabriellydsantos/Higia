@@ -317,24 +317,8 @@
 include('database.php');
 
 // Inicializando variáveis vazias para evitar warnings
-$first_name = '';
-$last_name = '';
-$username = '';
-$phone = '';
-$email = '';
-$password = '';
-$carteirinha = '';
-$birth_date = '';
-$gender = '';
-$address = '';
-$zipcode = '';
-$city = '';
-$country = '';
-$state = '';
-$avatar = '';
-$status = '';
-$cpf = '';
-$rg = '';
+$first_name = $last_name = $username = $phone = $email = $password = '';
+$carteirinha = $birth_date = $gender = $address = $zipcode = $city = $country = $state = $avatar = $status = $cpf = $rg = '';
 
 // Verificando se o ID foi passado pela URL
 if (isset($_GET['id']) && !empty($_GET['id'])) {
@@ -342,39 +326,43 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
     // Executando a consulta no banco de dados para buscar os dados do paciente
     $query = "SELECT * FROM patients WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    if ($result && $result->num_rows > 0) {
-        // Atribuindo os valores do banco de dados às variáveis
-        $row = $result->fetch_assoc();
-        $first_name = $row['first_name'];
-        $last_name = $row['last_name'];
-        $username = $row['username'];
-        $phone = $row['phone'];
-        $email = $row['email'];
-        $password = $row['password'];
-        $carteirinha = $row['carteirinha'];
-        $birth_date = $row['birth_date'];
-        $gender = $row['gender'];
-        $address = $row['address'];
-        $zipcode = $row['zipcode'];
-        $city = $row['city'];
-        $country = $row['country'];
-        $state = $row['state'];
-        $avatar = $row['image'];
-        $status = $row['status'];
-        $cpf = $row['cpf'];
-        $rg = $row['rg'];
+        if ($result && $result->num_rows > 0) {
+            // Atribuindo os valores do banco de dados às variáveis
+            $row = $result->fetch_assoc();
+            $first_name = $row['first_name'];
+            $last_name = $row['last_name'];
+            $username = $row['username'];
+            $phone = $row['phone'];
+            $email = $row['email'];
+            $password = $row['password'];
+            $carteirinha = $row['carteirinha'];
+            $birth_date = $row['birth_date'];
+            $gender = $row['gender'];
+            $address = $row['address'];
+            $zipcode = $row['zipcode'];
+            $city = $row['city'];
+            $country = $row['country'];
+            $state = $row['state'];
+            $avatar = $row['image'];
+            $status = $row['status'];
+            $cpf = $row['cpf'];
+            $rg = $row['rg'];
+        } else {
+            echo "Paciente não encontrado.";
+        }
     } else {
-        echo "Paciente não encontrado.";
+        echo "Erro na preparação da consulta: " . $conn->error;
     }
 } else {
     echo "ID do paciente não fornecido.";
 }
 
+// Verificação do método POST para atualização de dados
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Captura os dados do formulário
     $first_name = $_POST['first_name'];
@@ -382,23 +370,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
     $carteirinha = $_POST['carteirinha'];
-    $birth_date = $_POST['birth_date'];
+    $birth_date = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['birth_date']))); // Formato YYYY-MM-DD
     $gender = $_POST['gender'];
     $address = $_POST['address'];
     $zipcode = $_POST['zipcode'];
     $city = $_POST['city'];
     $country = $_POST['country'];
     $state = $_POST['state'];
-    $status = substr($_POST['status'], 0, 20); // Supondo que o comprimento máximo da coluna seja 20
-
+    $status = $_POST['status'];
     $cpf = $_POST['cpf'];
     $rg = $_POST['rg'];
 
-    // Convertendo a data para o formato YYYY-MM-DD
-    $birth_date = date('Y-m-d', strtotime(str_replace('/', '-', $birth_date)));
+    // Verifica se a senha foi alterada
+    $new_password = $_POST['password'];
+    if (!empty($new_password)) {
+        $password = password_hash($new_password, PASSWORD_DEFAULT); // Criptografando a senha
+    }
 
+    // Verifica o upload de imagem
     $upload_dir = '../uploads/uploads_patients/';
     if (!file_exists($upload_dir)) {
         mkdir($upload_dir, 0777, true);
@@ -406,109 +396,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $avatar = $upload_dir . basename($_FILES['image']['name']);
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $avatar)) {
-            echo "";
+        $allowed_types = ['image/jpeg', 'image/png'];
+        if (in_array($_FILES['image']['type'], $allowed_types)) {
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $avatar)) {
+                // Imagem movida com sucesso
+            } else {
+                echo "Erro ao mover o arquivo de imagem.";
+            }
         } else {
-            echo "Erro ao mover o arquivo de imagem.";
+            echo "Tipo de arquivo inválido. Apenas JPEG e PNG são permitidos.";
         }
     }
+
     // Atualiza os dados do paciente no banco de dados usando prepared statements
     $query = "UPDATE patients SET 
-        first_name = ?,
-        last_name = ?,
-        username = ?,
-        phone = ?,
-        email = ?,
-        password = ?,
-        carteirinha = ?,
-        birth_date = ?,
-        gender = ?,
-        address = ?,
-        zipcode = ?,
-        city = ?,
-        country = ?,
-        state = ?,
-        status = ?,
-        image = ?,
-        cpf = ?,
-        rg = ?
-        WHERE id = ?";
+        first_name = ?, last_name = ?, username = ?, phone = ?, email = ?, password = ?, carteirinha = ?, 
+        birth_date = ?, gender = ?, address = ?, zipcode = ?, city = ?, country = ?, state = ?, 
+        status = ?, image = ?, cpf = ?, rg = ? WHERE id = ?";
 
-    $stmt = $conn->prepare($query);
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param(
+            "ssssssssssssssssssi",
+            $first_name, $last_name, $username, $phone, $email, $password, $carteirinha, $birth_date,
+            $gender, $address, $zipcode, $city, $country, $state, $status, $avatar, $cpf, $rg, $id
+        );
 
-    // Ajuste a string de tipo para incluir todos os parâmetros
-    $stmt->bind_param(
-        "ssssssssssssssssssi",
-        $first_name, 
-        $last_name, 
-        $username, 
-        $phone, 
-        $email, 
-        $password, 
-        $carteirinha, 
-        $birth_date, 
-        $gender, 
-        $address, 
-        $zipcode, 
-        $city, 
-        $country, 
-        $state, 
-        $status, 
-        $avatar, 
-        $cpf,
-        $rg,
-        $id
-    );$query = "UPDATE patients SET 
-    first_name = ?,
-    last_name = ?,
-    username = ?,
-    phone = ?,
-    email = ?,
-    password = ?,
-    carteirinha = ?,
-    birth_date = ?,
-    gender = ?,
-    address = ?,
-    zipcode = ?,
-    city = ?,
-    country = ?,
-    state = ?,
-    status = ?,
-    image = ?,
-    cpf = ?,
-    rg = ?
-    WHERE id = ?";
-
-$stmt = $conn->prepare($query);
-
-$stmt->bind_param(
-    "ssssssssssssssssssi",
-    $first_name, 
-    $last_name, 
-    $username, 
-    $phone, 
-    $email, 
-    $password, 
-    $carteirinha, 
-    $birth_date, 
-    $gender, 
-    $address, 
-    $zipcode, 
-    $city, 
-    $country, 
-    $state, 
-    $status, 
-    $avatar, 
-    $cpf,
-    $rg,
-    $id
-);
-
-
-    if ($stmt->execute()) {
-        echo "Registro atualizado com sucesso!";
+        if ($stmt->execute()) {
+            echo "Registro atualizado com sucesso!";
+        } else {
+            echo "Erro ao atualizar o registro: " . $stmt->error;
+        }
     } else {
-        echo "Erro ao atualizar o registro: " . $stmt->error;
+        echo "Erro na preparação da consulta: " . $conn->error;
     }
 }
 ?>
@@ -550,7 +469,7 @@ $stmt->bind_param(
                                             <div class="input-block local-forms">
                                                 <label>CPF<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="cpf"
-                                                    value="<?php echo htmlspecialchars($cpf); ?>" required />
+                                                    value="<?php echo htmlspecialchars($cpf ?? ''); ?>" required />
                                             </div>
                                         </div>
 
@@ -558,7 +477,7 @@ $stmt->bind_param(
                                             <div class="input-block local-forms">
                                                 <label>RG<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="rg"
-                                                    value="<?php echo htmlspecialchars($rg); ?>" required />
+                                                    value="<?php echo htmlspecialchars($rg ?? ''); ?>" required />
                                             </div>
                                         </div>
 
@@ -621,13 +540,7 @@ $stmt->bind_param(
                                                             <?php echo ($gender == 'Feminino') ? 'checked' : ''; ?> />Feminino
                                                     </label>
                                                 </div>
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" name="gender" value="Outro"
-                                                            class="form-check-input"
-                                                            <?php echo ($gender == 'Outro') ? 'checked' : ''; ?> />Outro
-                                                    </label>
-                                                </div>
+
                                             </div>
                                         </div>
 
@@ -675,19 +588,18 @@ $stmt->bind_param(
 
 
 
-                                        <div class="col-12 col-md-6 col-xl-6">
-                                            <div class="input-block local-forms">
-                                                <label>Status<span class="login-danger">*</span></label>
-                                                <select class="form-control select" name="status" required>
-                                                    <option value="Ativo"
-                                                        <?php echo ($status == 'Ativo') ? 'selected' : ''; ?>>Ativo
-                                                    </option>
-                                                    <option value="Inativo"
-                                                        <?php echo ($status == 'Inativo') ? 'selected' : ''; ?>>Inativo
-                                                    </option>
-                                                </select>
-                                            </div>
+                                        <div class="input-block local-forms">
+                                            <label>Status<span class="login-danger">*</span></label>
+                                            <select class="form-control select" name="status" required>
+                                                <option value="Ativa"
+                                                    <?php echo ($status == 'Ativa') ? 'selected' : ''; ?>>Ativo</option>
+                                                <option value="Inativo"
+                                                    <?php echo ($status == 'Inativo') ? 'selected' : ''; ?>>Inativo
+                                                </option>
+                                            </select>
                                         </div>
+
+
 
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
@@ -715,9 +627,18 @@ $stmt->bind_param(
                                     </div>
                                 </form>
                                 <script>
+                                // Máscara para CPF
+                                $('input[name="cpf"]').mask('000.000.000-00', {
+                                    reverse: true
+
+                                });
+
+                                // Máscara para RG (ajustar conforme o formato desejado)
+                                $('input[name="rg"]').mask('00.000.000-0');
                                 $(document).ready(function() {
                                     $('input[name="phone"]').mask('(00) 00000-0000');
                                 });
+
 
                                 document.addEventListener('DOMContentLoaded', function() {
                                     document.querySelector('input[name="zipcode"]').addEventListener('blur',
@@ -733,8 +654,7 @@ $stmt->bind_param(
                                                             // Preenche o campo de Endereço
                                                             document.querySelector(
                                                                     'input[name="address"]').value =
-                                                                data.logradouro + ', ' + (data.bairro ||
-                                                                    '');
+                                                                data.logradouro + ', ' + data.bairro;
 
                                                             // Atualiza o campo de Estado
                                                             var stateSelect = document.querySelector(
@@ -759,51 +679,30 @@ $stmt->bind_param(
                                                                 );
                                                             }
 
+                                                            // Força a atualização do campo visível
+                                                            stateSelect.dispatchEvent(new Event(
+                                                                'change'));
+
                                                             // Atualiza o campo de Cidade
-                                                            var cityInput = document.querySelector(
-                                                                'input[name="city"]');
-                                                            cityInput.value = data.localidade;
+                                                            var citySelect = document.querySelector(
+                                                                'select[name="city"]');
+                                                            citySelect.innerHTML =
+                                                                `<option value="${data.localidade}">${data.localidade}</option>`;
 
                                                             // Preenche o campo de País com 'Brasil'
                                                             document.querySelector(
                                                                     'select[name="country"]').value =
                                                                 'Brasil';
-
                                                         } else {
                                                             alert('CEP não encontrado.');
-                                                            // Limpa os campos se o CEP não for encontrado
-                                                            document.querySelector(
-                                                                'input[name="address"]').value = '';
-                                                            document.querySelector('input[name="city"]')
-                                                                .value = '';
-                                                            document.querySelector(
-                                                                    'select[name="state"]')
-                                                                .selectedIndex = 0;
-                                                            document.querySelector(
-                                                                'select[name="country"]').value = '';
                                                         }
                                                     })
                                                     .catch(error => {
                                                         console.error('Erro ao buscar CEP:', error);
                                                         alert('Erro ao buscar CEP. Tente novamente.');
-                                                        // Limpa os campos em caso de erro
-                                                        document.querySelector('input[name="address"]')
-                                                            .value = '';
-                                                        document.querySelector('input[name="city"]')
-                                                            .value = '';
-                                                        document.querySelector('select[name="state"]')
-                                                            .selectedIndex = 0;
-                                                        document.querySelector('select[name="country"]')
-                                                            .value = '';
                                                     });
                                             } else {
                                                 alert('Por favor, insira um CEP válido.');
-                                                // Limpa os campos se o CEP não for válido
-                                                document.querySelector('input[name="address"]').value = '';
-                                                document.querySelector('input[name="city"]').value = '';
-                                                document.querySelector('select[name="state"]')
-                                                    .selectedIndex = 0;
-                                                document.querySelector('select[name="country"]').value = '';
                                             }
                                         });
                                 });

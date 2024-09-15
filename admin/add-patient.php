@@ -335,6 +335,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $country = $_POST['country'];
     $zipcode = $_POST['zipcode'];
     $status = $_POST['status'];
+    $cpf = $_POST['cpf'];
+    $rg = $_POST['rg'];
+
 
     // Converte a data de nascimento para o formato correto (Y-m-d)
     $birthDate = DateTime::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
@@ -366,26 +369,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Prepara a consulta SQL
-    $sql = "INSERT INTO patients (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO patients (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image, cpf, rg)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath);
+if ($stmt = $conn->prepare($sql)) {
+    // Adiciona os parâmetros cpf e rg
+    $stmt->bind_param("ssssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath, $cpf, $rg);
 
-        if ($stmt->execute()) {
-          echo '<div class="message success">Novo paciente cadastrado com sucesso!</div>';
-      } else {
-          echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
-      }
-
-        $stmt->close();
+    if ($stmt->execute()) {
+        echo '<div class="message success">Novo paciente cadastrado com sucesso!</div>';
     } else {
-        echo "Erro ao preparar a consulta: " . $conn->error;
+        echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
     }
 
-    $conn->close();
+    $stmt->close();
+} else {
+    echo "Erro ao preparar a consulta: " . $conn->error;
 }
 
+$conn->close();
+}
 
 ?>
 

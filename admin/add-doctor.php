@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 </head>
 
@@ -335,6 +336,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $zipcode = isset($_POST['zipcode']) ? $_POST['zipcode'] : '';
     $status = isset($_POST['status']) ? $_POST['status'] : '';
     $department = isset($_POST['department']) ? $_POST['department'] : '';
+    $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : ''; // Novo campo
+    $rg = isset($_POST['rg']) ? $_POST['rg'] : ''; // Novo campo
 
     // Converte a data de nascimento para o formato correto (Y-m-d)
     if (!empty($birthDate)) {
@@ -378,11 +381,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Prepara a consulta SQL
-    $sql = "INSERT INTO doctors (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image, department)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO doctors (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image, department, cpf, rg)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("sssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath, $department);
+        $stmt->bind_param("sssssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath, $department, $cpf, $rg);
 
         if ($stmt->execute()) {
             echo '<div class="message success">Novo médico cadastrado com sucesso!</div>';
@@ -399,86 +402,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-                                </script>
-                                <script
-                                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js">
-                                </script>
-
-                                <script>
-                                $('input[name="cpf"]').mask('000.000.000-00', {
-                                    reverse: true
-
-                                });
-
-                                // Máscara para RG (ajustar conforme o formato desejado)
-                                $('input[name="rg"]').mask('00.000.000-0');
-                                $(document).ready(function() {
-                                    $('input[name="phone"]').mask('(00) 00000-0000');
-                                });
-
-
-                                $(document).ready(function() {
-                                    // Aplica a máscara de telefone
-                                    $('input[name="phone"]').mask('(00) 00000-0000');
-
-                                    // Preenche os campos de endereço com base no CEP
-                                    $('input[name="zipcode"]').on('blur', function() {
-                                        var cep = $(this).val().replace(/\D/g, '');
-
-                                        if (cep.length === 8) {
-                                            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    if (!data.erro) {
-                                                        $('input[name="address"]').val(
-                                                            `${data.logradouro}, ${data.bairro}`
-                                                        );
-
-                                                        var stateSelect = $('select[name="state"]');
-                                                        var stateFound = false;
-
-                                                        stateSelect.find('option').each(function() {
-                                                            if ($(this).val() === data.uf) {
-                                                                stateSelect.val(data.uf)
-                                                                    .trigger('change');
-                                                                stateFound = true;
-                                                            }
-                                                        });
-
-                                                        if (!stateFound) {
-                                                            alert(
-                                                                'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                            );
-                                                        }
-
-                                                        $('select[name="city"]').html(
-                                                            `<option value="${data.localidade}">${data.localidade}</option>`
-                                                        );
-                                                        $('select[name="country"]').val('Brasil');
-                                                    } else {
-                                                        alert('CEP não encontrado.');
-                                                    }
-                                                })
-                                                .catch(error => {
-                                                    console.error('Erro ao buscar CEP:', error);
-                                                    alert('Erro ao buscar CEP. Tente novamente.');
-                                                });
-                                        } else {
-                                            alert('Por favor, insira um CEP válido.');
-                                        }
-                                    });
-                                });
-                                </script>
-
-
-
                                 <form action="add-doctor.php" method="POST" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">
-                                                <h4>Detalhes do paciente</h4>
+                                                <h4>Adicionar médico</h4>
                                             </div>
                                         </div>
 
@@ -504,6 +432,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <label>Nome de usuário<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="username"
                                                     placeholder="Digite o nome de usuário" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-xl-6">
+                                            <div class="input-block local-forms">
+                                                <label>CPF<span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" name="cpf"
+                                                    placeholder="Digite o CPF" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-xl-6">
+                                            <div class="input-block local-forms">
+                                                <label>RG<span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" name="rg"
+                                                    placeholder="Digite o RG" required />
                                             </div>
                                         </div>
 
@@ -697,6 +641,97 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                                 </form>
+
+
+
+
+
+
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+                                </script>
+                                <script
+                                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js">
+                                </script>
+
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+                                </script>
+                                <script
+                                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js">
+                                </script>
+
+                                <script>
+                                $(document).ready(function() {
+                                    // Máscara para CPF
+                                    $('input[name="cpf"]').mask('000.000.000-00', {
+                                        reverse: true
+                                    });
+
+                                    // Máscara para RG
+                                    $('input[name="rg"]').mask('00.000.000-0');
+
+                                    // Máscara para Telefone
+                                    $('input[name="phone"]').mask('(00) 00000-0000');
+
+                                    // Máscara para CEP
+                                    $('input[name="zipcode"]').mask('00000-000');
+
+                                    // Preenchimento automático do endereço com base no CEP
+                                    $('input[name="zipcode"]').on('blur', function() {
+                                        var cep = $(this).val().replace(/\D/g,
+                                            ''); // Remove caracteres não numéricos
+
+                                        if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+                                            $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(
+                                                data) {
+                                                if (!data.erro) {
+                                                    // Preenche o campo de Endereço
+                                                    $('input[name="address"]').val(data
+                                                        .logradouro + ', ' + data.bairro);
+
+                                                    // Atualiza o campo de Estado
+                                                    var stateSelect = $('select[name="state"]');
+                                                    var optionFound = false;
+
+                                                    stateSelect.find('option').each(function() {
+                                                        if ($(this).val() === data.uf) {
+                                                            $(this).prop('selected',
+                                                                true);
+                                                            optionFound = true;
+                                                            return false; // Encerra o loop
+                                                        }
+                                                    });
+
+                                                    if (!optionFound) {
+                                                        alert(
+                                                            'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
+                                                        );
+                                                    }
+
+                                                    stateSelect.trigger('change');
+
+                                                    // Atualiza o campo de Cidade
+                                                    var citySelect = $('select[name="city"]');
+                                                    citySelect.html(
+                                                        `<option value="${data.localidade}">${data.localidade}</option>`
+                                                    );
+
+                                                    // Preenche o campo de País com 'Brasil'
+                                                    $('select[name="country"]').val('Brasil');
+                                                } else {
+                                                    alert('CEP não encontrado.');
+                                                }
+                                            }).fail(function() {
+                                                alert('Erro ao buscar CEP. Tente novamente.');
+                                            });
+                                        } else {
+                                            alert('Por favor, insira um CEP válido.');
+                                        }
+                                    });
+                                });
+                                </script>
+
+
+
 
                             </div>
                         </div>

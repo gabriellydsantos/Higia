@@ -322,6 +322,8 @@ include('database.php');
 $first_name = '';
 $last_name = '';
 $username = '';
+$cpf = '';
+$rg = '';
 $phone = '';
 $email = '';
 $password = '';
@@ -354,6 +356,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         $first_name = $row['first_name'];
         $last_name = $row['last_name'];
         $username = $row['username'];
+        $cpf = $row['cpf'];
+        $rg = $row['rg'];
         $phone = $row['phone'];
         $email = $row['email'];
         $password = $row['password'];
@@ -380,6 +384,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
     $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : '';
     $username = isset($_POST['username']) ? $_POST['username'] : '';
+    $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : '';
+    $rg = isset($_POST['rg']) ? $_POST['rg'] : '';
     $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
@@ -404,6 +410,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     first_name = ?,
     last_name = ?,
     username = ?,
+    cpf = ?,
+    rg = ?,
     phone = ?,
     email = ?,
     password = ?,
@@ -424,10 +432,12 @@ $stmt = $conn->prepare($query);
 
 // Atualize a string de tipos para corresponder ao número e tipo dos parâmetros
 $stmt->bind_param(
-    "sssssssssssssssssi",
+    "sssssssssssssssssssi",
     $first_name, 
     $last_name, 
-    $username, 
+    $username,
+    $cpf,
+    $rg,
     $phone, 
     $email, 
     $password, 
@@ -484,6 +494,22 @@ if ($stmt->execute()) {
                                                 <label>Nome de usuário<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="username"
                                                     value="<?php echo htmlspecialchars($username); ?>" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-xl-6">
+                                            <div class="input-block local-forms">
+                                                <label>CPF<span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" name="cpf"
+                                                    value="<?php echo htmlspecialchars($cpf ?? ''); ?>" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-xl-6">
+                                            <div class="input-block local-forms">
+                                                <label>RG<span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" name="rg"
+                                                    value="<?php echo htmlspecialchars($rg ?? ''); ?>" required />
                                             </div>
                                         </div>
 
@@ -599,8 +625,8 @@ if ($stmt->execute()) {
                                             <div class="input-block local-forms">
                                                 <label>Status<span class="login-danger">*</span></label>
                                                 <select class="form-control" name="status" required>
-                                                    <option value="Ativo"
-                                                        <?php echo ($status == 'Ativo') ? 'selected' : ''; ?>>Ativo
+                                                    <option value="Ativa"
+                                                        <?php echo ($status == 'Ativa') ? 'selected' : ''; ?>>Ativo
                                                     </option>
                                                     <option value="Inativo"
                                                         <?php echo ($status == 'Inativo') ? 'selected' : ''; ?>>Inativo
