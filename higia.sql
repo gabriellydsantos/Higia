@@ -1,11 +1,12 @@
 -- Criação do banco de dados
+
 CREATE DATABASE higia;
 USE higia;
 
 -- Tabela de documentos
 CREATE TABLE documento (
-    id INT AUTO_INCREMENT PRIMARY KEY, 
-    nome_cliente VARCHAR(50) NOT NULL, 
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_cliente VARCHAR(50) NOT NULL,
     carterinha VARCHAR(6) NOT NULL,
     data DATE NOT NULL,
     tipo_exame VARCHAR(15) NOT NULL,
@@ -57,11 +58,15 @@ CREATE TABLE patients (
     zipcode VARCHAR(20) NOT NULL,
     status ENUM('Ativa', 'Inativo') NOT NULL,
     image VARCHAR(255),
+    cpf VARCHAR(14),
+    rg VARCHAR(12),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-ALTER TABLE patients ADD cpf VARCHAR(20), ADD rg VARCHAR(20);
 
-ALTER TABLE patients MODIFY status VARCHAR(20);
+
+-- ALTER TABLE patients MODIFY COLUMN cpf VARCHAR(14);
+
+
 
 
 -- Tabela de médicos
@@ -82,10 +87,19 @@ CREATE TABLE doctors (
     city VARCHAR(50) NOT NULL,
     state VARCHAR(50) NOT NULL,
     country VARCHAR(50) DEFAULT 'Brasil',
-    status VARCHAR(10) NOT NULL,
+    status ENUM('Ativa', 'Inativo') NOT NULL,
     image VARCHAR(255),
+    cpf VARCHAR(14),
+    rg VARCHAR(12),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO doctors (
+    first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, department, address, zipcode, city, state, country, status, image, cpf, rg
+) VALUES (
+    'João', 'Silva', 'joao.silva', '123456789', 'joao.silva@example.com', 'senha_segura', '123456', '1980-01-01', 'Masculino', 'Cardiologia', 'Rua das Flores, 123', '12345-678', 'São Paulo', 'SP', 'Brasil', 'Ativa', 'perfil.jpg', '123.456.789-00', '12.345.678-9'
+);
+
 
 -- Tabela de departamentos
 CREATE TABLE departments (
@@ -98,6 +112,4 @@ CREATE TABLE departments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
-
-DROP DATABASE higia;
+drop database higia;
