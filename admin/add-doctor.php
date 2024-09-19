@@ -519,8 +519,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <select class="form-control select" id="department" name="department"
                                                     required>
                                                     <option value="">Selecione o Departamento</option>
-                                                    <option value="PSI">psi</option>
-                                                    <option value="Cardio">Cardio</option>
+                                                    <option value="PSI">Adicionar</option>
+                                                    <option value="Cardio"></option>
 
                                                 </select>
                                             </div>

@@ -303,7 +303,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">
-                                                <h4>Adicionar aaDepartamento</h4>
+                                                <h4>Adicionar Departamento</h4>
                                             </div>
                                         </div>
 
@@ -319,8 +319,28 @@
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
                                                 <label>Nome do Departamento<span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" name="department_name"
-                                                    placeholder="Digite o nome do departamento" required />
+                                                <select class="form-control" name="department_name" required>
+                                                    <option value="">Selecione o departamento</option>
+                                                    <option value="Clínico geral">Clínico geral</option>
+                                                    <option value="Cardiologista">Cardiologista</option>
+                                                    <option value="Pediatra">Pediatra</option>
+                                                    <option value="Psiquiatra">Psiquiatra</option>
+                                                    <option value="Psicólogo">Psicólogo</option>
+                                                    <option value="Fisioterapeuta">Fisioterapeuta</option>
+                                                    <option value="Coloproctologista">Coloproctologista</option>
+                                                    <option value="Cirurgião geral">Cirurgião geral</option>
+                                                    <option value="Cirurgião plástico">Cirurgião plástico</option>
+                                                    <option value="Cirurgião de cabeça e pescoço">Cirurgião de cabeça e
+                                                        pescoço</option>
+                                                    <option value="Cirurgião vascular">Cirurgião vascular</option>
+                                                    <option value="Cirurgião Oncológico">Cirurgião Oncológico</option>
+                                                    <option value="Neurocirurgião">Neurocirurgião</option>
+                                                    <option value="Ortopedista">Ortopedista</option>
+                                                    <option value="Odonto">Odonto</option>
+                                                    <option value="Oftalmologista">Oftalmologista</option>
+                                                    <option value="Ginecologista">Ginecologista</option>
+                                                    <option value="Nutricionista">Nutricionista</option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -331,6 +351,7 @@
                                                     placeholder="Descrição" required></textarea>
                                             </div>
                                         </div>
+
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms cal-icon">
                                                 <label>Data do Departamento<span class="login-danger">*</span></label>
@@ -338,6 +359,7 @@
                                                     name="department_date" placeholder="dd/mm/aaaa" required />
                                             </div>
                                         </div>
+
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block select-gender">
                                                 <label class="gen-label">Status<span
@@ -356,6 +378,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-12">
                                             <div class="doctor-submit text-end">
                                                 <button type="submit"
@@ -366,6 +389,7 @@
                                         </div>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
