@@ -67,17 +67,4 @@ Após configurar o ambiente, acesse o sistema através do navegador:
 ## 🤝 Contribuições
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
-=======
-
-## 🏃‍♂️ Executando o Sistema
-
-Após configurar o ambiente, acesse o sistema através do navegador:
-
-- **🌐 URL principal:** `http://localhost/Higia`
-- **🔑 Painel de Administração:** `http://localhost/Higia/admin`
-- **👤 Login:** Use as credenciais criadas no banco de dados.
-
-## 🤝 Contribuições
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
