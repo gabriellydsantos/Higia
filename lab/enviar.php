@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
@@ -19,150 +20,153 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-        }
+    body,
+    html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+    }
 
-        .form {
-            width: 100%;
-            max-width: 900px;
-            padding: 30px;
-            box-sizing: border-box;
-            background-color: #FFFFFF;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            margin: 20px; /* Adicionado para garantir espaço em telas pequenas */
-        }
+    .form {
+        width: 100%;
+        max-width: 900px;
+        padding: 30px;
+        box-sizing: border-box;
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        /* Adicionado para garantir espaço em telas pequenas */
+    }
 
-        h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-        }
+    h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
 
-        .input-container {
-            position: relative;
-            flex: 1 1 48%;
-            min-width: 200px;
-            margin-bottom: 20px;
-        }
+    .input-container {
+        position: relative;
+        flex: 1 1 48%;
+        min-width: 200px;
+        margin-bottom: 20px;
+    }
 
-        .input-container input,
-        .input-container select {
-            width: 100%;
-            padding: 16px;
-            font-size: 16px;
-            border: 1px solid #CED4DA;
-            border-radius: 8px;
-            background: transparent;
-            color: #333;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
+    .input-container input,
+    .input-container select {
+        width: 100%;
+        padding: 16px;
+        font-size: 16px;
+        border: 1px solid #CED4DA;
+        border-radius: 8px;
+        background: transparent;
+        color: #333;
+        outline: none;
+        transition: border-color 0.3s ease;
+    }
 
-        .input-container input:focus,
-        .input-container select:focus {
-            border-color: #007BFF;
-        }
+    .input-container input:focus,
+    .input-container select:focus {
+        border-color: #007BFF;
+    }
 
-        .input-container label {
-            position: absolute;
-            top: -10px;
-            left: 15px;
-            background-color: #FFFFFF;
-            padding: 0 5px;
-            color: #333;
-            font-size: 14px;
-            pointer-events: none;
-            transition: all 0.2s ease;
-        }
+    .input-container label {
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background-color: #FFFFFF;
+        padding: 0 5px;
+        color: #333;
+        font-size: 14px;
+        pointer-events: none;
+        transition: all 0.2s ease;
+    }
 
-        .input-container input:focus + label,
-        .input-container input:not(:placeholder-shown) + label,
-        .input-container select:focus + label,
-        .input-container select:not(:placeholder-shown) + label {
-            color: #007BFF;
-        }
+    .input-container input:focus+label,
+    .input-container input:not(:placeholder-shown)+label,
+    .input-container select:focus+label,
+    .input-container select:not(:placeholder-shown)+label {
+        color: #007BFF;
+    }
 
-        .input-container label .required {
-            color: red;
-            margin-left: 5px;
-        }
+    .input-container label .required {
+        color: red;
+        margin-left: 5px;
+    }
 
-        .input-container input[type="file"] {
-            padding: 16px;
-            margin-top: 20px;
-        }
+    .input-container input[type="file"] {
+        padding: 16px;
+        margin-top: 20px;
+    }
 
-        input[type="submit"] {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-            font-weight: bold;
-            padding: 12px 60px;
-            font-size: 16px;
-            flex: 1 1 100%;
-        }
+    input[type="submit"] {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+        padding: 12px 60px;
+        font-size: 16px;
+        flex: 1 1 100%;
+    }
 
-        input[type="submit"]:hover {
-            background-color: #0056B3;
-        }
+    input[type="submit"]:hover {
+        background-color: #0056B3;
+    }
 
-        .top-link {
-            margin: 10px auto 20px auto;
-        }
+    .top-link {
+        margin: 10px auto 20px auto;
+    }
 
-        .top-link a {
-            color: #007BFF;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-        }
+    .top-link a {
+        color: #007BFF;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+    }
 
-        .top-link a:hover {
-            text-decoration: underline;
-        }
+    .top-link a:hover {
+        text-decoration: underline;
+    }
 
-        /* Notificação */
-        .notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #28a745; /* Verde para "Arquivo enviado " */
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            text-align: center;
-            font-size: 16px;
-        }
+    /* Notificação */
+    .notification {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #28a745;
+        /* Verde para "Arquivo enviado " */
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        text-align: center;
+        font-size: 16px;
+    }
 
-        .notification.show {
-            opacity: 1;
-        }
+    .notification.show {
+        opacity: 1;
+    }
 
-        .notification.hidden {
-            display: none;
-        }
+    .notification.hidden {
+        display: none;
+    }
     </style>
 </head>
 
@@ -197,15 +201,15 @@
             </div>
 
             <div class="input-container">
-    <select id="exame_tipo" name="exame_tipo" required>
-        <option value="" disabled selected>Selecione o tipo de exame</option>
-        <option value="raiox">Raio-X</option>
-        <option value="ultrasson">Ultrasson</option>
-        <option value="eletro">Eletrocardiograma</option>
-        <option value="hemograma">Hemograma</option>
-    </select>
-    <label for="exame_tipo">Tipo de exame <span class="required">*</span></label>
-</div>
+                <select id="exame_tipo" name="exame_tipo" required>
+                    <option value="" disabled selected>Selecione o tipo de exame</option>
+                    <option value="raiox">Raio-X</option>
+                    <option value="ultrasson">Ultrasson</option>
+                    <option value="eletro">Eletrocardiograma</option>
+                    <option value="hemograma">Hemograma</option>
+                </select>
+                <label for="exame_tipo">Tipo de exame <span class="required">*</span></label>
+            </div>
 
 
             <div class="input-container" style="flex: 1 1 100%;">
@@ -228,15 +232,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include_once("conexao.php");
 
     // Validação e coleta dos dados do formulário
-        $data = date('d/m/Y'); 
-        $nome_cliente = $_POST['nome_cliente'];
-        $carterinha = $_POST['carterinha'];
-        $exame_tipo = $_POST['exame_tipo'];
+    $data = date('Y-m-d'); // Formato correto para DATE no MySQL
+    $nome_cliente = $_POST['nome_cliente'];
+    $carterinha = $_POST['carterinha'];
+    $exame_tipo = $_POST['exame_tipo'];
 
     // Verifica se todos os campos necessários foram preenchidos
     if (!$nome_cliente || !$carterinha || !$exame_tipo) {
         echo "<script>
-            document.getElementById('notification').innerText = 'Todos os campos são obrigatórios!';
+            document.getElementById('notification').innerText = 'Todos os campos são obrigatórios!'; 
             document.getElementById('notification').classList.remove('hidden');
             document.getElementById('notification').classList.add('show');
             setTimeout(() => {
@@ -257,8 +261,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Vincular os parâmetros
         $stmt->bind_param('sssss', $nome_cliente, $carterinha, $data, $exame_tipo, $conteudo_pdf);
-
-
 
         if ($stmt->execute()) {
             echo "<script>
@@ -298,10 +300,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/dataTables.bootstrap5.min.js"></script>
     <script src="../assets/js/select2.min.js"></script>
     <script src="../assets/js/script.js"></script>
 </body>
+
 </html>
