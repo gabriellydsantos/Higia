@@ -617,13 +617,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             </div>
                                         </div>
 
-
-                                        <div class="col-12">
+                                        <div class="col-12 col-md-12 col-xl-12">
+                                            <button class="btn btn-primary" type="submit">Atualizar</button>
+                                            <a href="patients.php" class="btn btn-primary">Cancelar</a>
+                                        </div>
+                                        <!-- <div class="col-12">
                                             <div class="submit-section">
                                                 <button class="btn btn-primary submit-btn"
                                                     type="submit">Atualizar</button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </form>
                                 <script>

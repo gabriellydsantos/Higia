@@ -315,21 +315,25 @@
                                                 <h3>Lista de Departamentos</h3>
                                                 <div class="doctor-search-blk">
                                                     <div class="top-nav-search table-search-blk">
-                                                        <form>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="Procure aqui"
+                                                        <form method="GET">
+                                                            <input type="text" id="search-department"
+                                                                class="form-control" placeholder="Procure aqui"
                                                                 style="background-color:#c0c4e599;">
-                                                            <a class="btn"><img
-                                                                    src="../assets/img/icons/search-normal.svg" alt></a>
+                                                            <button type="submit" class="btn"><img
+                                                                    src="../assets/img/icons/search-normal.svg"
+                                                                    alt="Search"></button>
                                                         </form>
+
                                                     </div>
                                                     <div class="add-group">
                                                         <a href="add-department.php"
                                                             class="btn btn-primary add-pluss ms-2"><img
                                                                 src="../assets/img/icons/plus.svg" alt /></a>
-                                                        <a href="javascript:;"
-                                                            class="btn btn-primary doctor-refresh ms-2"><img
-                                                                src="../assets/img/icons/re-fresh.svg" alt /></a>
+                                                        <a href="javascript:;" id="refresh-button"
+                                                            class="btn btn-primary doctor-refresh ms-2">
+                                                            <img src="../assets/img/icons/re-fresh.svg" alt />
+                                                        </a>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -429,6 +433,9 @@ $conn->close();
                 </div>
 
             </div>
+
+
+
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
@@ -667,6 +674,40 @@ $conn->close();
             </div>
         </div>
     </div>
+    <script>
+    $(document).ready(function() {
+        // Função para realizar a busca dinâmica
+        $('#search-department').on('input', function() {
+            var query = $(this).val();
+
+            $.ajax({
+                url: 'fetch_department.php',
+                type: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    $('#departments-table-body').html(data);
+                }
+            });
+        });
+
+        // Recarregar a lista de departamentos ao clicar no botão de refresh
+        $('#refresh-button').on('click', function() {
+            $.ajax({
+                url: 'fetch_department.php',
+                type: 'GET',
+                success: function(data) {
+                    $('#departments-table-body').html(data);
+                }
+            });
+        });
+    });
+    </script>
+
+
+
+
     <div class="sidebar-overlay" data-reff></div>
     <script src="../assets/js/jquery-3.7.1.min.js" type="155de63393eca00730a5647f-text/javascript"></script>
     <script src="../assets/js/bootstrap.bundle.min.js" type="155de63393eca00730a5647f-text/javascript"></script>
