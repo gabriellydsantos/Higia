@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <title>Footer</title>
+    <style> 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+         *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            }
+            body{
+                font-family: 'Montserrat', 'Inter';
+                font-weight: 500;
+                overflow: scroll;
+            }
+
+            /* Estilo footer (Padão para todas as pgs*/
+            footer{
+                width: 100%;
+                background-color: #161D53; 
+                color: #fff;
+            }
+            .footer-link{
+                text-decoration: none;
+            }
+            #footer_content{
+                background-color: #161D53;
+                display: grid;
+                grid-template-columns:repeat(4, 1fr) ;
+                padding: 3rem 3.5rem;
+            }
+            .logo img {
+                width: 200px;
+                height: auto;
+                margin-top: 0px;
+            }
+
+            #footer_contato{
+                margin-bottom: 0.75rem;
+            }
+            #footer_social_media{
+                display: flex;
+                gap: 2rem;
+                margin-top: 1.5rem;
+            }
+            #footer_social_media i {
+                color: #fff;
+            }
+            #footer_social_media .footer-link{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                transition: 0.4s all;
+                font-size: 1.25rem;
+            }
+            #footer_social_media .footer-link:hover{
+                opacity: 0.8;
+            }
+            .footer-list{
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                list-style: none;
+            }
+            .footer-list .footer-link{
+                color: #fff;
+                transition: all 0.4s;
+            }
+            .footer-list .footer-link:hover{
+                color: #0F6FE7;
+            }
+            #footer_subscribe{
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            #footer_subscribe p{
+                color: #fff;
+            }
+            #footer_copyright{
+                display: flex;
+                justify-content: center;
+                background-color: #0F6FE7;
+                font-size: 0.9rem;
+                padding:1.5rem ;
+                font-weight: 100;
+            }
+            @media screen and (max-width: 768px){
+                #footer_content{
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 2rem;
+                }
+            }
+            @media screen and (max-width: 768px){
+                #footer_content{
+                    grid-template-columns: repeat(1, 1fr);
+                    padding: 3rem 2rem;
+                }
+            }
+    </style>
+  <body> 
+   
+            <footer>
+                <div id="footer_content">
+                    <div id="footer_contato">
+                        <div class="logo">
+                            <a href="#"><img src=".png" alt="Esculápio"></a>
+                        </div>
+                        <p>Nós nos importamos com a sua saúde</p>
+                        <p>R. Alegre, Jardim Etec, 375 Barueri-SP</p>
+                        <p>+55 (11)5555-5555</p>
+
+
+                    </div>
+                    <ul class="footer-list">
+                        <li><h3>Serviços</h3></li>
+                        <li><a href="#" class="footer-link">Agendar consultas</a></li>
+                        <li><a href="#" class="footer-link">Agendar exames</a></li>
+                        <li><a href="#" class="footer-link">Carterinha digital</a></li>
+                    </ul>
+
+                    <ul class="footer-list">
+                        <li><h3>Paciente</h3></li>
+                        <li><a href="#" class="footer-link">Login</a></li>
+                        <li><a href="#" class="footer-link">Resultado de exames</a></li>
+                        <li><a href="contato.html" class="footer-link">Fale conosco</a></li>
+                    </ul>
+
+                    <div id="footer_subscribe">
+                        <h3>Redes Sociais</h3>
+                        <p>Entre em contato conosco, estamos esperando por você!</p>
+                        
+                            <div id="footer_social_media">
+                                <a href="#" class="footer-link"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="footer-link"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="#" class="footer-link"> <i class="fa-brands fa-whatsapp"></i></a>
+                                <a href="#" class="footer-link"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="footer-link"> <i class="fa-brands fa-youtube"></i></a>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div id="footer_copyright">
+                    &#169
+                    2023 todos os direitos reservados a Clínica medica Esculápio
+                </div>
+            </footer>
+    </div>
+</body>
+</html>
+

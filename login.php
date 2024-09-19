@@ -11,6 +11,58 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
         $carteirinha = $conn->real_escape_string($_POST['carteirinha']);
         $password = $conn->real_escape_string($_POST['password']);
 
+        $sql_code = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
+        $sql_query = $conn->query($sql_code) or die("Falha na conexão: " . $conn->error);
+
+        $quantidade = $sql_query->num_rows;
+
+        if ($quantidade == 1) {
+            $usuario = $sql_query->fetch_assoc();
+
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+
+            $_SESSION['id'] = $usuario['id'];
+            $_SESSION['first_name'] = $usuario['first_name'];
+            $_SESSION['last_name'] = $usuario['last_name'];
+            $_SESSION['carteirinha'] = $usuario['carteirinha'];
+            $_SESSION['email'] = $usuario['email'];
+            $_SESSION['phone'] = $usuario['phone'];
+            $_SESSION['image'] = $usuario['image']; // Adiciona a imagem
+            $_SESSION['birth_date'] = $usuario['birth_date'];
+            $_SESSION['gender'] = $usuario['gender'];
+            $_SESSION['address'] = $usuario['address'];
+            $_SESSION['city'] = $usuario['city'];
+            $_SESSION['state'] = $usuario['state'];
+            $_SESSION['country'] = $usuario['country'];
+
+            header('Location: paciente/home.php');  // Vai para a página de perfil
+            exit();
+        } else {
+            echo "Falha ao logar: Carteirinha ou senha incorretos.";
+        }
+    }
+}
+?>
+
+
+
+
+
+<?php
+include("database.php"); // Inclui o arquivo de conexão
+
+if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
+    if (strlen($_POST['carteirinha']) == 0) {
+        echo "Preencha corretamente o campo de login com o número da sua carteirinha.";
+    } else if (strlen($_POST['password']) == 0) {
+        echo "Preencha corretamente o campo de senha.";
+    } else {
+        // Validação do login
+        $carteirinha = $conn->real_escape_string($_POST['carteirinha']);
+        $password = $conn->real_escape_string($_POST['password']);
+
         // Verificar se é um paciente
         $sql_patient = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
         $query_patient = $conn->query($sql_patient);
@@ -27,11 +79,22 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
                 session_start();
             }
 
+            // Dados do paciente na sessão
             $_SESSION['id'] = $usuario['id'];
             $_SESSION['first_name'] = $usuario['first_name'];
+            $_SESSION['last_name'] = $usuario['last_name'];
             $_SESSION['carteirinha'] = $usuario['carteirinha'];
+            $_SESSION['email'] = $usuario['email'];
+            $_SESSION['phone'] = $usuario['phone'];
+            $_SESSION['image'] = $usuario['image'];
+            $_SESSION['birth_date'] = $usuario['birth_date'];
+            $_SESSION['gender'] = $usuario['gender'];
+            $_SESSION['address'] = $usuario['address'];
+            $_SESSION['city'] = $usuario['city'];
+            $_SESSION['state'] = $usuario['state'];
+            $_SESSION['country'] = $usuario['country'];
 
-            header('Location: admin/add-patient.php');  // Redireciona para a área do paciente
+            header('Location: paciente/home.php');  // Vai para a página de pacientes
             exit();
         } elseif ($query_doctor->num_rows == 1) {
             // Login como médico
@@ -41,12 +104,23 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
                 session_start();
             }
 
+            // Dados do médico na sessão
             $_SESSION['id'] = $usuario['id'];
             $_SESSION['first_name'] = $usuario['first_name'];
+            $_SESSION['last_name'] = $usuario['last_name'];
             $_SESSION['carteirinha'] = $usuario['carteirinha'];
-            $_SESSION['department'] = $usuario['department']; // Exemplo de como incluir informações específicas do médico
+            $_SESSION['department'] = $usuario['department'];
+            $_SESSION['email'] = $usuario['email'];
+            $_SESSION['phone'] = $usuario['phone'];
+            $_SESSION['image'] = $usuario['image'];
+            $_SESSION['birth_date'] = $usuario['birth_date'];
+            $_SESSION['gender'] = $usuario['gender'];
+            $_SESSION['address'] = $usuario['address'];
+            $_SESSION['city'] = $usuario['city'];
+            $_SESSION['state'] = $usuario['state'];
+            $_SESSION['country'] = $usuario['country'];
 
-            header('Location: admin/add-doctor.php');  // Redireciona para a área do médico
+            header('Location: medic/doctor-dashboard.php');  // Vai para a página de médicos
             exit();
         } else {
             // Falha no login
@@ -56,6 +130,19 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
 }
 ?>
 
+
+
+
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
 <div class="container-login">
     <div class="content-box">
         <div class="form-box">
@@ -75,7 +162,7 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
                     <label>
                         <input type="checkbox"> Lembrar-me
                     </label>
-                    <a href="#"> Esqueceu a senha </a>
+                    <a href="esqueceu.php"> Esqueceu a senha </a>
                 </div>
 
                 <div class="input-box">

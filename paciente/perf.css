@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.perfil-card {
+    width: 80%;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.perfil-info {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+    position: relative;
+}
+
+.perfil-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #fff;
+    position: absolute;
+    top: -50px;
+    left: 20px;
+}
+
+.perfil-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-name {
+    margin-left: 140px;
+    font-size: 24px;
+}
+
+.info-card {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #e0f7fa; 
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h2 {
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.info-columns {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.column-left, .column-right {
+    width: 45%;
+}
+
+.column-left p, .column-right p {
+    margin: 5px 0;
+}
+
+.itens {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.itens h2 {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.item-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.item-box {
+    flex: 1 1 calc(20% - 10px);
+    background-color: #b2ebf2; 
+    color: #000;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+
+@media (max-width: 768px) {
+    .perfil-card {
+        width: 95%;
+    }
+
+    .perfil-info {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 60px;
+    }
+
+    .perfil-photo {
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .user-name {
+        margin-left: 0;
+        margin-top: 60px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .info-card {
+        width: 95%;
+    }
+
+    .info-columns {
+        flex-direction: column;
+    }
+
+    .column-left, .column-right {
+        width: 100%;
+    }
+
+    .itens {
+        width: 95%;
+    }
+
+    .item-box {
+        flex: 1 1 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .item-box {
+        flex: 1 1 calc(100% - 10px);
+    }
+}
