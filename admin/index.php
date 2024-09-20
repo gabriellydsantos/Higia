@@ -402,11 +402,6 @@
                             .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
                     });
                     </script>
-
-
-
-
-
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
                 </div>
                 <div class="row">

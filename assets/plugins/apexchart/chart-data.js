@@ -476,58 +476,58 @@ chart.render();
 }
 // Patient Chart
 
-// if ($('#patient-chart').length > 0) {
-// 	var sColStacked = {
-// 		chart: {
-// 			height: 230,
-// 			type: 'bar',
-// 			stacked: true,
-// 			toolbar: {
-// 			  show: false,
-// 			}
-// 		},
-// 		// colors: ['#4361ee', '#888ea8', '#e3e4eb', '#d3d3d3'],
-// 		responsive: [{
-// 			breakpoint: 480,
-// 			options: {
-// 				legend: {
-// 					position: 'bottom',
-// 					offsetX: -10,
-// 					offsetY: 0
-// 				}
-// 			}
-// 		}],
-// 		plotOptions: {
-// 			bar: {
-// 				horizontal: false,
-// 				columnWidth: '15%'
-// 			},
-// 		},
-// 		dataLabels: {
-// 			enabled: false
-// 		},
-// 		series: [{
-// 			name: 'Masculino',
-// 			color: '#2E37A4',
-// 			data: [20, 30, 41, 67, 22, 43, 40,10,30,20,40]
-// 		},{
-// 			name: 'Feminino',
-// 			color: '#00D3C7',
-// 			data: [13, 23, 20, 8, 13, 27, 30,25,10,15,20]
-// 		}],
-// 		xaxis: {
-// 			categories: ['Jan','Fev', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-// 		},
+if ($('#patient-chart').length > 0) {
+	var sColStacked = {
+		chart: {
+			height: 230,
+			type: 'bar',
+			stacked: true,
+			toolbar: {
+			  show: false,
+			}
+		},
+		// colors: ['#4361ee', '#888ea8', '#e3e4eb', '#d3d3d3'],
+		responsive: [{
+			breakpoint: 480,
+			options: {
+				legend: {
+					position: 'bottom',
+					offsetX: -10,
+					offsetY: 0
+				}
+			}
+		}],
+		plotOptions: {
+			bar: {
+				horizontal: false,
+				columnWidth: '15%'
+			},
+		},
+		dataLabels: {
+			enabled: false
+		},
+		series: [{
+			name: 'Masculino',
+			color: '#2E37A4',
+			data: [20, 30, 41, 67, 22, 43, 40,10,30,20,40]
+		},{
+			name: 'Feminino',
+			color: '#00D3C7',
+			data: [13, 23, 20, 8, 13, 27, 30,25,10,15,20]
+		}],
+		xaxis: {
+			categories: ['Jan','Fev', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+		},
 		
-// 	}
+	}
 
-// 	var chart = new ApexCharts(
-// 		document.querySelector("#patient-chart"),
-// 		sColStacked
-// 	);
+	var chart = new ApexCharts(
+		document.querySelector("#patient-chart"),
+		sColStacked
+	);
 
-// 	chart.render();
-// }
+	chart.render();
+}
 
 // Temperature Chart
 
