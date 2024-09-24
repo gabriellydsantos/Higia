@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="../assets/css/feather.css" />
 
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
@@ -39,7 +38,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -290,7 +289,6 @@
         </div>
 
 
-
         <div class="page-wrapper">
             <div class="content">
                 <div class="page-header">
@@ -298,12 +296,12 @@
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="doctors.php">Médicos </a>
+                                    <a href="doctors.php">Pacientes </a>
                                 </li>
                                 <li class="breadcrumb-item">
                                     <i class="feather-chevron-right"></i>
                                 </li>
-                                <li class="breadcrumb-item active">Adicione o médico</li>
+                                <li class="breadcrumb-item active">Editar pacientes</li>
                             </ul>
                         </div>
                     </div>
@@ -314,107 +312,156 @@
                         <div class="card">
                             <div class="card-body">
                                 <?php
-                                // Conectar ao banco de dados
-                                include 'database.php'; // Ajuste o caminho conforme necessário para o arquivo database.php
+                                // Incluindo o arquivo de conexão ao banco de dados
+                                include('database.php');
 
-                                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                                    // Recebe os dados do formulário
-                                    $firstName = isset($_POST['first_name']) ? $_POST['first_name'] : '';
-                                    $lastName = isset($_POST['last_name']) ? $_POST['last_name'] : '';
-                                    $username = isset($_POST['username']) ? $_POST['username'] : '';
-                                    $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
-                                    $email = isset($_POST['email']) ? $_POST['email'] : '';
-                                    $password = isset($_POST['password']) ? $_POST['password'] : '';
-                                    $carteirinha = isset($_POST['carteirinha']) ? $_POST['carteirinha'] : '';
-                                    $birthDate = isset($_POST['birth_date']) ? $_POST['birth_date'] : '';
-                                    $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
-                                    $address = isset($_POST['address']) ? $_POST['address'] : '';
-                                    $city = isset($_POST['city']) ? $_POST['city'] : '';
-                                    $state = isset($_POST['state']) ? $_POST['state'] : '';
-                                    $country = isset($_POST['country']) ? $_POST['country'] : '';
-                                    $zipcode = isset($_POST['zipcode']) ? $_POST['zipcode'] : '';
-                                    $status = isset($_POST['status']) ? $_POST['status'] : '';
-                                    $department = isset($_POST['department']) ? $_POST['department'] : '';
-                                    $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : ''; // Novo campo
-                                    $rg = isset($_POST['rg']) ? $_POST['rg'] : ''; // Novo campo
+                                // Inicializando variáveis vazias para evitar warnings
+                                $first_name = $last_name = $username = $phone = $email = $password = '';
+                                $carteirinha = $birth_date = $gender = $address = $zipcode = $city = $country = $state = $avatar = $status = $cpf = $rg = '';
 
-                                    // Converte a data de nascimento para o formato correto (Y-m-d)
-                                    if (!empty($birthDate)) {
-                                        $birthDateObj = DateTime::createFromFormat('d/m/Y', $birthDate);
-                                        if ($birthDateObj !== false) {
-                                            $birthDate = $birthDateObj->format('Y-m-d');
+                                // Verificando se o ID foi passado pela URL
+                                if (isset($_GET['id']) && !empty($_GET['id'])) {
+                                    $id = $_GET['id'];
+
+                                    // Executando a consulta no banco de dados para buscar os dados do paciente
+                                    $query = "SELECT * FROM staff WHERE id = ?";
+                                    if ($stmt = $conn->prepare($query)) {
+                                        $stmt->bind_param("i", $id);
+                                        $stmt->execute();
+                                        $result = $stmt->get_result();
+
+                                        if ($result && $result->num_rows > 0) {
+                                            // Atribuindo os valores do banco de dados às variáveis
+                                            $row = $result->fetch_assoc();
+                                            $first_name = $row['first_name'];
+                                            $last_name = $row['last_name'];
+                                            $username = $row['username'];
+                                            $phone = $row['phone'];
+                                            $email = $row['email'];
+                                            $password = $row['password'];
+                                            $carteirinha = $row['carteirinha'];
+                                            $birth_date = $row['birth_date'];
+                                            $gender = $row['gender'];
+                                            $address = $row['address'];
+                                            $zipcode = $row['zipcode'];
+                                            $city = $row['city'];
+                                            $country = $row['country'];
+                                            $state = $row['state'];
+                                            $avatar = $row['image'];
+                                            $status = $row['status'];
+                                            $cpf = $row['cpf'];
+                                            $rg = $row['rg'];
                                         } else {
-                                            echo '<div class="message error">Data de nascimento inválida.</div>';
-                                            exit;
+                                            echo "Colaborador não encontrado.";
                                         }
                                     } else {
-                                        echo '<div class="message error">Data de nascimento não fornecida.</div>';
-                                        exit;
+                                        echo "Erro na preparação da consulta: " . $conn->error;
+                                    }
+                                } else {
+                                    echo "ID do colaborador não fornecido.";
+                                }
+
+                                // Verificação do método POST para atualização de dados
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                                    // Captura os dados do formulário
+                                    $first_name = $_POST['first_name'];
+                                    $last_name = $_POST['last_name'];
+                                    $username = $_POST['username'];
+                                    $phone = $_POST['phone'];
+                                    $email = $_POST['email'];
+                                    $carteirinha = $_POST['carteirinha'];
+                                    $birth_date = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['birth_date']))); // Formato YYYY-MM-DD
+                                    $gender = $_POST['gender'];
+                                    $address = $_POST['address'];
+                                    $zipcode = $_POST['zipcode'];
+                                    $city = $_POST['city'];
+                                    $country = $_POST['country'];
+                                    $state = $_POST['state'];
+                                    $status = $_POST['status'];
+                                    $cpf = $_POST['cpf'];
+                                    $rg = $_POST['rg'];
+
+                                    // Verifica se a senha foi alterada
+                                    $new_password = $_POST['password'];
+                                    if (!empty($new_password)) {
+                                        $password = password_hash($new_password, PASSWORD_DEFAULT); // Criptografando a senha
                                     }
 
-                                    // Processa a imagem de upload
-                                    $targetDir = "../uploads/uploads_doctor/";    // Diretório fora da pasta admin
-
-                                    // Verifica se o diretório existe; se não existir, cria-o
-                                    if (!is_dir($targetDir)) {
-                                        mkdir($targetDir, 0777, true);  // Cria o diretório com permissões apropriadas
+                                    // Verifica o upload de imagem
+                                    $upload_dir = '../uploads/uploads_funcionarios/';
+                                    if (!file_exists($upload_dir)) {
+                                        mkdir($upload_dir, 0777, true);
                                     }
 
-                                    // Define o caminho do arquivo de destino
-                                    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
-
-                                    // Move o arquivo temporário para o diretório de destino
-                                    $imagePath = '';
-                                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                                        $imagePath = $targetFile;
-                                    } else {
-                                        echo '<div class="message error">Erro ao enviar a imagem.</div>';
-                                        $imagePath = null;
+                                    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                                        $avatar = $upload_dir . basename($_FILES['image']['name']);
+                                        $allowed_types = ['image/jpeg', 'image/png'];
+                                        if (in_array($_FILES['image']['type'], $allowed_types)) {
+                                            if (move_uploaded_file($_FILES['image']['tmp_name'], $avatar)) {
+                                                // Imagem movida com sucesso
+                                            } else {
+                                                echo "Erro ao mover o arquivo de imagem.";
+                                            }
+                                        } else {
+                                            echo "Tipo de arquivo inválido. Apenas JPEG e PNG são permitidos.";
+                                        }
                                     }
 
-                                    // Valida o valor de status
-                                    $validStatuses = ['Ativa', 'Inativo'];
-                                    if (!in_array($status, $validStatuses)) {
-                                        echo '<div class="message error">Status inválido.</div>';
-                                        exit;
-                                    }
+                                    // Atualiza os dados do paciente no banco de dados usando prepared statements
+                                    $query = "UPDATE staff SET 
+        first_name = ?, last_name = ?, username = ?, phone = ?, email = ?, password = ?, carteirinha = ?, 
+        birth_date = ?, gender = ?, address = ?, zipcode = ?, city = ?, country = ?, state = ?, 
+        status = ?, image = ?, cpf = ?, rg = ? WHERE id = ?";
 
-                                    // Prepara a consulta SQL
-                                    $sql = "INSERT INTO doctors (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image, department, cpf, rg)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-                                    if ($stmt = $conn->prepare($sql)) {
-                                        $stmt->bind_param("sssssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath, $department, $cpf, $rg);
+                                    if ($stmt = $conn->prepare($query)) {
+                                        $stmt->bind_param(
+                                            "ssssssssssssssssssi",
+                                            $first_name,
+                                            $last_name,
+                                            $username,
+                                            $phone,
+                                            $email,
+                                            $password,
+                                            $carteirinha,
+                                            $birth_date,
+                                            $gender,
+                                            $address,
+                                            $zipcode,
+                                            $city,
+                                            $country,
+                                            $state,
+                                            $status,
+                                            $avatar,
+                                            $cpf,
+                                            $rg,
+                                            $id
+                                        );
 
                                         if ($stmt->execute()) {
-                                            echo '<div class="message success">Novo médico cadastrado com sucesso!</div>';
+                                            echo "Registro atualizado com sucesso!";
                                         } else {
-                                            echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
+                                            echo "Erro ao atualizar o registro: " . $stmt->error;
                                         }
-
-                                        $stmt->close();
                                     } else {
-                                        echo '<div class="message error">Erro ao preparar a consulta: ' . $conn->error . '</div>';
+                                        echo "Erro na preparação da consulta: " . $conn->error;
                                     }
-
-                                    $conn->close();
                                 }
                                 ?>
 
-                                <form action="add-doctor.php" method="POST" enctype="multipart/form-data">
+                                <form action="edit-staff.php?id=<?php echo htmlspecialchars($id); ?>" method="POST"
+                                    enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">
-                                                <h4>Adicionar médico</h4>
+                                                <h4>Detalhes do Paciente</h4>
                                             </div>
                                         </div>
 
-                                        <!-- Campos do Formulário -->
                                         <div class="col-12 col-md-6 col-xl-4">
                                             <div class="input-block local-forms">
                                                 <label>Primeiro nome<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="first_name"
-                                                    placeholder="Digite o primeiro nome" required />
+                                                    value="<?php echo htmlspecialchars($first_name); ?>" required />
                                             </div>
                                         </div>
 
@@ -422,7 +469,7 @@
                                             <div class="input-block local-forms">
                                                 <label>Sobrenome<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="last_name"
-                                                    placeholder="Digite o sobrenome" required />
+                                                    value="<?php echo htmlspecialchars($last_name); ?>" required />
                                             </div>
                                         </div>
 
@@ -430,7 +477,7 @@
                                             <div class="input-block local-forms">
                                                 <label>Nome de usuário<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="username"
-                                                    placeholder="Digite o nome de usuário" required />
+                                                    value="<?php echo htmlspecialchars($username); ?>" required />
                                             </div>
                                         </div>
 
@@ -438,7 +485,7 @@
                                             <div class="input-block local-forms">
                                                 <label>CPF<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="cpf"
-                                                    placeholder="Digite o CPF" required />
+                                                    value="<?php echo htmlspecialchars($cpf ?? ''); ?>" required />
                                             </div>
                                         </div>
 
@@ -446,7 +493,7 @@
                                             <div class="input-block local-forms">
                                                 <label>RG<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="rg"
-                                                    placeholder="Digite o RG" required />
+                                                    value="<?php echo htmlspecialchars($rg ?? ''); ?>" required />
                                             </div>
                                         </div>
 
@@ -454,7 +501,7 @@
                                             <div class="input-block local-forms">
                                                 <label>Telefone<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="phone"
-                                                    placeholder="Digite o telefone" required />
+                                                    value="<?php echo htmlspecialchars($phone); ?>" required />
                                             </div>
                                         </div>
 
@@ -462,7 +509,7 @@
                                             <div class="input-block local-forms">
                                                 <label>E-mail<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="email" name="email"
-                                                    placeholder="Digite o e-mail" required />
+                                                    value="<?php echo htmlspecialchars($email); ?>" required />
                                             </div>
                                         </div>
 
@@ -470,7 +517,7 @@
                                             <div class="input-block local-forms">
                                                 <label>Senha<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="password" name="password"
-                                                    placeholder="Digite a senha" required />
+                                                    value="<?php echo htmlspecialchars($password); ?>" required />
                                             </div>
                                         </div>
 
@@ -478,9 +525,7 @@
                                             <div class="input-block local-forms">
                                                 <label>Carteirinha<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="carteirinha"
-                                                    placeholder="Digite a carteirinha"
-                                                    value="<?php echo str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT); ?>"
-                                                    required />
+                                                    value="<?php echo htmlspecialchars($carteirinha); ?>" required />
                                             </div>
                                         </div>
 
@@ -488,48 +533,40 @@
                                             <div class="input-block local-forms cal-icon">
                                                 <label>Data de nascimento<span class="login-danger">*</span></label>
                                                 <input class="form-control datetimepicker" type="text" name="birth_date"
-                                                    placeholder="dd/mm/aaaa" required />
+                                                    value="<?php echo htmlspecialchars(date('d/m/Y', strtotime($birth_date))); ?>"
+                                                    required />
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-3">
+                                        <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block select-gender">
                                                 <label class="gen-label">Gênero<span
                                                         class="login-danger">*</span></label>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="gender" value="masculino"
-                                                            class="form-check-input mt-0" required />Masculino
+                                                        <input type="radio" name="gender" value="Masculino"
+                                                            class="form-check-input"
+                                                            <?php echo ($gender == 'Masculino') ? 'checked' : ''; ?> />Masculino
                                                     </label>
                                                 </div>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="gender" value="feminino"
-                                                            class="form-check-input mt-0" required />Feminino
+                                                        <input type="radio" name="gender" value="Feminino"
+                                                            class="form-check-input"
+                                                            <?php echo ($gender == 'Feminino') ? 'checked' : ''; ?> />Feminino
                                                     </label>
                                                 </div>
+
                                             </div>
                                         </div>
 
 
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <div class="input-block local-forms">
-                                                <label>Departamento<span class="login-danger">*</span></label>
-                                                <select class="form-control select" id="department" name="department"
-                                                    required>
-                                                    <option value="">Selecione o Departamento</option>
-                                                    <option value="Adicionar">Adicionar</option>
-                                                    <option value="Cardio"></option>
 
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-sm-12">
+                                        <div class="col-12 col-md-6 col-xl-12">
                                             <div class="input-block local-forms">
                                                 <label>Endereço<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="address"
-                                                    placeholder="Digite o endereço" required />
+                                                    value="<?php echo htmlspecialchars($address); ?>" required />
                                             </div>
                                         </div>
 
@@ -537,199 +574,158 @@
                                             <div class="input-block local-forms">
                                                 <label>CEP<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="zipcode"
-                                                    placeholder="Digite o CEP" required />
+                                                    value="<?php echo htmlspecialchars($zipcode); ?>" required />
                                             </div>
                                         </div>
 
                                         <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-block local-forms">
                                                 <label>Cidade<span class="login-danger">*</span></label>
-                                                <select class="form-control select" name="city" required>
-                                                    <option value="">Selecione a cidade</option>
-                                                    <option value="São Paulo">São Paulo</option>
-                                                    <option value="Rio de Janeiro">Rio de Janeiro</option>
-                                                    <!-- Outras opções de cidades -->
-                                                </select>
+                                                <input class="form-control" type="text" name="city"
+                                                    value="<?php echo htmlspecialchars($city); ?>" required />
                                             </div>
                                         </div>
 
                                         <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-block local-forms">
                                                 <label>País<span class="login-danger">*</span></label>
-                                                <select class="form-control select" name="country" required>
-                                                    <option value="Brasil">Brasil</option>
-                                                </select>
+                                                <input class="form-control" type="text" name="country"
+                                                    value="<?php echo htmlspecialchars($country); ?>" required />
                                             </div>
                                         </div>
 
                                         <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-block local-forms">
                                                 <label>Estado<span class="login-danger">*</span></label>
-                                                <select class="form-control select" name="state" required>
-                                                    <option value="">Selecione o estado</option>
-                                                    <option value="AC">Acre (AC)</option>
-                                                    <option value="AL">Alagoas (AL)</option>
-                                                    <option value="AP">Amapá (AP)</option>
-                                                    <option value="AM">Amazonas (AM)</option>
-                                                    <option value="BA">Bahia (BA)</option>
-                                                    <option value="CE">Ceará (CE)</option>
-                                                    <option value="DF">Distrito Federal (DF)</option>
-                                                    <option value="ES">Espírito Santo (ES)</option>
-                                                    <option value="GO">Goiás (GO)</option>
-                                                    <option value="MA">Maranhão (MA)</option>
-                                                    <option value="MT">Mato Grosso (MT)</option>
-                                                    <option value="MS">Mato Grosso do Sul (MS)</option>
-                                                    <option value="MG">Minas Gerais (MG)</option>
-                                                    <option value="PA">Pará (PA)</option>
-                                                    <option value="PB">Paraíba (PB)</option>
-                                                    <option value="PR">Paraná (PR)</option>
-                                                    <option value="PE">Pernambuco (PE)</option>
-                                                    <option value="PI">Piauí (PI)</option>
-                                                    <option value="RJ">Rio de Janeiro (RJ)</option>
-                                                    <option value="RN">Rio Grande do Norte (RN)</option>
-                                                    <option value="RS">Rio Grande do Sul (RS)</option>
-                                                    <option value="RO">Rondônia (RO)</option>
-                                                    <option value="RR">Roraima (RR)</option>
-                                                    <option value="SC">Santa Catarina (SC)</option>
-                                                    <option value="SP">São Paulo (SP)</option>
-                                                    <option value="SE">Sergipe (SE)</option>
-                                                    <option value="TO">Tocantins (TO)</option>
-                                                </select>
+                                                <input class="form-control" type="text" name="state"
+                                                    value="<?php echo htmlspecialchars($state); ?>" required />
                                             </div>
                                         </div>
+
+
+
+                                        <div class="input-block local-forms">
+                                            <label>Status<span class="login-danger">*</span></label>
+                                            <select class="form-control select" name="status" required>
+                                                <option value="Ativa"
+                                                    <?php echo ($status == 'Ativa') ? 'selected' : ''; ?>>Ativo</option>
+                                                <option value="Inativo"
+                                                    <?php echo ($status == 'Inativo') ? 'selected' : ''; ?>>Inativo
+                                                </option>
+                                            </select>
+                                        </div>
+
+
 
                                         <div class="col-12 col-md-6 col-xl-6">
-                                            <div class="input-block select-gender">
-                                                <label class="gen-label">Status<span
-                                                        class="login-danger">*</span></label>
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" name="status" value="Ativa"
-                                                            class="form-check-input mt-0" required />Ativa
-                                                    </label>
-                                                </div>
-                                                <div class="form-check-inline">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" name="status" value="Inativo"
-                                                            class="form-check-input mt-0" required />Inativo
-                                                    </label>
-                                                </div>
+                                            <div class="input-block local-forms">
+                                                <label>Foto</label>
+                                                <input class="form-control" type="file" name="image" />
+                                                <?php if ($avatar): ?>
+                                                <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar"
+                                                    width="100" height="100" class="avatar-img" />
+                                                <?php endif; ?>
+                                                <style>
+                                                .avatar-img {
+                                                    margin-top: 0.80rem;
+                                                }
+                                                </style>
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-6">
-                                            <div class="input-block local-top-form">
-                                                <label class="local-top">Foto<span class="login-danger">*</span></label>
-                                                <div class="settings-btn upload-files-avator">
-                                                    <input type="file" accept="image/*" name="image" id="file"
-                                                        class="hide-input" required />
-                                                    <label for="file" class="upload">Escolher arquivo</label>
-                                                </div>
-                                            </div>
+                                        <div class="col-12 col-md-12 col-xl-12">
+                                            <button class="btn btn-primary" type="submit">Atualizar</button>
+                                            <a href="staff-list.php" class="btn btn-primary">Cancelar</a>
                                         </div>
-
-                                        <div class="col-12">
-                                            <div class="doctor-submit text-end">
-                                                <button type="submit"
-                                                    class="btn btn-primary submit-form me-2">Enviar</button>
-                                                <button type="button" class="btn btn-secondary cancel-form"
-                                                    onclick="window.location.href='doctor.php';">Cancelar</button>
+                                        <!-- <div class="col-12">
+                                            <div class="submit-section">
+                                                <button class="btn btn-primary submit-btn"
+                                                    type="submit">Atualizar</button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
-
-
                                 </form>
-
-
-
-
-
-
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-                                </script>
-                                <script
-                                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js">
-                                </script>
-
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-                                </script>
-                                <script
-                                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js">
-                                </script>
-
                                 <script>
-                                    $(document).ready(function() {
-                                        // Máscara para CPF
-                                        $('input[name="cpf"]').mask('000.000.000-00', {
-                                            reverse: true
-                                        });
+                                // Máscara para CPF
+                                $('input[name="cpf"]').mask('000.000.000-00', {
+                                    reverse: true
 
-                                        // Máscara para RG
-                                        $('input[name="rg"]').mask('00.000.000-0');
+                                });
 
-                                        // Máscara para Telefone
-                                        $('input[name="phone"]').mask('(00) 00000-0000');
+                                // Máscara para RG (ajustar conforme o formato desejado)
+                                $('input[name="rg"]').mask('00.000.000-0');
+                                $(document).ready(function() {
+                                    $('input[name="phone"]').mask('(00) 00000-0000');
+                                });
 
-                                        // Máscara para CEP
-                                        $('input[name="zipcode"]').mask('00000-000');
 
-                                        // Preenchimento automático do endereço com base no CEP
-                                        $('input[name="zipcode"]').on('blur', function() {
-                                            var cep = $(this).val().replace(/\D/g,
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    document.querySelector('input[name="zipcode"]').addEventListener('blur',
+                                        function() {
+                                            var cep = this.value.replace(/\D/g,
                                                 ''); // Remove caracteres não numéricos
 
                                             if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
-                                                $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(
-                                                    data) {
-                                                    if (!data.erro) {
-                                                        // Preenche o campo de Endereço
-                                                        $('input[name="address"]').val(data
-                                                            .logradouro + ', ' + data.bairro);
+                                                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        if (!data.erro) {
+                                                            // Preenche o campo de Endereço
+                                                            document.querySelector(
+                                                                    'input[name="address"]').value =
+                                                                data.logradouro + ', ' + data.bairro;
 
-                                                        // Atualiza o campo de Estado
-                                                        var stateSelect = $('select[name="state"]');
-                                                        var optionFound = false;
+                                                            // Atualiza o campo de Estado
+                                                            var stateSelect = document.querySelector(
+                                                                'select[name="state"]');
+                                                            var optionFound = false;
 
-                                                        stateSelect.find('option').each(function() {
-                                                            if ($(this).val() === data.uf) {
-                                                                $(this).prop('selected',
-                                                                    true);
-                                                                optionFound = true;
-                                                                return false; // Encerra o loop
+                                                            // Itera sobre as opções do select de estado para selecionar a correta
+                                                            for (var i = 0; i < stateSelect.options
+                                                                .length; i++) {
+                                                                if (stateSelect.options[i].value ===
+                                                                    data.uf) {
+                                                                    stateSelect.selectedIndex = i;
+                                                                    optionFound = true;
+                                                                    break;
+                                                                }
                                                             }
-                                                        });
 
-                                                        if (!optionFound) {
-                                                            alert(
-                                                                'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                            );
+                                                            // Se a opção não foi encontrada, exibe uma mensagem
+                                                            if (!optionFound) {
+                                                                alert(
+                                                                    'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
+                                                                );
+                                                            }
+
+                                                            // Força a atualização do campo visível
+                                                            stateSelect.dispatchEvent(new Event(
+                                                                'change'));
+
+                                                            // Atualiza o campo de Cidade
+                                                            var citySelect = document.querySelector(
+                                                                'select[name="city"]');
+                                                            citySelect.innerHTML =
+                                                                `<option value="${data.localidade}">${data.localidade}</option>`;
+
+                                                            // Preenche o campo de País com 'Brasil'
+                                                            document.querySelector(
+                                                                    'select[name="country"]').value =
+                                                                'Brasil';
+                                                        } else {
+                                                            alert('CEP não encontrado.');
                                                         }
-
-                                                        stateSelect.trigger('change');
-
-                                                        // Atualiza o campo de Cidade
-                                                        var citySelect = $('select[name="city"]');
-                                                        citySelect.html(
-                                                            `<option value="${data.localidade}">${data.localidade}</option>`
-                                                        );
-
-                                                        // Preenche o campo de País com 'Brasil'
-                                                        $('select[name="country"]').val('Brasil');
-                                                    } else {
-                                                        alert('CEP não encontrado.');
-                                                    }
-                                                }).fail(function() {
-                                                    alert('Erro ao buscar CEP. Tente novamente.');
-                                                });
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Erro ao buscar CEP:', error);
+                                                        alert('Erro ao buscar CEP. Tente novamente.');
+                                                    });
                                             } else {
                                                 alert('Por favor, insira um CEP válido.');
                                             }
                                         });
-                                    });
+                                });
                                 </script>
-
-
 
 
                             </div>
@@ -740,7 +736,7 @@
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
-                        <span>Mensagens</span>
+                        <span>Messages</span>
                     </div>
                     <div class="drop-scroll msg-list-scroll" id="msg_list">
                         <ul class="list-box">
@@ -767,7 +763,7 @@
                                             <span class="avatar">J</span>
                                         </div>
                                         <div class="list-body">
-                                            <span class="message-author">Lorem Ipsum</span>
+                                            <span class="message-author">johnDoe</span>
                                             <span class="message-time">1 de agosto</span>
                                             <div class="clearfix"></div>
                                             <span class="message-content">Lorem ipsum dolor sit amet, consectetur
@@ -799,7 +795,7 @@
                                             <span class="avatar">M</span>
                                         </div>
                                         <div class="list-body">
-                                            <span class="message-author">Lorem Ipsum</span>
+                                            <span class="message-author">Lorem Ipsum </span>
                                             <span class="message-time">12:28</span>
                                             <div class="clearfix"></div>
                                             <span class="message-content">Lorem ipsum dolor sit amet, consectetur
@@ -895,8 +891,8 @@
                                             <span class="avatar">M</span>
                                         </div>
                                         <div class="list-body">
-                                            <span class="message-author">Lorem Ipsum </span>
-                                            <span class="message-time">12:28 AM</span>
+                                            <span class="message-author">Melita Faucher</span>
+                                            <span class="message-time">12:28</span>
                                             <div class="clearfix"></div>
                                             <span class="message-content">Lorem ipsum dolor sit amet, consectetur
                                                 adipiscing</span>
@@ -927,7 +923,7 @@
                                             <span class="avatar">L</span>
                                         </div>
                                         <div class="list-body">
-                                            <span class="message-author">lorenGatlin</span>
+                                            <span class="message-author">Lorem Ipsum </span>
                                             <span class="message-time">12:28</span>
                                             <div class="clearfix"></div>
                                             <span class="message-content">Lorem ipsum dolor sit amet, consectetur
@@ -943,7 +939,7 @@
                                             <span class="avatar">T</span>
                                         </div>
                                         <div class="list-body">
-                                            <span class="message-author">Tara: no show do trabalho</span>
+                                            <span class="message-author">Lorem Ipsum </span>
                                             <span class="message-time">12:28</span>
                                             <div class="clearfix"></div>
                                             <span class="message-content">Lorem ipsum dolor sit amet, consectetur
@@ -955,7 +951,7 @@
                         </ul>
                     </div>
                     <div class="topnav-dropdown-footer">
-                        <a href="chat.php">See all messages</a>
+                        <a href="chat.php">Veja todas as mensagens</a>
                     </div>
                 </div>
             </div>
@@ -964,8 +960,8 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <img src="../../assets/img/sent.png" alt width="50" height="46" />
-                        <h3>Você tem certeza que deseja deletar isso ?</h3>
+                        <img src="../assets/img/sent.png" alt width="50" height="46" />
+                        <h3>Você tem certeza que deseja excluir isso?</h3>
                         <div class="m-t-20">
                             <a href="#" class="btn btn-white" data-bs-dismiss="modal">Fechar</a>
                             <button type="submit" class="btn btn-danger">Excluir</button>
@@ -977,21 +973,24 @@
     </div>
     <div class="sidebar-overlay" data-reff></div>
 
-    <script src="../assets/js/jquery-3.7.1.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+    <script src="../assets/js/jquery-3.7.1.min.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
 
-    <script src="../assets/js/bootstrap.bundle.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
 
-    <script src="../assets/js/feather.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+    <script src="../assets/js/feather.min.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
 
-    <script src="../assets/js/jquery.slimscroll.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+    <script src="../assets/js/jquery.slimscroll.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
 
-    <script src="../assets/js/select2.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+    <script src="../assets/js/select2.min.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
 
-    <script src="../assets/plugins/moment/moment.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
-    <script src="../assets/js/bootstrap-datetimepicker.min.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+    <script src="../assets/plugins/moment/moment.min.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
 
-    <script src="../assets/js/app.js" type="47d543a399884d7bc4ffb078-text/javascript"></script>
+    <script src="../assets/js/app.js" type="59a698b85aa9560b4d73d8b9-text/javascript"></script>
     <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
-        data-cf-settings="47d543a399884d7bc4ffb078-|49" defer></script>
+        data-cf-settings="59a698b85aa9560b4d73d8b9-|49" defer></script>
+</body>
+
+<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/edit-doctor.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:43:07 GMT -->
 
 </html>

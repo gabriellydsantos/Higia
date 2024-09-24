@@ -237,12 +237,11 @@
                             <ul style="display: none">
                                 <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                                 <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
+                                <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
                                 <li>
                                     <a href="staff-profile.php">Perfil do Funcionário</a>
                                 </li>
-                                <li><a href="../admin/staff-leave.php">Licenças</a></li>
-                                <li><a href="../admin/staff-holiday.php">Feriados</a></li>
-                                <li><a href="../admin/staff-attendance.php">Presenças</a></li>
+
                             </ul>
                         </li>
                         <!-- <li class="submenu">

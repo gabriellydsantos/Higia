@@ -40,7 +40,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 <div class="main-wrapper">
     <div class="header">
@@ -228,12 +228,11 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                         <ul style="display: none">
                             <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                             <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
+                            <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
                             <li>
                                 <a href="staff-profile.php">Perfil do Funcionário</a>
                             </li>
-                            <li><a href="../admin/staff-leave.php">Licenças</a></li>
-                            <li><a href="../admin/staff-holiday.php">Feriados</a></li>
-                            <li><a href="../admin/staff-attendance.php">Presenças</a></li>
+
                         </ul>
                     </li>
                     <!-- <li class="submenu">
@@ -345,22 +344,22 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                             </div>
 
                             <?php
-// Incluindo o arquivo de conexão ao banco de dados
-include('database.php');
+                            // Incluindo o arquivo de conexão ao banco de dados
+                            include('database.php');
 
-// Verificando se a pesquisa foi feita
-$query = "";
-if (isset($_GET['query'])) {
-    $query = $_GET['query'];
-}
+                            // Verificando se a pesquisa foi feita
+                            $query = "";
+                            if (isset($_GET['query'])) {
+                                $query = $_GET['query'];
+                            }
 
-// Consultar os dados dos pacientes
-$sql = "SELECT id, first_name, last_name, carteirinha, phone, email, created_at, image FROM patients";
-if (!empty($query)) {
-    $sql .= " WHERE CONCAT(first_name, ' ', last_name) LIKE '%$query%' OR carteirinha LIKE '%$query%'";
-}
-$result = $conn->query($sql);
-?>
+                            // Consultar os dados dos pacientes
+                            $sql = "SELECT id, first_name, last_name, carteirinha, phone, email, created_at, image FROM patients";
+                            if (!empty($query)) {
+                                $sql .= " WHERE CONCAT(first_name, ' ', last_name) LIKE '%$query%' OR carteirinha LIKE '%$query%'";
+                            }
+                            $result = $conn->query($sql);
+                            ?>
                             <div class="table-responsive">
                                 <table class="table border-0 custom-table comman-table datatable mb-0">
                                     <thead>
@@ -380,21 +379,21 @@ $result = $conn->query($sql);
                                     </thead>
                                     <tbody id="patients-table-body">
                                         <?php
-            if ($result->num_rows > 0) {
-                // Exibir os dados de cada paciente
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>
+                                        if ($result->num_rows > 0) {
+                                            // Exibir os dados de cada paciente
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<tr>";
+                                                echo "<td>
                             <div class='form-check check-tables'>
                                 <input class='form-check-input' type='checkbox' value='something'>
                             </div>
                           </td>";
-                    echo "<td class='profile-image'><a href='profile.php?id=" . $row['id'] . "'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
-                    echo "<td>" . $row['carteirinha'] . "</td>";
-                    echo "<td><a href='javascript:;'>" . $row['phone'] . "</a></td>";
-                    echo "<td><a href='mailto:" . $row['email'] . "'>" . $row['email'] . "</a></td>";
-                    echo "<td>" . date("d.m.Y", strtotime($row['created_at'])) . "</td>";
-                    echo "<td class='text-end'>
+                                                echo "<td class='profile-image'><a href='profile.php?id=" . $row['id'] . "'><img width='28' height='28' src='" . $row['image'] . "' class='rounded-circle m-r-5' alt> " . $row['first_name'] . " " . $row['last_name'] . "</a></td>";
+                                                echo "<td>" . $row['carteirinha'] . "</td>";
+                                                echo "<td><a href='javascript:;'>" . $row['phone'] . "</a></td>";
+                                                echo "<td><a href='mailto:" . $row['email'] . "'>" . $row['email'] . "</a></td>";
+                                                echo "<td>" . date("d.m.Y", strtotime($row['created_at'])) . "</td>";
+                                                echo "<td class='text-end'>
                             <div class='dropdown dropdown-action'>
                                 <a href='#' class='action-icon dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'><i class='fa fa-ellipsis-v'></i></a>
                                 <div class='dropdown-menu dropdown-menu-end'>
@@ -403,20 +402,20 @@ $result = $conn->query($sql);
                                 </div>
                             </div>
                           </td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='7'>Nenhum paciente encontrado.</td></tr>";
-            }
-            ?>
+                                                echo "</tr>";
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='7'>Nenhum paciente encontrado.</td></tr>";
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
 
 
                             <?php
-$conn->close();
-?>
+                            $conn->close();
+                            ?>
 
 
                         </div>
@@ -668,28 +667,28 @@ $conn->close();
 
 
 <script>
-$(document).ready(function() {
-    // Função para realizar a busca dinâmica
-    $('#search-patient').on('input', function() {
-        var query = $(this).val();
+    $(document).ready(function() {
+        // Função para realizar a busca dinâmica
+        $('#search-patient').on('input', function() {
+            var query = $(this).val();
 
-        $.ajax({
-            url: 'fetch_patients.php',
-            type: 'GET',
-            data: {
-                query: query
-            },
-            success: function(data) {
-                $('#patients-table-body').html(data);
-            }
+            $.ajax({
+                url: 'fetch_patients.php',
+                type: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    $('#patients-table-body').html(data);
+                }
+            });
+        });
+
+        // Recarregar a página ao clicar no botão de refresh
+        $('#refresh-button').on('click', function() {
+            location.reload();
         });
     });
-
-    // Recarregar a página ao clicar no botão de refresh
-    $('#refresh-button').on('click', function() {
-        location.reload();
-    });
-});
 </script>
 
 <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

@@ -38,7 +38,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -230,12 +230,11 @@
                             <ul style="display: none">
                                 <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                                 <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
+                                <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
                                 <li>
                                     <a href="staff-profile.php">Perfil do Funcionário</a>
                                 </li>
-                                <li><a href="../admin/staff-leave.php">Licenças</a></li>
-                                <li><a href="../admin/staff-holiday.php">Feriados</a></li>
-                                <li><a href="../admin/staff-attendance.php">Presenças</a></li>
+
                             </ul>
                         </li>
                         <!-- <li class="submenu">
@@ -313,124 +312,141 @@
                         <div class="card">
                             <div class="card-body">
                                 <?php
-// Incluindo o arquivo de conexão ao banco de dados
-include('database.php');
+                                // Incluindo o arquivo de conexão ao banco de dados
+                                include('database.php');
 
-// Inicializando variáveis vazias para evitar warnings
-$first_name = $last_name = $username = $phone = $email = $password = '';
-$carteirinha = $birth_date = $gender = $address = $zipcode = $city = $country = $state = $avatar = $status = $cpf = $rg = '';
+                                // Inicializando variáveis vazias para evitar warnings
+                                $first_name = $last_name = $username = $phone = $email = $password = '';
+                                $carteirinha = $birth_date = $gender = $address = $zipcode = $city = $country = $state = $avatar = $status = $cpf = $rg = '';
 
-// Verificando se o ID foi passado pela URL
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $id = $_GET['id'];
+                                // Verificando se o ID foi passado pela URL
+                                if (isset($_GET['id']) && !empty($_GET['id'])) {
+                                    $id = $_GET['id'];
 
-    // Executando a consulta no banco de dados para buscar os dados do paciente
-    $query = "SELECT * FROM patients WHERE id = ?";
-    if ($stmt = $conn->prepare($query)) {
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+                                    // Executando a consulta no banco de dados para buscar os dados do paciente
+                                    $query = "SELECT * FROM patients WHERE id = ?";
+                                    if ($stmt = $conn->prepare($query)) {
+                                        $stmt->bind_param("i", $id);
+                                        $stmt->execute();
+                                        $result = $stmt->get_result();
 
-        if ($result && $result->num_rows > 0) {
-            // Atribuindo os valores do banco de dados às variáveis
-            $row = $result->fetch_assoc();
-            $first_name = $row['first_name'];
-            $last_name = $row['last_name'];
-            $username = $row['username'];
-            $phone = $row['phone'];
-            $email = $row['email'];
-            $password = $row['password'];
-            $carteirinha = $row['carteirinha'];
-            $birth_date = $row['birth_date'];
-            $gender = $row['gender'];
-            $address = $row['address'];
-            $zipcode = $row['zipcode'];
-            $city = $row['city'];
-            $country = $row['country'];
-            $state = $row['state'];
-            $avatar = $row['image'];
-            $status = $row['status'];
-            $cpf = $row['cpf'];
-            $rg = $row['rg'];
-        } else {
-            echo "Paciente não encontrado.";
-        }
-    } else {
-        echo "Erro na preparação da consulta: " . $conn->error;
-    }
-} else {
-    echo "ID do paciente não fornecido.";
-}
+                                        if ($result && $result->num_rows > 0) {
+                                            // Atribuindo os valores do banco de dados às variáveis
+                                            $row = $result->fetch_assoc();
+                                            $first_name = $row['first_name'];
+                                            $last_name = $row['last_name'];
+                                            $username = $row['username'];
+                                            $phone = $row['phone'];
+                                            $email = $row['email'];
+                                            $password = $row['password'];
+                                            $carteirinha = $row['carteirinha'];
+                                            $birth_date = $row['birth_date'];
+                                            $gender = $row['gender'];
+                                            $address = $row['address'];
+                                            $zipcode = $row['zipcode'];
+                                            $city = $row['city'];
+                                            $country = $row['country'];
+                                            $state = $row['state'];
+                                            $avatar = $row['image'];
+                                            $status = $row['status'];
+                                            $cpf = $row['cpf'];
+                                            $rg = $row['rg'];
+                                        } else {
+                                            echo "Paciente não encontrado.";
+                                        }
+                                    } else {
+                                        echo "Erro na preparação da consulta: " . $conn->error;
+                                    }
+                                } else {
+                                    echo "ID do paciente não fornecido.";
+                                }
 
-// Verificação do método POST para atualização de dados
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Captura os dados do formulário
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $username = $_POST['username'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $carteirinha = $_POST['carteirinha'];
-    $birth_date = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['birth_date']))); // Formato YYYY-MM-DD
-    $gender = $_POST['gender'];
-    $address = $_POST['address'];
-    $zipcode = $_POST['zipcode'];
-    $city = $_POST['city'];
-    $country = $_POST['country'];
-    $state = $_POST['state'];
-    $status = $_POST['status'];
-    $cpf = $_POST['cpf'];
-    $rg = $_POST['rg'];
+                                // Verificação do método POST para atualização de dados
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                                    // Captura os dados do formulário
+                                    $first_name = $_POST['first_name'];
+                                    $last_name = $_POST['last_name'];
+                                    $username = $_POST['username'];
+                                    $phone = $_POST['phone'];
+                                    $email = $_POST['email'];
+                                    $carteirinha = $_POST['carteirinha'];
+                                    $birth_date = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['birth_date']))); // Formato YYYY-MM-DD
+                                    $gender = $_POST['gender'];
+                                    $address = $_POST['address'];
+                                    $zipcode = $_POST['zipcode'];
+                                    $city = $_POST['city'];
+                                    $country = $_POST['country'];
+                                    $state = $_POST['state'];
+                                    $status = $_POST['status'];
+                                    $cpf = $_POST['cpf'];
+                                    $rg = $_POST['rg'];
 
-    // Verifica se a senha foi alterada
-    $new_password = $_POST['password'];
-    if (!empty($new_password)) {
-        $password = password_hash($new_password, PASSWORD_DEFAULT); // Criptografando a senha
-    }
+                                    // Verifica se a senha foi alterada
+                                    $new_password = $_POST['password'];
+                                    if (!empty($new_password)) {
+                                        $password = password_hash($new_password, PASSWORD_DEFAULT); // Criptografando a senha
+                                    }
 
-    // Verifica o upload de imagem
-    $upload_dir = '../uploads/uploads_patients/';
-    if (!file_exists($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
-    }
+                                    // Verifica o upload de imagem
+                                    $upload_dir = '../uploads/uploads_patients/';
+                                    if (!file_exists($upload_dir)) {
+                                        mkdir($upload_dir, 0777, true);
+                                    }
 
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $avatar = $upload_dir . basename($_FILES['image']['name']);
-        $allowed_types = ['image/jpeg', 'image/png'];
-        if (in_array($_FILES['image']['type'], $allowed_types)) {
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $avatar)) {
-                // Imagem movida com sucesso
-            } else {
-                echo "Erro ao mover o arquivo de imagem.";
-            }
-        } else {
-            echo "Tipo de arquivo inválido. Apenas JPEG e PNG são permitidos.";
-        }
-    }
+                                    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                                        $avatar = $upload_dir . basename($_FILES['image']['name']);
+                                        $allowed_types = ['image/jpeg', 'image/png'];
+                                        if (in_array($_FILES['image']['type'], $allowed_types)) {
+                                            if (move_uploaded_file($_FILES['image']['tmp_name'], $avatar)) {
+                                                // Imagem movida com sucesso
+                                            } else {
+                                                echo "Erro ao mover o arquivo de imagem.";
+                                            }
+                                        } else {
+                                            echo "Tipo de arquivo inválido. Apenas JPEG e PNG são permitidos.";
+                                        }
+                                    }
 
-    // Atualiza os dados do paciente no banco de dados usando prepared statements
-    $query = "UPDATE patients SET 
+                                    // Atualiza os dados do paciente no banco de dados usando prepared statements
+                                    $query = "UPDATE patients SET 
         first_name = ?, last_name = ?, username = ?, phone = ?, email = ?, password = ?, carteirinha = ?, 
         birth_date = ?, gender = ?, address = ?, zipcode = ?, city = ?, country = ?, state = ?, 
         status = ?, image = ?, cpf = ?, rg = ? WHERE id = ?";
 
-    if ($stmt = $conn->prepare($query)) {
-        $stmt->bind_param(
-            "ssssssssssssssssssi",
-            $first_name, $last_name, $username, $phone, $email, $password, $carteirinha, $birth_date,
-            $gender, $address, $zipcode, $city, $country, $state, $status, $avatar, $cpf, $rg, $id
-        );
+                                    if ($stmt = $conn->prepare($query)) {
+                                        $stmt->bind_param(
+                                            "ssssssssssssssssssi",
+                                            $first_name,
+                                            $last_name,
+                                            $username,
+                                            $phone,
+                                            $email,
+                                            $password,
+                                            $carteirinha,
+                                            $birth_date,
+                                            $gender,
+                                            $address,
+                                            $zipcode,
+                                            $city,
+                                            $country,
+                                            $state,
+                                            $status,
+                                            $avatar,
+                                            $cpf,
+                                            $rg,
+                                            $id
+                                        );
 
-        if ($stmt->execute()) {
-            echo "Registro atualizado com sucesso!";
-        } else {
-            echo "Erro ao atualizar o registro: " . $stmt->error;
-        }
-    } else {
-        echo "Erro na preparação da consulta: " . $conn->error;
-    }
-}
-?>
+                                        if ($stmt->execute()) {
+                                            echo "Registro atualizado com sucesso!";
+                                        } else {
+                                            echo "Erro ao atualizar o registro: " . $stmt->error;
+                                        }
+                                    } else {
+                                        echo "Erro na preparação da consulta: " . $conn->error;
+                                    }
+                                }
+                                ?>
 
                                 <form action="edit-patient.php?id=<?php echo htmlspecialchars($id); ?>" method="POST"
                                     enctype="multipart/form-data">
@@ -606,13 +622,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 <label>Foto</label>
                                                 <input class="form-control" type="file" name="image" />
                                                 <?php if ($avatar): ?>
-                                                <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar"
-                                                    width="100" height="100" class="avatar-img" />
+                                                    <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar"
+                                                        width="100" height="100" class="avatar-img" />
                                                 <?php endif; ?>
                                                 <style>
-                                                .avatar-img {
-                                                    margin-top: 0.80rem;
-                                                }
+                                                    .avatar-img {
+                                                        margin-top: 0.80rem;
+                                                    }
                                                 </style>
                                             </div>
                                         </div>
@@ -630,85 +646,85 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </form>
                                 <script>
-                                // Máscara para CPF
-                                $('input[name="cpf"]').mask('000.000.000-00', {
-                                    reverse: true
+                                    // Máscara para CPF
+                                    $('input[name="cpf"]').mask('000.000.000-00', {
+                                        reverse: true
 
-                                });
+                                    });
 
-                                // Máscara para RG (ajustar conforme o formato desejado)
-                                $('input[name="rg"]').mask('00.000.000-0');
-                                $(document).ready(function() {
-                                    $('input[name="phone"]').mask('(00) 00000-0000');
-                                });
+                                    // Máscara para RG (ajustar conforme o formato desejado)
+                                    $('input[name="rg"]').mask('00.000.000-0');
+                                    $(document).ready(function() {
+                                        $('input[name="phone"]').mask('(00) 00000-0000');
+                                    });
 
 
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    document.querySelector('input[name="zipcode"]').addEventListener('blur',
-                                        function() {
-                                            var cep = this.value.replace(/\D/g,
-                                                ''); // Remove caracteres não numéricos
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        document.querySelector('input[name="zipcode"]').addEventListener('blur',
+                                            function() {
+                                                var cep = this.value.replace(/\D/g,
+                                                    ''); // Remove caracteres não numéricos
 
-                                            if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
-                                                fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                                                    .then(response => response.json())
-                                                    .then(data => {
-                                                        if (!data.erro) {
-                                                            // Preenche o campo de Endereço
-                                                            document.querySelector(
-                                                                    'input[name="address"]').value =
-                                                                data.logradouro + ', ' + data.bairro;
+                                                if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+                                                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            if (!data.erro) {
+                                                                // Preenche o campo de Endereço
+                                                                document.querySelector(
+                                                                        'input[name="address"]').value =
+                                                                    data.logradouro + ', ' + data.bairro;
 
-                                                            // Atualiza o campo de Estado
-                                                            var stateSelect = document.querySelector(
-                                                                'select[name="state"]');
-                                                            var optionFound = false;
+                                                                // Atualiza o campo de Estado
+                                                                var stateSelect = document.querySelector(
+                                                                    'select[name="state"]');
+                                                                var optionFound = false;
 
-                                                            // Itera sobre as opções do select de estado para selecionar a correta
-                                                            for (var i = 0; i < stateSelect.options
-                                                                .length; i++) {
-                                                                if (stateSelect.options[i].value ===
-                                                                    data.uf) {
-                                                                    stateSelect.selectedIndex = i;
-                                                                    optionFound = true;
-                                                                    break;
+                                                                // Itera sobre as opções do select de estado para selecionar a correta
+                                                                for (var i = 0; i < stateSelect.options
+                                                                    .length; i++) {
+                                                                    if (stateSelect.options[i].value ===
+                                                                        data.uf) {
+                                                                        stateSelect.selectedIndex = i;
+                                                                        optionFound = true;
+                                                                        break;
+                                                                    }
                                                                 }
+
+                                                                // Se a opção não foi encontrada, exibe uma mensagem
+                                                                if (!optionFound) {
+                                                                    alert(
+                                                                        'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
+                                                                    );
+                                                                }
+
+                                                                // Força a atualização do campo visível
+                                                                stateSelect.dispatchEvent(new Event(
+                                                                    'change'));
+
+                                                                // Atualiza o campo de Cidade
+                                                                var citySelect = document.querySelector(
+                                                                    'select[name="city"]');
+                                                                citySelect.innerHTML =
+                                                                    `<option value="${data.localidade}">${data.localidade}</option>`;
+
+                                                                // Preenche o campo de País com 'Brasil'
+                                                                document.querySelector(
+                                                                        'select[name="country"]').value =
+                                                                    'Brasil';
+                                                            } else {
+                                                                alert('CEP não encontrado.');
                                                             }
-
-                                                            // Se a opção não foi encontrada, exibe uma mensagem
-                                                            if (!optionFound) {
-                                                                alert(
-                                                                    'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                                );
-                                                            }
-
-                                                            // Força a atualização do campo visível
-                                                            stateSelect.dispatchEvent(new Event(
-                                                                'change'));
-
-                                                            // Atualiza o campo de Cidade
-                                                            var citySelect = document.querySelector(
-                                                                'select[name="city"]');
-                                                            citySelect.innerHTML =
-                                                                `<option value="${data.localidade}">${data.localidade}</option>`;
-
-                                                            // Preenche o campo de País com 'Brasil'
-                                                            document.querySelector(
-                                                                    'select[name="country"]').value =
-                                                                'Brasil';
-                                                        } else {
-                                                            alert('CEP não encontrado.');
-                                                        }
-                                                    })
-                                                    .catch(error => {
-                                                        console.error('Erro ao buscar CEP:', error);
-                                                        alert('Erro ao buscar CEP. Tente novamente.');
-                                                    });
-                                            } else {
-                                                alert('Por favor, insira um CEP válido.');
-                                            }
-                                        });
-                                });
+                                                        })
+                                                        .catch(error => {
+                                                            console.error('Erro ao buscar CEP:', error);
+                                                            alert('Erro ao buscar CEP. Tente novamente.');
+                                                        });
+                                                } else {
+                                                    alert('Por favor, insira um CEP válido.');
+                                                }
+                                            });
+                                    });
                                 </script>
 
 

@@ -42,7 +42,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 <div class="main-wrapper">
     <div class="header">
@@ -314,88 +314,88 @@
                         <div class="card-body">
 
                             <?php
-                            // Conectar ao banco de dados
-                            include 'database.php'; // Ajuste o caminho conforme necessário para o arquivo database.php
+// Conectar ao banco de dados
+include 'database.php'; // Ajuste o caminho conforme necessário para o arquivo database.php
 
-                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                                // Recebe os dados do formulário
-                                $firstName = $_POST['first_name'];
-                                $lastName = $_POST['last_name'];
-                                $username = $_POST['username'];
-                                $phone = $_POST['phone'];
-                                $email = $_POST['email'];
-                                $password = $_POST['password'];
-                                $carteirinha = $_POST['carteirinha'];
-                                $birthDate = $_POST['birth_date'];
-                                $gender = $_POST['gender'];
-                                $address = $_POST['address'];
-                                $city = $_POST['city'];
-                                $state = $_POST['state'];
-                                $country = $_POST['country'];
-                                $zipcode = $_POST['zipcode'];
-                                $status = $_POST['status'];
-                                $cpf = $_POST['cpf'];
-                                $rg = $_POST['rg'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recebe os dados do formulário
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $username = $_POST['username'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $carteirinha = $_POST['carteirinha'];
+    $birthDate = $_POST['birth_date'];
+    $gender = $_POST['gender'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $country = $_POST['country'];
+    $zipcode = $_POST['zipcode'];
+    $status = $_POST['status'];
+    $cpf = $_POST['cpf'];
+    $rg = $_POST['rg'];
 
 
-                                // Converte a data de nascimento para o formato correto (Y-m-d)
-                                $birthDate = DateTime::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
+    // Converte a data de nascimento para o formato correto (Y-m-d)
+    $birthDate = DateTime::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
 
-                                // Processa a imagem de upload
-                                $targetDir = "../uploads/uploads_patient/";  // Diretório fora da pasta admin
+    // Processa a imagem de upload
+    $targetDir = "../uploads/uploads_funcionarios/";  // Diretório fora da pasta admin
 
-                                // Verifica se o diretório existe; se não existir, cria-o
-                                if (!is_dir($targetDir)) {
-                                    mkdir($targetDir, 0777, true);  // Cria o diretório com permissões apropriadas
-                                }
+    // Verifica se o diretório existe; se não existir, cria-o
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true);  // Cria o diretório com permissões apropriadas
+    }
 
-                                // Define o caminho do arquivo de destino
-                                $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+    // Define o caminho do arquivo de destino
+    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
 
-                                // Move o arquivo temporário para o diretório de destino
-                                if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                                    $imagePath = $targetFile;
-                                } else {
-                                    echo "Erro ao enviar a imagem.";
-                                    $imagePath = null;
-                                }
+    // Move o arquivo temporário para o diretório de destino
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+        $imagePath = $targetFile;
+    } else {
+        echo "Erro ao enviar a imagem.";
+        $imagePath = null;
+    }
 
-                                // Valida o valor de status
-                                $validStatuses = ['Ativa', 'Inativo'];
-                                if (!in_array($status, $validStatuses)) {
-                                    echo "Status inválido.";
-                                    exit;
-                                }
+    // Valida o valor de status
+    $validStatuses = ['Ativa', 'Inativo'];
+    if (!in_array($status, $validStatuses)) {
+        echo "Status inválido.";
+        exit;
+    }
 
-                                // Prepara a consulta SQL
-                                $sql = "INSERT INTO patients (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image, cpf, rg)
+    // Prepara a consulta SQL
+    $sql = "INSERT INTO staff (first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, address, city, state, country, zipcode, status, image, cpf, rg)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                                if ($stmt = $conn->prepare($sql)) {
-                                    // Adiciona os parâmetros cpf e rg
-                                    $stmt->bind_param("ssssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath, $cpf, $rg);
+if ($stmt = $conn->prepare($sql)) {
+    // Adiciona os parâmetros cpf e rg
+    $stmt->bind_param("ssssssssssssssssss", $firstName, $lastName, $username, $phone, $email, $password, $carteirinha, $birthDate, $gender, $address, $city, $state, $country, $zipcode, $status, $imagePath, $cpf, $rg);
 
-                                    if ($stmt->execute()) {
-                                        echo '<div class="message success">Novo paciente cadastrado com sucesso!</div>';
-                                    } else {
-                                        echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
-                                    }
+    if ($stmt->execute()) {
+        echo '<div class="message success">Novo colaborador cadastrado com sucesso!</div>';
+    } else {
+        echo '<div class="message error">Erro: ' . $stmt->error . '</div>';
+    }
 
-                                    $stmt->close();
-                                } else {
-                                    echo "Erro ao preparar a consulta: " . $conn->error;
-                                }
+    $stmt->close();
+} else {
+    echo "Erro ao preparar a consulta: " . $conn->error;
+}
 
-                                $conn->close();
-                            }
+$conn->close();
+}
 
-                            ?>
+?>
 
-                            <form action="add-patient.php" method="POST" enctype="multipart/form-data">
+                            <form action="add-staff.php" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-heading">
-                                            <h4>Detalhes do paciente</h4>
+                                            <h4>Detalhes do colaborador</h4>
                                         </div>
                                     </div>
 
@@ -613,91 +613,91 @@
                                             <button type="submit"
                                                 class="btn btn-primary submit-form me-2">Enviar</button>
                                             <button type="button" class="btn btn-secondary cancel-form"
-                                                onclick="window.location.href='patients.php';">Cancelar</button>
+                                                onclick="window.location.href='staff.php';">Cancelar</button>
                                         </div>
                                     </div>
                                 </div>
 
                                 <script>
-                                    // Máscara para CPF
-                                    $('input[name="cpf"]').mask('000.000.000-00', {
-                                        reverse: true
+                                // Máscara para CPF
+                                $('input[name="cpf"]').mask('000.000.000-00', {
+                                    reverse: true
 
-                                    });
+                                });
 
-                                    // Máscara para RG (ajustar conforme o formato desejado)
-                                    $('input[name="rg"]').mask('00.000.000-0');
-                                    $(document).ready(function() {
-                                        $('input[name="phone"]').mask('(00) 00000-0000');
-                                    });
+                                // Máscara para RG (ajustar conforme o formato desejado)
+                                $('input[name="rg"]').mask('00.000.000-0');
+                                $(document).ready(function() {
+                                    $('input[name="phone"]').mask('(00) 00000-0000');
+                                });
 
 
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        document.querySelector('input[name="zipcode"]').addEventListener('blur',
-                                            function() {
-                                                var cep = this.value.replace(/\D/g,
-                                                    ''); // Remove caracteres não numéricos
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    document.querySelector('input[name="zipcode"]').addEventListener('blur',
+                                        function() {
+                                            var cep = this.value.replace(/\D/g,
+                                                ''); // Remove caracteres não numéricos
 
-                                                if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
-                                                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                                                        .then(response => response.json())
-                                                        .then(data => {
-                                                            if (!data.erro) {
-                                                                // Preenche o campo de Endereço
-                                                                document.querySelector(
-                                                                        'input[name="address"]').value =
-                                                                    data.logradouro + ', ' + data.bairro;
+                                            if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+                                                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        if (!data.erro) {
+                                                            // Preenche o campo de Endereço
+                                                            document.querySelector(
+                                                                    'input[name="address"]').value =
+                                                                data.logradouro + ', ' + data.bairro;
 
-                                                                // Atualiza o campo de Estado
-                                                                var stateSelect = document.querySelector(
-                                                                    'select[name="state"]');
-                                                                var optionFound = false;
+                                                            // Atualiza o campo de Estado
+                                                            var stateSelect = document.querySelector(
+                                                                'select[name="state"]');
+                                                            var optionFound = false;
 
-                                                                // Itera sobre as opções do select de estado para selecionar a correta
-                                                                for (var i = 0; i < stateSelect.options
-                                                                    .length; i++) {
-                                                                    if (stateSelect.options[i].value ===
-                                                                        data.uf) {
-                                                                        stateSelect.selectedIndex = i;
-                                                                        optionFound = true;
-                                                                        break;
-                                                                    }
+                                                            // Itera sobre as opções do select de estado para selecionar a correta
+                                                            for (var i = 0; i < stateSelect.options
+                                                                .length; i++) {
+                                                                if (stateSelect.options[i].value ===
+                                                                    data.uf) {
+                                                                    stateSelect.selectedIndex = i;
+                                                                    optionFound = true;
+                                                                    break;
                                                                 }
-
-                                                                // Se a opção não foi encontrada, exibe uma mensagem
-                                                                if (!optionFound) {
-                                                                    alert(
-                                                                        'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                                    );
-                                                                }
-
-                                                                // Força a atualização do campo visível
-                                                                stateSelect.dispatchEvent(new Event(
-                                                                    'change'));
-
-                                                                // Atualiza o campo de Cidade
-                                                                var citySelect = document.querySelector(
-                                                                    'select[name="city"]');
-                                                                citySelect.innerHTML =
-                                                                    `<option value="${data.localidade}">${data.localidade}</option>`;
-
-                                                                // Preenche o campo de País com 'Brasil'
-                                                                document.querySelector(
-                                                                        'select[name="country"]').value =
-                                                                    'Brasil';
-                                                            } else {
-                                                                alert('CEP não encontrado.');
                                                             }
-                                                        })
-                                                        .catch(error => {
-                                                            console.error('Erro ao buscar CEP:', error);
-                                                            alert('Erro ao buscar CEP. Tente novamente.');
-                                                        });
-                                                } else {
-                                                    alert('Por favor, insira um CEP válido.');
-                                                }
-                                            });
-                                    });
+
+                                                            // Se a opção não foi encontrada, exibe uma mensagem
+                                                            if (!optionFound) {
+                                                                alert(
+                                                                    'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
+                                                                );
+                                                            }
+
+                                                            // Força a atualização do campo visível
+                                                            stateSelect.dispatchEvent(new Event(
+                                                                'change'));
+
+                                                            // Atualiza o campo de Cidade
+                                                            var citySelect = document.querySelector(
+                                                                'select[name="city"]');
+                                                            citySelect.innerHTML =
+                                                                `<option value="${data.localidade}">${data.localidade}</option>`;
+
+                                                            // Preenche o campo de País com 'Brasil'
+                                                            document.querySelector(
+                                                                    'select[name="country"]').value =
+                                                                'Brasil';
+                                                        } else {
+                                                            alert('CEP não encontrado.');
+                                                        }
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Erro ao buscar CEP:', error);
+                                                        alert('Erro ao buscar CEP. Tente novamente.');
+                                                    });
+                                            } else {
+                                                alert('Por favor, insira um CEP válido.');
+                                            }
+                                        });
+                                });
                                 </script>
                             </form>
 
@@ -708,228 +708,7 @@
             </div>
 
 
-        </div>
-        <div class="notification-box">
-            <div class="msg-sidebar notifications msg-noti">
-                <div class="topnav-dropdown-header">
-                    <span>Mensagens</span>
-                </div>
-                <div class="drop-scroll msg-list-scroll" id="msg_list">
-                    <ul class="list-box">
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">R</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item new-message">
-                                    <div class="list-left">
-                                        <span class="avatar">J</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum</span>
-                                        <span class="message-time">1 de agosto</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">T</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">M</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">C</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">D</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">B</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">R</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">C</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">M</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum </span>
-                                        <span class="message-time">12:28 AM</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">J</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">L</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">lorenGatlin</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">T</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Tara: no show do trabalho</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="chat.php">See all messages</a>
-                </div>
-            </div>
+
         </div>
     </div>
     <div id="delete_patient" class="modal fade delete-modal" role="dialog">

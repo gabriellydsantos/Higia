@@ -32,7 +32,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -223,12 +223,11 @@
                             <ul style="display: none">
                                 <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                                 <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
+                                <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
                                 <li>
                                     <a href="staff-profile.php">Perfil do Funcionário</a>
                                 </li>
-                                <li><a href="../admin/staff-leave.php">Licenças</a></li>
-                                <li><a href="../admin/staff-holiday.php">Feriados</a></li>
-                                <li><a href="../admin/staff-attendance.php">Presenças</a></li>
+
                             </ul>
                         </li>
                         <!-- <li class="submenu">
@@ -301,52 +300,52 @@
                 </div>
 
                 <?php
-// Incluindo o arquivo de conexão ao banco de dados
-include('database.php');
+                // Incluindo o arquivo de conexão ao banco de dados
+                include('database.php');
 
-// Verificando se o ID do departamento foi passado na URL
-if (isset($_GET['id'])) {
-    $department_id = $_GET['id'];
+                // Verificando se o ID do departamento foi passado na URL
+                if (isset($_GET['id'])) {
+                    $department_id = $_GET['id'];
 
-    // Consultando os dados do departamento
-    $sql = "SELECT id, department_name, doctor_carteirinha, description, department_date, status FROM departments WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $department_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+                    // Consultando os dados do departamento
+                    $sql = "SELECT id, department_name, doctor_carteirinha, description, department_date, status FROM departments WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $department_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
 
-    // Verificando se o departamento existe
-    if ($result->num_rows > 0) {
-        $department = $result->fetch_assoc();
-    } else {
-        echo "Departamento não encontrado.";
-        exit();
-    }
-} else {
-    echo "ID de departamento inválido.";
-    exit();
-}
+                    // Verificando se o departamento existe
+                    if ($result->num_rows > 0) {
+                        $department = $result->fetch_assoc();
+                    } else {
+                        echo "Departamento não encontrado.";
+                        exit();
+                    }
+                } else {
+                    echo "ID de departamento inválido.";
+                    exit();
+                }
 
-// Verificando se o formulário foi enviado para atualizar os dados
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $department_name = $_POST['department_name'];
-    $doctor_carteirinha = $_POST['doctor_carteirinha'];
-    $description = $_POST['description'];
-    $department_date = $_POST['department_date'];
-    $status = $_POST['status'];
+                // Verificando se o formulário foi enviado para atualizar os dados
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $department_name = $_POST['department_name'];
+                    $doctor_carteirinha = $_POST['doctor_carteirinha'];
+                    $description = $_POST['description'];
+                    $department_date = $_POST['department_date'];
+                    $status = $_POST['status'];
 
-    // Atualizando os dados no banco de dados
-    $sql = "UPDATE departments SET department_name = ?, doctor_carteirinha = ?, description = ?, department_date = ?, status = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $department_name, $doctor_carteirinha, $description, $department_date, $status, $department_id);
+                    // Atualizando os dados no banco de dados
+                    $sql = "UPDATE departments SET department_name = ?, doctor_carteirinha = ?, description = ?, department_date = ?, status = ? WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("sssssi", $department_name, $doctor_carteirinha, $description, $department_date, $status, $department_id);
 
-    if ($stmt->execute()) {
-        echo "Departamento atualizado com sucesso!";
-    } else {
-        echo "Erro ao atualizar o departamento: " . $conn->error;
-    }
-}
-?>
+                    if ($stmt->execute()) {
+                        echo "Departamento atualizado com sucesso!";
+                    } else {
+                        echo "Erro ao atualizar o departamento: " . $conn->error;
+                    }
+                }
+                ?>
 
                 <!-- Formulário de edição do departamento -->
                 <div class="row">
@@ -434,9 +433,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <?php
-// Fechar a conexão com o banco de dados
-$conn->close();
-?>
+                // Fechar a conexão com o banco de dados
+                $conn->close();
+                ?>
 
 
             </div>
