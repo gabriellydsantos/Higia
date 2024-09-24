@@ -360,6 +360,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $imagePath = null;
     }
 
+    $username = strtolower($first_name) . "_" . $carteirinha;
+    
     // Valida o valor de status
     $validStatuses = ['Ativa', 'Inativo'];
     if (!in_array($status, $validStatuses)) {
@@ -403,7 +405,8 @@ $conn->close();
                                         <div class="input-block local-forms">
                                             <label>Primeiro nome<span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" name="first_name"
-                                                placeholder="Digite o primeiro nome" required />
+                                                placeholder="Digite o primeiro nome" required
+                                                oninput="updateUsername()" />
                                         </div>
                                     </div>
 
@@ -418,7 +421,7 @@ $conn->close();
                                     <div class="col-12 col-md-6 col-xl-4">
                                         <div class="input-block local-forms">
                                             <label>Nome de usuário<span class="login-danger">*</span></label>
-                                            <input class="form-control" type="text" name="username"
+                                            <input class="form-control" type="text" name="username" id="username"
                                                 placeholder="Digite o nome de usuário" required />
                                         </div>
                                     </div>
@@ -470,10 +473,9 @@ $conn->close();
                                             <input class="form-control" type="text" name="carteirinha"
                                                 placeholder="Digite a carteirinha"
                                                 value="<?php echo str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT); ?>"
-                                                required />
+                                                required oninput="updateUsername()" />
                                         </div>
                                     </div>
-
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="input-block local-forms cal-icon">
                                             <label>Data de nascimento<span class="login-danger">*</span></label>
@@ -698,6 +700,13 @@ $conn->close();
                                             }
                                         });
                                 });
+
+                                function updateUsername() {
+                                    const firstName = document.querySelector('input[name="first_name"]').value;
+                                    const carteirinha = document.querySelector('input[name="carteirinha"]').value;
+                                    const formattedUsername = firstName.toLowerCase() + "_" + carteirinha;
+                                    document.getElementById('username').value = formattedUsername;
+                                }
                                 </script>
                             </form>
 
