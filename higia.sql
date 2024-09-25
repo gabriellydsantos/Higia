@@ -66,7 +66,6 @@ CREATE TABLE patients (
 
 -- ALTER TABLE patients MODIFY COLUMN cpf VARCHAR(14);
 
-
 -- Tabela de médicos
 CREATE TABLE doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -91,7 +90,6 @@ CREATE TABLE doctors (
     rg VARCHAR(12),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 -- Tabela de departamentos
 CREATE TABLE departments (
@@ -127,6 +125,5 @@ CREATE TABLE staff (
     rg VARCHAR(12),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 drop database higia;
