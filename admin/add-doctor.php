@@ -39,7 +39,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -262,13 +262,13 @@
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg"
                                         alt /></span>
-                                <span> Departamentos </span> <span class="menu-arrow"></span></a>
+                                <span> Especialidade</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li>
-                                    <a class="" href="departments.php">Departamento</a>
+                                    <a class="" href="departments.php">Especialidade</a>
                                 </li>
-                                <li><a href="../admin/add-department.php">Add departamento</a></li>
-                                <li><a href="../admin/edit-department.php">Editar departamento</a></li>
+                                <li><a href="../admin/add-department.php">Add Especialidade</a></li>
+                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
                             </ul>
                         </li>
 
@@ -281,7 +281,7 @@
 
                     </ul>
                     <div class="logout-btn">
-                        <a href="login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="../login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>
@@ -409,16 +409,16 @@
                                             </div>
                                         </div>
 
-                                        <!-- Campos do Formulário -->
                                         <div class="col-12 col-md-6 col-xl-4">
                                             <div class="input-block local-forms">
                                                 <label>Primeiro nome<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="first_name"
-                                                    placeholder="Digite o primeiro nome" required />
+                                                    id="first_name" placeholder="Digite o primeiro nome" required
+                                                    oninput="updateUsername()" />
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-4">
+                                        <div class=" col-12 col-md-6 col-xl-4">
                                             <div class="input-block local-forms">
                                                 <label>Sobrenome<span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="last_name"
@@ -429,10 +429,11 @@
                                         <div class="col-12 col-md-6 col-xl-4">
                                             <div class="input-block local-forms">
                                                 <label>Nome de usuário<span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" name="username"
-                                                    placeholder="Digite o nome de usuário" required />
+                                                <input class="form-control" type="text" name="username" id="username"
+                                                    placeholder="Digite o nome de usuário" required readonly />
                                             </div>
                                         </div>
+
 
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="input-block local-forms">
@@ -484,7 +485,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="col-12 col-md-6 col-xl-5
+                                        ">
                                             <div class="input-block local-forms cal-icon">
                                                 <label>Data de nascimento<span class="login-danger">*</span></label>
                                                 <input class="form-control datetimepicker" type="text" name="birth_date"
@@ -498,21 +500,22 @@
                                                         class="login-danger">*</span></label>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="gender" value="masculino"
-                                                            class="form-check-input mt-0" required />Masculino
+                                                        <input type="radio" name="gender" value="Masculino"
+                                                            class="form-check-input mt-0" required
+                                                            onchange="updateUsername()" />Masculino
                                                     </label>
                                                 </div>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="gender" value="feminino"
-                                                            class="form-check-input mt-0" required />Feminino
+                                                        <input type="radio" name="gender" value="Feminino"
+                                                            class="form-check-input mt-0" required
+                                                            onchange="updateUsername()" />Feminino
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
 
-
-                                        <div class="col-12 col-md-6 col-xl-3">
+                                        <div class="col-12 col-md-6 col-xl-4">
                                             <div class="input-block local-forms">
                                                 <label>Departamento<span class="login-danger">*</span></label>
                                                 <select class="form-control select" id="department" name="department"
@@ -659,74 +662,99 @@
                                 </script>
 
                                 <script>
-                                    $(document).ready(function() {
-                                        // Máscara para CPF
-                                        $('input[name="cpf"]').mask('000.000.000-00', {
-                                            reverse: true
-                                        });
-
-                                        // Máscara para RG
-                                        $('input[name="rg"]').mask('00.000.000-0');
-
-                                        // Máscara para Telefone
-                                        $('input[name="phone"]').mask('(00) 00000-0000');
-
-                                        // Máscara para CEP
-                                        $('input[name="zipcode"]').mask('00000-000');
-
-                                        // Preenchimento automático do endereço com base no CEP
-                                        $('input[name="zipcode"]').on('blur', function() {
-                                            var cep = $(this).val().replace(/\D/g,
-                                                ''); // Remove caracteres não numéricos
-
-                                            if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
-                                                $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(
-                                                    data) {
-                                                    if (!data.erro) {
-                                                        // Preenche o campo de Endereço
-                                                        $('input[name="address"]').val(data
-                                                            .logradouro + ', ' + data.bairro);
-
-                                                        // Atualiza o campo de Estado
-                                                        var stateSelect = $('select[name="state"]');
-                                                        var optionFound = false;
-
-                                                        stateSelect.find('option').each(function() {
-                                                            if ($(this).val() === data.uf) {
-                                                                $(this).prop('selected',
-                                                                    true);
-                                                                optionFound = true;
-                                                                return false; // Encerra o loop
-                                                            }
-                                                        });
-
-                                                        if (!optionFound) {
-                                                            alert(
-                                                                'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                            );
-                                                        }
-
-                                                        stateSelect.trigger('change');
-
-                                                        // Atualiza o campo de Cidade
-                                                        var citySelect = $('select[name="city"]');
-                                                        citySelect.html(
-                                                            `<option value="${data.localidade}">${data.localidade}</option>`
-                                                        );
-
-                                                        // Preenche o campo de País com 'Brasil'
-                                                        $('select[name="country"]').val('Brasil');
-                                                    } else {
-                                                        alert('CEP não encontrado.');
-                                                    }
-                                                }).fail(function() {
-                                                    alert('Erro ao buscar CEP. Tente novamente.');
-                                                });
-                                            } else {
-                                                alert('Por favor, insira um CEP válido.');
-                                            }
-                                        });
+                                $(document).ready(function() {
+                                    // Máscara para CPF
+                                    $('input[name="cpf"]').mask('000.000.000-00', {
+                                        reverse: true
                                     });
+
+                                    // Máscara para RG
+                                    $('input[name="rg"]').mask('00.000.000-0');
+
+                                    // Máscara para Telefone
+                                    $('input[name="phone"]').mask('(00) 00000-0000');
+
+                                    // Máscara para CEP
+                                    $('input[name="zipcode"]').mask('00000-000');
+
+                                    // Preenchimento automático do endereço com base no CEP
+                                    $('input[name="zipcode"]').on('blur', function() {
+                                        var cep = $(this).val().replace(/\D/g,
+                                            ''); // Remove caracteres não numéricos
+
+                                        if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+                                            $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(
+                                                data) {
+                                                if (!data.erro) {
+                                                    // Preenche o campo de Endereço
+                                                    $('input[name="address"]').val(data
+                                                        .logradouro + ', ' + data.bairro);
+
+                                                    // Atualiza o campo de Estado
+                                                    var stateSelect = $('select[name="state"]');
+                                                    var optionFound = false;
+
+                                                    stateSelect.find('option').each(function() {
+                                                        if ($(this).val() === data.uf) {
+                                                            $(this).prop('selected',
+                                                                true);
+                                                            optionFound = true;
+                                                            return false; // Encerra o loop
+                                                        }
+                                                    });
+
+                                                    if (!optionFound) {
+                                                        alert(
+                                                            'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
+                                                        );
+                                                    }
+
+                                                    stateSelect.trigger('change');
+
+                                                    // Atualiza o campo de Cidade
+                                                    var citySelect = $('select[name="city"]');
+                                                    citySelect.html(
+                                                        `<option value="${data.localidade}">${data.localidade}</option>`
+                                                    );
+
+                                                    // Preenche o campo de País com 'Brasil'
+                                                    $('select[name="country"]').val('Brasil');
+                                                } else {
+                                                    alert('CEP não encontrado.');
+                                                }
+                                            }).fail(function() {
+                                                alert('Erro ao buscar CEP. Tente novamente.');
+                                            });
+                                        } else {
+                                            alert('Por favor, insira um CEP válido.');
+                                        }
+                                    });
+                                });
+
+
+                                function updateUsername() {
+                                    // Obter o valor do primeiro nome e o gênero selecionado
+                                    const firstName = document.getElementById('first_name').value;
+                                    const gender = document.querySelector('input[name="gender"]:checked') ?
+                                        document.querySelector('input[name="gender"]:checked').value : '';
+                                    const usernameField = document.getElementById('username');
+
+                                    // Verificar o gênero e definir o prefixo correto
+                                    let prefix = '';
+                                    if (gender === 'Masculino') {
+                                        prefix = 'Dr.';
+                                    } else if (gender === 'Feminino') {
+                                        prefix = 'Dra.';
+                                    }
+
+                                    // Atualizar o campo de username com o prefixo e o primeiro nome
+                                    if (firstName && gender) {
+                                        usernameField.value = prefix + firstName
+                                            .toLowerCase(); // Atualiza o username automaticamente
+                                    } else {
+                                        usernameField.value = ''; // Limpa o campo se os dados estiverem incompletos
+                                    }
+                                }
                                 </script>
 
 

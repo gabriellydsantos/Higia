@@ -261,13 +261,13 @@
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg"
                                         alt /></span>
-                                <span> Departamentos </span> <span class="menu-arrow"></span></a>
+                                <span> Especialidade</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li>
-                                    <a class="" href="departments.php">Departamento</a>
+                                    <a class="" href="departments.php">Especialidade</a>
                                 </li>
-                                <li><a href="../admin/add-department.php">Add departamento</a></li>
-                                <li><a href="../admin/edit-department.php">Editar departamento</a></li>
+                                <li><a href="../admin/add-department.php">Add Especialidade</a></li>
+                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
                             </ul>
                         </li>
 
@@ -280,7 +280,7 @@
 
                     </ul>
                     <div class="logout-btn">
-                        <a href="login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="../login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>

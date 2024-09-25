@@ -38,7 +38,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 
 <div class="main-wrapper">
@@ -258,16 +258,15 @@
                     <li class="submenu">
                         <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg"
                                     alt /></span>
-                            <span> Departamentos </span> <span class="menu-arrow"></span></a>
+                            <span> Especialidade</span> <span class="menu-arrow"></span></a>
                         <ul style="display: none">
                             <li>
-                                <a class="" href="departments.php">Departamento</a>
+                                <a class="" href="departments.php">Especialidade</a>
                             </li>
-                            <li><a href="../admin/add-department.php">Add departamento</a></li>
-                            <li><a href="../admin/edit-department.php">Editar departamento</a></li>
+                            <li><a href="../admin/add-department.php">Add Especialidade</a></li>
+                            <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
                         </ul>
                     </li>
-
 
 
 
@@ -369,7 +368,7 @@
                                                 </div>
                                             </th>
                                             <th>Nome</th>
-                                            <th>Departamento</th>
+                                            <th>Especialidade</th>
                                             <th>Telefone</th>
                                             <th>E-mail</th>
                                             <th>Data de ingresso</th>
@@ -413,7 +412,6 @@
                             <?php
                             $conn->close();
                             ?>
-
 
 
                         </div>
@@ -665,35 +663,35 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Atualizar a página ao clicar no botão de refresh
-        $('.doctor-refresh').click(function() {
-            location.reload(); // Recarrega a página
-        });
-
-        // Função para carregar os médicos com base na consulta de pesquisa
-        function loadDoctors(query = '') {
-            $.ajax({
-                url: "fetch_doctors.php", // Arquivo PHP que fará a consulta ao banco de dados
-                method: "GET",
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    $('#doctors-table-body').html(data); // Atualiza o corpo da tabela com os resultados
-                }
-            });
-        }
-
-        // Chamar a função loadDoctors ao digitar no campo de pesquisa
-        $('.table-search-blk input').on('keyup', function() {
-            var query = $(this).val();
-            loadDoctors(query);
-        });
-
-        // Carregar todos os médicos ao carregar a página
-        loadDoctors();
+$(document).ready(function() {
+    // Atualizar a página ao clicar no botão de refresh
+    $('.doctor-refresh').click(function() {
+        location.reload(); // Recarrega a página
     });
+
+    // Função para carregar os médicos com base na consulta de pesquisa
+    function loadDoctors(query = '') {
+        $.ajax({
+            url: "fetch_doctors.php", // Arquivo PHP que fará a consulta ao banco de dados
+            method: "GET",
+            data: {
+                query: query
+            },
+            success: function(data) {
+                $('#doctors-table-body').html(data); // Atualiza o corpo da tabela com os resultados
+            }
+        });
+    }
+
+    // Chamar a função loadDoctors ao digitar no campo de pesquisa
+    $('.table-search-blk input').on('keyup', function() {
+        var query = $(this).val();
+        loadDoctors(query);
+    });
+
+    // Carregar todos os médicos ao carregar a página
+    loadDoctors();
+});
 </script>
 
 <div class="sidebar-overlay" data-reff></div>

@@ -67,8 +67,6 @@ CREATE TABLE patients (
 -- ALTER TABLE patients MODIFY COLUMN cpf VARCHAR(14);
 
 
-
-
 -- Tabela de médicos
 CREATE TABLE doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -94,12 +92,6 @@ CREATE TABLE doctors (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO doctors (
-    first_name, last_name, username, phone, email, password, carteirinha, birth_date, gender, department, address, zipcode, city, state, country, status, image, cpf, rg
-) VALUES (
-    'João', 'Silva', 'joao.silva', '123456789', 'joao.silva@example.com', 'senha_segura', '123456', '1980-01-01', 'Masculino', 'Cardiologia', 'Rua das Flores, 123', '12345-678', 'São Paulo', 'SP', 'Brasil', 'Ativa', 'perfil.jpg', '123.456.789-00', '12.345.678-9'
-);
-
 
 -- Tabela de departamentos
 CREATE TABLE departments (
@@ -111,5 +103,30 @@ CREATE TABLE departments (
     status ENUM('Ativo', 'Inativo') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE staff (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    carteirinha VARCHAR(6) NOT NULL,
+    birth_date DATE NOT NULL,
+    gender ENUM('Masculino', 'Feminino') NOT NULL,
+    address TEXT NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    zipcode VARCHAR(20) NOT NULL,
+    status ENUM('Ativa', 'Inativo') NOT NULL,
+    image VARCHAR(255),
+    cpf VARCHAR(14),
+    rg VARCHAR(12),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 drop database higia;

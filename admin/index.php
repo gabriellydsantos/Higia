@@ -40,7 +40,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -268,13 +268,13 @@
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg"
                                         alt /></span>
-                                <span> Departamentos </span> <span class="menu-arrow"></span></a>
+                                <span> Especialidade</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li>
-                                    <a class="" href="departments.php">Departamento</a>
+                                    <a class="" href="departments.php">Especialidade</a>
                                 </li>
-                                <li><a href="../admin/add-department.php">Add departamento</a></li>
-                                <li><a href="../admin/edit-department.php">Editar departamento</a></li>
+                                <li><a href="../admin/add-department.php">Add Especialidade</a></li>
+                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
                             </ul>
                         </li>
 
@@ -287,7 +287,7 @@
 
                     </ul>
                     <div class="logout-btn">
-                        <a href="login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="../login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>
@@ -363,15 +363,15 @@
                     </div>
 
                     <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Defina o caminho correto para get_patient_count.php
-                        fetch('get_patient_count.php')
-                            .then(response => response.text())
-                            .then(data => {
-                                document.getElementById('patient-count').innerText = data;
-                            })
-                            .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
-                    });
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Defina o caminho correto para get_patient_count.php
+                            fetch('get_patient_count.php')
+                                .then(response => response.text())
+                                .then(data => {
+                                    document.getElementById('patient-count').innerText = data;
+                                })
+                                .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
+                        });
                     </script>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
@@ -391,15 +391,15 @@
 
 
                     <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Defina o caminho correto para get_patient_count.php
-                        fetch('get_doctor_count.php')
-                            .then(response => response.text())
-                            .then(data => {
-                                document.getElementById('doctor-count').innerText = data;
-                            })
-                            .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
-                    });
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Defina o caminho correto para get_patient_count.php
+                            fetch('get_doctor_count.php')
+                                .then(response => response.text())
+                                .then(data => {
+                                    document.getElementById('doctor-count').innerText = data;
+                                })
+                                .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
+                        });
                     </script>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
                 </div>

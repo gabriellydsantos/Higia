@@ -33,7 +33,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -259,13 +259,13 @@
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg"
                                         alt /></span>
-                                <span> Departamentos </span> <span class="menu-arrow"></span></a>
+                                <span> Especialidade</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li>
-                                    <a class="" href="departments.php">Departamento</a>
+                                    <a class="" href="departments.php">Especialidade</a>
                                 </li>
-                                <li><a href="../admin/add-department.php">Add departamento</a></li>
-                                <li><a href="../admin/edit-department.php">Editar departamento</a></li>
+                                <li><a href="../admin/add-department.php">Add Especialidade</a></li>
+                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
                             </ul>
                         </li>
 
@@ -278,7 +278,7 @@
 
                     </ul>
                     <div class="logout-btn">
-                        <a href="login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="../login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>
@@ -311,7 +311,7 @@
                                     <div class="row align-items-center">
                                         <div class="col">
                                             <div class="doctor-table-blk">
-                                                <h3>Lista de Departamentos</h3>
+                                                <h3>Lista das Especialidades</h3>
                                                 <div class="doctor-search-blk">
                                                     <div class="top-nav-search table-search-blk">
                                                         <form method="GET">
@@ -380,7 +380,7 @@
                                                 <th>Nome</th>
                                                 <th>Carteirinha Médico</th>
                                                 <th>Descrição</th>
-                                                <th>Data do Departamento</th>
+                                                <th>Data de envio</th>
                                                 <th>Status</th>
                                                 <th></th>
                                             </tr>
@@ -674,34 +674,34 @@
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            // Função para realizar a busca dinâmica
-            $('#search-department').on('input', function() {
-                var query = $(this).val();
+    $(document).ready(function() {
+        // Função para realizar a busca dinâmica
+        $('#search-department').on('input', function() {
+            var query = $(this).val();
 
-                $.ajax({
-                    url: 'fetch_department.php',
-                    type: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function(data) {
-                        $('#departments-table-body').html(data);
-                    }
-                });
-            });
-
-            // Recarregar a lista de departamentos ao clicar no botão de refresh
-            $('#refresh-button').on('click', function() {
-                $.ajax({
-                    url: 'fetch_department.php',
-                    type: 'GET',
-                    success: function(data) {
-                        $('#departments-table-body').html(data);
-                    }
-                });
+            $.ajax({
+                url: 'fetch_department.php',
+                type: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    $('#departments-table-body').html(data);
+                }
             });
         });
+
+        // Recarregar a lista de departamentos ao clicar no botão de refresh
+        $('#refresh-button').on('click', function() {
+            $.ajax({
+                url: 'fetch_department.php',
+                type: 'GET',
+                success: function(data) {
+                    $('#departments-table-body').html(data);
+                }
+            });
+        });
+    });
     </script>
 
 

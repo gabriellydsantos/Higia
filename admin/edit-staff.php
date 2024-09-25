@@ -38,7 +38,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -64,90 +64,7 @@
                 <li class="nav-item dropdown d-none d-md-block">
                     <!-- <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
                           src="../assets/img/icons/note-icon-02.svg" alt><span class="pulse"></span> </a> -->
-                    <div class="dropdown-menu notifications">
-                        <div class="topnav-dropdown-header">
-                            <span>Notificações</span>
-                        </div>
-                        <div class="drop-scroll">
-                            <ul class="notification-list">
-                                <li class="notification-message">
-                                    <a href="activities.php">
-                                        <div class="media">
-                                            <span class="avatar">
-                                                <img alt="John Doe" src="../assets/img/user.jpg" class="img-fluid" />
-                                            </span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Lorem ipsum</span>
-                                                    adicionou nova tarefa
-                                                    <span class="noti-title">Reserva de compromisso do paciente</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">4 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.php">
-                                        <div class="media">
-                                            <span class="avatar">V</span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Tarah Shropshire</span>
-                                                    alterou o nome da tarefa
-                                                    <span class="noti-title">Agendamento de consulta com gateway de
-                                                        pagamento</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">6 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.php">
-                                        <div class="media">
-                                            <span class="avatar">L</span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Misty Tison</span>
-                                                    adicionou
-                                                    <span class="noti-title">Domenic Houston</span> e
-                                                    <span class="noti-title">Claire Mapes</span> ao
-                                                    projeto
-                                                    <span class="noti-title">Módulo de disponibilidade do médico</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">8 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.php">
-                                        <div class="media">
-                                            <span class="avatar">G</span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Rolland Webber</span>
-                                                    completou a tarefa
-                                                    <span class="noti-title">Videoconferência entre Paciente e
-                                                        Médico</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">12 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </li>
                 <!-- <li class="nav-item dropdown d-none d-md-block">
                   <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
@@ -261,13 +178,13 @@
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-06.svg"
                                         alt /></span>
-                                <span> Departamentos </span> <span class="menu-arrow"></span></a>
+                                <span> Especialidade</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li>
-                                    <a class="" href="departments.php">Departamento</a>
+                                    <a class="" href="departments.php">Especialidade</a>
                                 </li>
-                                <li><a href="../admin/add-department.php">Add departamento</a></li>
-                                <li><a href="../admin/edit-department.php">Editar departamento</a></li>
+                                <li><a href="../admin/add-department.php">Add Especialidade</a></li>
+                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
                             </ul>
                         </li>
 
@@ -280,7 +197,7 @@
 
                     </ul>
                     <div class="logout-btn">
-                        <a href="login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="../login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>
@@ -296,12 +213,12 @@
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="doctors.php">Pacientes </a>
+                                    <a href="doctors.php">Funcionários </a>
                                 </li>
                                 <li class="breadcrumb-item">
                                     <i class="feather-chevron-right"></i>
                                 </li>
-                                <li class="breadcrumb-item active">Editar pacientes</li>
+                                <li class="breadcrumb-item active">Editar Funcionários</li>
                             </ul>
                         </div>
                     </div>
@@ -352,16 +269,16 @@
                                             $cpf = $row['cpf'];
                                             $rg = $row['rg'];
                                         } else {
-                                            echo "Colaborador não encontrado.";
+                                            echo "funcionários não encontrado.";
                                         }
                                     } else {
                                         echo "Erro na preparação da consulta: " . $conn->error;
                                     }
                                 } else {
-                                    echo "ID do colaborador não fornecido.";
+                                    echo "ID do funcionário não fornecido.";
                                 }
 
-                                // Verificação do método POST para atualização de dados
+                                // Verificação do método POST para  atualização de dados
                                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     // Captura os dados do formulário
                                     $first_name = $_POST['first_name'];
@@ -453,7 +370,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">
-                                                <h4>Detalhes do Paciente</h4>
+                                                <h4>Detalhes do Funcionário</h4>
                                             </div>
                                         </div>
 
@@ -622,13 +539,13 @@
                                                 <label>Foto</label>
                                                 <input class="form-control" type="file" name="image" />
                                                 <?php if ($avatar): ?>
-                                                <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar"
-                                                    width="100" height="100" class="avatar-img" />
+                                                    <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar"
+                                                        width="100" height="100" class="avatar-img" />
                                                 <?php endif; ?>
                                                 <style>
-                                                .avatar-img {
-                                                    margin-top: 0.80rem;
-                                                }
+                                                    .avatar-img {
+                                                        margin-top: 0.80rem;
+                                                    }
                                                 </style>
                                             </div>
                                         </div>
@@ -646,85 +563,85 @@
                                     </div>
                                 </form>
                                 <script>
-                                // Máscara para CPF
-                                $('input[name="cpf"]').mask('000.000.000-00', {
-                                    reverse: true
+                                    // Máscara para CPF
+                                    $('input[name="cpf"]').mask('000.000.000-00', {
+                                        reverse: true
 
-                                });
+                                    });
 
-                                // Máscara para RG (ajustar conforme o formato desejado)
-                                $('input[name="rg"]').mask('00.000.000-0');
-                                $(document).ready(function() {
-                                    $('input[name="phone"]').mask('(00) 00000-0000');
-                                });
+                                    // Máscara para RG (ajustar conforme o formato desejado)
+                                    $('input[name="rg"]').mask('00.000.000-0');
+                                    $(document).ready(function() {
+                                        $('input[name="phone"]').mask('(00) 00000-0000');
+                                    });
 
 
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    document.querySelector('input[name="zipcode"]').addEventListener('blur',
-                                        function() {
-                                            var cep = this.value.replace(/\D/g,
-                                                ''); // Remove caracteres não numéricos
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        document.querySelector('input[name="zipcode"]').addEventListener('blur',
+                                            function() {
+                                                var cep = this.value.replace(/\D/g,
+                                                    ''); // Remove caracteres não numéricos
 
-                                            if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
-                                                fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                                                    .then(response => response.json())
-                                                    .then(data => {
-                                                        if (!data.erro) {
-                                                            // Preenche o campo de Endereço
-                                                            document.querySelector(
-                                                                    'input[name="address"]').value =
-                                                                data.logradouro + ', ' + data.bairro;
+                                                if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+                                                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            if (!data.erro) {
+                                                                // Preenche o campo de Endereço
+                                                                document.querySelector(
+                                                                        'input[name="address"]').value =
+                                                                    data.logradouro + ', ' + data.bairro;
 
-                                                            // Atualiza o campo de Estado
-                                                            var stateSelect = document.querySelector(
-                                                                'select[name="state"]');
-                                                            var optionFound = false;
+                                                                // Atualiza o campo de Estado
+                                                                var stateSelect = document.querySelector(
+                                                                    'select[name="state"]');
+                                                                var optionFound = false;
 
-                                                            // Itera sobre as opções do select de estado para selecionar a correta
-                                                            for (var i = 0; i < stateSelect.options
-                                                                .length; i++) {
-                                                                if (stateSelect.options[i].value ===
-                                                                    data.uf) {
-                                                                    stateSelect.selectedIndex = i;
-                                                                    optionFound = true;
-                                                                    break;
+                                                                // Itera sobre as opções do select de estado para selecionar a correta
+                                                                for (var i = 0; i < stateSelect.options
+                                                                    .length; i++) {
+                                                                    if (stateSelect.options[i].value ===
+                                                                        data.uf) {
+                                                                        stateSelect.selectedIndex = i;
+                                                                        optionFound = true;
+                                                                        break;
+                                                                    }
                                                                 }
+
+                                                                // Se a opção não foi encontrada, exibe uma mensagem
+                                                                if (!optionFound) {
+                                                                    alert(
+                                                                        'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
+                                                                    );
+                                                                }
+
+                                                                // Força a atualização do campo visível
+                                                                stateSelect.dispatchEvent(new Event(
+                                                                    'change'));
+
+                                                                // Atualiza o campo de Cidade
+                                                                var citySelect = document.querySelector(
+                                                                    'select[name="city"]');
+                                                                citySelect.innerHTML =
+                                                                    `<option value="${data.localidade}">${data.localidade}</option>`;
+
+                                                                // Preenche o campo de País com 'Brasil'
+                                                                document.querySelector(
+                                                                        'select[name="country"]').value =
+                                                                    'Brasil';
+                                                            } else {
+                                                                alert('CEP não encontrado.');
                                                             }
-
-                                                            // Se a opção não foi encontrada, exibe uma mensagem
-                                                            if (!optionFound) {
-                                                                alert(
-                                                                    'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                                );
-                                                            }
-
-                                                            // Força a atualização do campo visível
-                                                            stateSelect.dispatchEvent(new Event(
-                                                                'change'));
-
-                                                            // Atualiza o campo de Cidade
-                                                            var citySelect = document.querySelector(
-                                                                'select[name="city"]');
-                                                            citySelect.innerHTML =
-                                                                `<option value="${data.localidade}">${data.localidade}</option>`;
-
-                                                            // Preenche o campo de País com 'Brasil'
-                                                            document.querySelector(
-                                                                    'select[name="country"]').value =
-                                                                'Brasil';
-                                                        } else {
-                                                            alert('CEP não encontrado.');
-                                                        }
-                                                    })
-                                                    .catch(error => {
-                                                        console.error('Erro ao buscar CEP:', error);
-                                                        alert('Erro ao buscar CEP. Tente novamente.');
-                                                    });
-                                            } else {
-                                                alert('Por favor, insira um CEP válido.');
-                                            }
-                                        });
-                                });
+                                                        })
+                                                        .catch(error => {
+                                                            console.error('Erro ao buscar CEP:', error);
+                                                            alert('Erro ao buscar CEP. Tente novamente.');
+                                                        });
+                                                } else {
+                                                    alert('Por favor, insira um CEP válido.');
+                                                }
+                                            });
+                                    });
                                 </script>
 
 
