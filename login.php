@@ -11,58 +11,6 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
         $carteirinha = $conn->real_escape_string($_POST['carteirinha']);
         $password = $conn->real_escape_string($_POST['password']);
 
-        $sql_code = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
-        $sql_query = $conn->query($sql_code) or die("Falha na conexão: " . $conn->error);
-
-        $quantidade = $sql_query->num_rows;
-
-        if ($quantidade == 1) {
-            $usuario = $sql_query->fetch_assoc();
-
-            if (!isset($_SESSION)) {
-                session_start();
-            }
-
-            $_SESSION['id'] = $usuario['id'];
-            $_SESSION['first_name'] = $usuario['first_name'];
-            $_SESSION['last_name'] = $usuario['last_name'];
-            $_SESSION['carteirinha'] = $usuario['carteirinha'];
-            $_SESSION['email'] = $usuario['email'];
-            $_SESSION['phone'] = $usuario['phone'];
-            $_SESSION['image'] = $usuario['image']; // Adiciona a imagem
-            $_SESSION['birth_date'] = $usuario['birth_date'];
-            $_SESSION['gender'] = $usuario['gender'];
-            $_SESSION['address'] = $usuario['address'];
-            $_SESSION['city'] = $usuario['city'];
-            $_SESSION['state'] = $usuario['state'];
-            $_SESSION['country'] = $usuario['country'];
-
-            header('Location: paciente/home.php');  // Vai para a página de perfil
-            exit();
-        } else {
-            echo "Falha ao logar: Carteirinha ou senha incorretos.";
-        }
-    }
-}
-?>
-
-
-
-
-
-<?php
-include("database.php"); // Inclui o arquivo de conexão
-
-if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
-    if (strlen($_POST['carteirinha']) == 0) {
-        echo "Preencha corretamente o campo de login com o número da sua carteirinha.";
-    } else if (strlen($_POST['password']) == 0) {
-        echo "Preencha corretamente o campo de senha.";
-    } else {
-        // Validação do login
-        $carteirinha = $conn->real_escape_string($_POST['carteirinha']);
-        $password = $conn->real_escape_string($_POST['password']);
-
         // Verificar se é um paciente
         $sql_patient = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
         $query_patient = $conn->query($sql_patient);
@@ -71,56 +19,30 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
         $sql_doctor = "SELECT * FROM doctors WHERE carteirinha = '$carteirinha' AND password = '$password'";
         $query_doctor = $conn->query($sql_doctor);
 
+        // Verificar se é um staff
+        $sql_staff = "SELECT * FROM staff WHERE carteirinha = '$carteirinha' AND password = '$password'";
+        $query_staff = $conn->query($sql_staff);
+
         if ($query_patient->num_rows == 1) {
             // Login como paciente
             $usuario = $query_patient->fetch_assoc();
-
-            if (!isset($_SESSION)) {
-                session_start();
-            }
-
-            // Dados do paciente na sessão
-            $_SESSION['id'] = $usuario['id'];
-            $_SESSION['first_name'] = $usuario['first_name'];
-            $_SESSION['last_name'] = $usuario['last_name'];
-            $_SESSION['carteirinha'] = $usuario['carteirinha'];
-            $_SESSION['email'] = $usuario['email'];
-            $_SESSION['phone'] = $usuario['phone'];
-            $_SESSION['image'] = $usuario['image'];
-            $_SESSION['birth_date'] = $usuario['birth_date'];
-            $_SESSION['gender'] = $usuario['gender'];
-            $_SESSION['address'] = $usuario['address'];
-            $_SESSION['city'] = $usuario['city'];
-            $_SESSION['state'] = $usuario['state'];
-            $_SESSION['country'] = $usuario['country'];
-
+            session_start(); // Inicia a sessão
+            $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do paciente na sessão
             header('Location: paciente/home.php');  // Vai para a página de pacientes
             exit();
         } elseif ($query_doctor->num_rows == 1) {
             // Login como médico
             $usuario = $query_doctor->fetch_assoc();
-
-            if (!isset($_SESSION)) {
-                session_start();
-            }
-
-            // Dados do médico na sessão
-            $_SESSION['id'] = $usuario['id'];
-            $_SESSION['first_name'] = $usuario['first_name'];
-            $_SESSION['last_name'] = $usuario['last_name'];
-            $_SESSION['carteirinha'] = $usuario['carteirinha'];
-            $_SESSION['department'] = $usuario['department'];
-            $_SESSION['email'] = $usuario['email'];
-            $_SESSION['phone'] = $usuario['phone'];
-            $_SESSION['image'] = $usuario['image'];
-            $_SESSION['birth_date'] = $usuario['birth_date'];
-            $_SESSION['gender'] = $usuario['gender'];
-            $_SESSION['address'] = $usuario['address'];
-            $_SESSION['city'] = $usuario['city'];
-            $_SESSION['state'] = $usuario['state'];
-            $_SESSION['country'] = $usuario['country'];
-
+            session_start(); // Inicia a sessão
+            $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do médico na sessão
             header('Location: medic/doctor-dashboard.php');  // Vai para a página de médicos
+            exit();
+        } elseif ($query_staff->num_rows == 1) {
+            // Login como staff
+            $usuario = $query_staff->fetch_assoc();
+            session_start(); // Inicia a sessão
+            $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do staff na sessão
+            header('Location: admin/index.php');  // Vai para a página do staff
             exit();
         } else {
             // Falha no login

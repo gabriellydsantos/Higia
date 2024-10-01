@@ -128,5 +128,18 @@ CREATE TABLE staff (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabela de Agendamentos
+
+
+CREATE TABLE agendamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor VARCHAR(50) NOT NULL,
+    department VARCHAR(50) NOT NULL,
+    date DATE NOT NULL,
+    time TIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 drop database higia;
