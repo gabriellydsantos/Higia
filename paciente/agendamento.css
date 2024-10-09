@@ -115,3 +115,25 @@ button:hover {
 .card-content p {
     margin: 5px 0;
 }
+
+
+
+
+
+
+input[type="date"] {
+    border: 1px solid #ccc;
+    background-color: #FFFFFF; 
+    border-radius: 5px;
+    padding: 9px;
+    font-size: 16px;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="date"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
