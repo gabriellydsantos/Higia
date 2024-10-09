@@ -18,7 +18,15 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+    .chart-title {
+        margin-bottom: 20px;
+    }
+    </style>
 
 </head>
 
@@ -40,7 +48,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -363,15 +371,15 @@
                     </div>
 
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            // Defina o caminho correto para get_patient_count.php
-                            fetch('get_patient_count.php')
-                                .then(response => response.text())
-                                .then(data => {
-                                    document.getElementById('patient-count').innerText = data;
-                                })
-                                .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
-                        });
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Defina o caminho correto para get_patient_count.php
+                        fetch('get_patient_count.php')
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('patient-count').innerText = data;
+                            })
+                            .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
+                    });
                     </script>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
@@ -391,15 +399,15 @@
 
 
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            // Defina o caminho correto para get_patient_count.php
-                            fetch('get_doctor_count.php')
-                                .then(response => response.text())
-                                .then(data => {
-                                    document.getElementById('doctor-count').innerText = data;
-                                })
-                                .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
-                        });
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Defina o caminho correto para get_patient_count.php
+                        fetch('get_doctor_count.php')
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('doctor-count').innerText = data;
+                            })
+                            .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
+                    });
                     </script>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
                 </div>
@@ -410,30 +418,118 @@
                                 <div class="chart-title patient-visit">
                                     <h4>Visita por gênero</h4>
                                     <div>
-                                        <ul class="nav chat-user-total">
+                                        <ul class="nav chat-user-total" id="gender-stats">
                                             <li>
-                                                <i class="fa fa-circle current-users" aria-hidden="true"></i>Masculino
-                                                75%
+                                                <i class="fa fa-circle current-users" aria-hidden="true"></i>Masculino:
+                                                <span id="masculino-percentage">0%</span>
                                             </li>
                                             <li>
-                                                <i class="fa fa-circle old-users" aria-hidden="true"></i>
-                                                Feminino 25%
+                                                <i class="fa fa-circle old-users" aria-hidden="true"></i>Feminino:
+                                                <span id="feminino-percentage">0%</span>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="input-block mb-0">
-                                        <select class="form-control select">
-                                            <option></option>
-                                            <option>2024</option>
-                                            <option>2023</option>
-                                            <option>2022</option>
+                                        <select class="form-control select" id="year-select">
+                                            <option value="">2024</option>
+
                                         </select>
                                     </div>
                                 </div>
-                                <div id="patient-chart"></div>
+                                <div id="patient-chart" style="width: 100%; height: 400px;">
+                                    <canvas id="genderChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <script>
+                    async function fetchGenderData() {
+                        const response = await fetch(
+                        'gender_data.php'); // Altere para o caminho correto se necessário
+                        const data = await response.json();
+                        return data;
+                    }
+
+                    async function createChart() {
+                        const genderData = await fetchGenderData();
+                        const ctx = document.getElementById('genderChart').getContext('2d');
+
+                        // Prepara os dados para o gráfico
+                        const months = Array.from({
+                            length: 12
+                        }, (_, i) => i + 1); // 1 a 12
+                        const masculinoData = months.map(month => genderData.Masculino[month] || 0);
+                        const femininoData = months.map(month => genderData.Feminino[month] || 0);
+
+                        // Total de visitas masculinas e femininas
+                        const totalMasculino = masculinoData.reduce((a, b) => a + b, 0);
+                        const totalFeminino = femininoData.reduce((a, b) => a + b, 0);
+                        const total = totalMasculino + totalFeminino;
+
+                        // Calcular as porcentagens
+                        const masculinoPercentage = total ? ((totalMasculino / total) * 100).toFixed(2) : 0;
+                        const femininoPercentage = total ? ((totalFeminino / total) * 100).toFixed(2) : 0;
+
+                        // Atualiza os elementos de porcentagem
+                        document.getElementById('masculino-percentage').innerText = masculinoPercentage + '%';
+                        document.getElementById('feminino-percentage').innerText = femininoPercentage + '%';
+
+                        const genderChart = new Chart(ctx, {
+                            type: 'bar', // Gráfico de barras
+                            data: {
+                                labels: [
+                                    'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                                    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+                                ],
+                                datasets: [{
+                                        label: 'Masculino',
+                                        data: masculinoData,
+                                        backgroundColor: 'rgba(46, 55, 164, 0.85)', // Nova cor para masculino
+                                        borderColor: 'rgba(46, 55, 164, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Feminino',
+                                        data: femininoData,
+                                        backgroundColor: 'rgba(0, 211, 199, 0.85)', // Nova cor para feminino
+                                        borderColor: 'rgba(0, 211, 199, 1)',
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true // Começar o eixo Y em zero
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                let label = context.dataset.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                label += context.raw; // Adiciona o número de registros
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    // Chamar a função para criar o gráfico ao carregar a página
+                    window.onload = createChart;
+                    </script>
+
                     <div class="col-12 col-md-12 col-lg-6 col-xl-3 d-flex">
                         <div class="card">
                             <div class="card-body">
