@@ -446,7 +446,7 @@
                     <script>
                     async function fetchGenderData() {
                         const response = await fetch(
-                        'gender_data.php'); // Altere para o caminho correto se necessário
+                            'gender_data.php'); // Altere para o caminho correto se necessário
                         const data = await response.json();
                         return data;
                     }
@@ -529,21 +529,94 @@
                     // Chamar a função para criar o gráfico ao carregar a página
                     window.onload = createChart;
                     </script>
+                    <?php
+// Conexão com o banco de dados
+$conn = new mysqli("localhost", "root", "200812", "higia");
+
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
+
+// Executar a consulta para obter o nome do departamento e o total de pacientes
+$sql = "SELECT d.department_name, COUNT(a.id) AS total_pacientes 
+        FROM agendamentos a 
+        JOIN departments d ON a.department = d.id 
+        GROUP BY d.department_name"; // Aqui estamos agrupando pelo nome do departamento
+
+$result = $conn->query($sql);
+
+// Preparar os dados para o gráfico
+$departments = [];
+$patients = [];
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $departments[] = $row['department_name']; // Mudança aqui para pegar o nome
+        $patients[] = $row['total_pacientes'];
+    }
+}
+$conn->close();
+?>
+
+                    <script>
+                    var departments = <?php echo json_encode($departments); ?>;
+                    var patients = <?php echo json_encode($patients); ?>;
+                    </script>
 
                     <div class="col-12 col-md-12 col-lg-6 col-xl-3 d-flex">
                         <div class="card">
                             <div class="card-body">
                                 <div class="chart-title">
-                                    <h4>Paciente por departamento</h4>
+                                    <h4>Pacientes por Departamento</h4>
                                 </div>
-                                <div id="donut-chart-dash" class="chart-user-icon">
-                                    <img src="../assets/img/icons/user-icon.svg" alt />
-                                </div>
+                                <canvas id="donut-chart-dash"></canvas>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                    var ctx = document.getElementById('donut-chart-dash').getContext('2d');
+                    var donutChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: departments, // Aqui já estamos usando os nomes dos departamentos
+                            datasets: [{
+                                label: 'Pacientes',
+                                data: patients, // quantidade de pacientes
+                                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                                    '#9966FF'
+                                ], // cores para os departamentos
+                                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                                    '#9966FF'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            layout: {
+                                padding: {
+                                    top: 0,
+                                    bottom: 20, // Adicionando padding na parte inferior para mover a legenda para baixo
+                                    left: 0,
+                                    right: 0
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'bottom', // Legenda na parte inferior
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Pacientes por Departamento'
+                                }
+                            }
+                        }
+                    });
+                    </script>
+
+
+
                     <div class="col-12 col-md-12 col-xl-4">
                         <div class="card top-departments">
                             <div class="card-header">
@@ -598,6 +671,11 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+
                     <div class="col-12 col-md-12 col-xl-8">
                         <div class="card">
                             <div class="card-header">
@@ -1248,7 +1326,8 @@
 
     <script src="../assets/plugins/apexchart/apexcharts.min.js" type="df5f729902501f2e3972e202-text/javascript">
     </script>
-    <script src="../assets/plugins/apexchart/chart-data.js" type="df5f729902501f2e3972e202-text/javascript"></script>
+    <script src="../assets/plugins/apexchart/chart-data.js" type="df5f729902501f2e3972e202-text/javascript">
+    </script>
 
     <script src="../assets/js/app.js" type="df5f729902501f2e3972e202-text/javascript"></script>
     <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"

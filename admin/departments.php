@@ -193,10 +193,7 @@
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li><a href="../admin/index.php">Painel do Admin</a></li>
-                                <li><a href="../admin/doctor-dashboard.php">Painel do Médico</a></li>
-                                <li>
-                                    <a href="patient-dashboard.php">Painel do Paciente</a>
-                                </li>
+
                             </ul>
                         </li>
                         <li class="submenu">
