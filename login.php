@@ -15,42 +15,35 @@ if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
         $sql_patient = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
         $query_patient = $conn->query($sql_patient);
 
-        // Verificar se é um médico
-        $sql_doctor = "SELECT * FROM doctors WHERE carteirinha = '$carteirinha' AND password = '$password'";
-        $query_doctor = $conn->query($sql_doctor);
-
-        // Verificar se é um staff
-        $sql_staff = "SELECT * FROM staff WHERE carteirinha = '$carteirinha' AND password = '$password'";
-        $query_staff = $conn->query($sql_staff);
-
         if ($query_patient->num_rows == 1) {
             // Login como paciente
             $usuario = $query_patient->fetch_assoc();
+            
+            // Atualizar a hora do último login
+            $update_login_time = "UPDATE patients SET last_login = NOW() WHERE id = " . $usuario['id'];
+            $conn->query($update_login_time);
+        
+            // Registrar o paciente na tabela logged_patients
+            $carteirinha = $usuario['carteirinha'];
+            $nome = $usuario['first_name'] . ' ' . $usuario['last_name'];
+            $telefone = $usuario['phone'];
+        
+            $sql_insert_logged = "INSERT INTO logged_patients (carteirinha, nome, telefone) VALUES ('$carteirinha', '$nome', '$telefone')";
+            $conn->query($sql_insert_logged);
+        
             session_start(); // Inicia a sessão
             $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do paciente na sessão
             header('Location: paciente/home.php');  // Vai para a página de pacientes
             exit();
-        } elseif ($query_doctor->num_rows == 1) {
-            // Login como médico
-            $usuario = $query_doctor->fetch_assoc();
-            session_start(); // Inicia a sessão
-            $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do médico na sessão
-            header('Location: medic/doctor-dashboard.php');  // Vai para a página de médicos
-            exit();
-        } elseif ($query_staff->num_rows == 1) {
-            // Login como staff
-            $usuario = $query_staff->fetch_assoc();
-            session_start(); // Inicia a sessão
-            $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do staff na sessão
-            header('Location: admin/index.php');  // Vai para a página do staff
-            exit();
-        } else {
+        }
+        else {
             // Falha no login
             echo "Falha ao logar: Carteirinha ou senha incorretos.";
         }
     }
 }
 ?>
+
 
 
 
