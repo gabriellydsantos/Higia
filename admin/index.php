@@ -350,11 +350,11 @@
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
-                                <img src="../assets/img/icons/calendar.svg" alt />
+                                <img src="../assets/img/icons/menu-icon-03.svg" alt="Ícone de Funcionários" />
                             </div>
                             <div class="dash-content dash-count">
-                                <h4>Compromissos</h4>
-                                <h2><span class="counter-up">250</span></h2>
+                                <h4>Funcionários</h4>
+                                <h2><span class="counter-up" id="staff-count">0</span></h2> <!-- ID para o contador -->
                                 <p>
                                     <span class="passive-view"><i class="feather-arrow-up-right me-1"></i>40%</span>
                                     Mês Passado
@@ -362,6 +362,25 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Defina o caminho correto para get_staff_count.php
+                        fetch('get_staff_count.php')
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('staff-count').innerText =
+                                    data; // Atualiza o contador
+                            })
+                            .catch(error => console.error('Erro ao buscar a quantidade de funcionários:',
+                                error));
+                    });
+                    </script>
+
+
+
+
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
@@ -389,6 +408,7 @@
                             .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
                     });
                     </script>
+
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
