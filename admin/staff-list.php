@@ -40,7 +40,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 <div class="main-wrapper">
     <div class="header">
@@ -53,11 +53,18 @@
         <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img src="../assets/img/icons/bar-icon.svg"
                 alt /></a>
         <div class="top-nav-search mob-view">
-            <form>
-                <input type="text" class="form-control" placeholder="Pesquisar aqui" />
+            <form onsubmit="return false;">
+                <input type="text" class="form-control" id="search-input" placeholder="Pesquisar aqui"
+                    oninput="showSuggestions(this.value)" />
                 <a class="btn"><img src="../assets/img/icons/search-normal.svg" alt /></a>
             </form>
+            <div id="suggestions-box" class="suggestions-box"></div> <!-- Contêiner para sugestões -->
         </div>
+
+        <script src="search/search.js"></script> <!-- Caminho atualizado para o JS -->
+        <link rel="stylesheet" type="text/css" href="./search/styles.css" />
+
+
         <ul class="nav user-menu float-end">
             <li class="nav-item dropdown d-none d-md-block">
                 <!-- <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
@@ -445,28 +452,28 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Função para realizar a busca dinâmica
-        $('#search-staff').on('input', function() {
-            var query = $(this).val();
+$(document).ready(function() {
+    // Função para realizar a busca dinâmica
+    $('#search-staff').on('input', function() {
+        var query = $(this).val();
 
-            $.ajax({
-                url: 'fetch_staff.php',
-                type: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    $('#staff-table-body').html(data);
-                }
-            });
-        });
-
-        // Recarregar a página ao clicar no botão de refresh
-        $('#refresh-button').on('click', function() {
-            location.reload();
+        $.ajax({
+            url: 'fetch_staff.php',
+            type: 'GET',
+            data: {
+                query: query
+            },
+            success: function(data) {
+                $('#staff-table-body').html(data);
+            }
         });
     });
+
+    // Recarregar a página ao clicar no botão de refresh
+    $('#refresh-button').on('click', function() {
+        location.reload();
+    });
+});
 </script>
 
 <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

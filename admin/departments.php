@@ -33,7 +33,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -50,11 +50,18 @@
             <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img
                     src="../assets/img/icons/bar-icon.svg" alt /></a>
             <div class="top-nav-search mob-view">
-                <form>
-                    <input type="text" class="form-control" placeholder="Pesquisar aqui" />
+                <form onsubmit="return false;">
+                    <input type="text" class="form-control" id="search-input" placeholder="Pesquisar aqui"
+                        oninput="showSuggestions(this.value)" />
                     <a class="btn"><img src="../assets/img/icons/search-normal.svg" alt /></a>
                 </form>
+                <div id="suggestions-box" class="suggestions-box"></div> <!-- Contêiner para sugestões -->
             </div>
+
+            <script src="search/search.js"></script> <!-- Caminho atualizado para o JS -->
+            <link rel="stylesheet" type="text/css" href="./search/styles.css" />
+
+
             <ul class="nav user-menu float-end">
                 <li class="nav-item dropdown d-none d-md-block">
                     <!-- <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
@@ -671,34 +678,34 @@
         </div>
     </div>
     <script>
-    $(document).ready(function() {
-        // Função para realizar a busca dinâmica
-        $('#search-department').on('input', function() {
-            var query = $(this).val();
+        $(document).ready(function() {
+            // Função para realizar a busca dinâmica
+            $('#search-department').on('input', function() {
+                var query = $(this).val();
 
-            $.ajax({
-                url: 'fetch_department.php',
-                type: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    $('#departments-table-body').html(data);
-                }
+                $.ajax({
+                    url: 'fetch_department.php',
+                    type: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function(data) {
+                        $('#departments-table-body').html(data);
+                    }
+                });
+            });
+
+            // Recarregar a lista de departamentos ao clicar no botão de refresh
+            $('#refresh-button').on('click', function() {
+                $.ajax({
+                    url: 'fetch_department.php',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#departments-table-body').html(data);
+                    }
+                });
             });
         });
-
-        // Recarregar a lista de departamentos ao clicar no botão de refresh
-        $('#refresh-button').on('click', function() {
-            $.ajax({
-                url: 'fetch_department.php',
-                type: 'GET',
-                success: function(data) {
-                    $('#departments-table-body').html(data);
-                }
-            });
-        });
-    });
     </script>
 
 

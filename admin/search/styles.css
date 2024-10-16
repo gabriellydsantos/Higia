@@ -1,0 +1,42 @@
+/* styles.css */
+.suggestions-box {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem; /* Bordas arredondadas */
+    background: white;
+    position: absolute;
+    z-index: 1000;
+    width: 40%; /* Largura ajustada para 40% do contêiner pai */
+    max-height: 200px; /* Ajuste conforme necessário */
+    overflow-y: auto; /* Adiciona rolagem se houver muitas sugestões */
+    display: none; /* Começa escondido */
+}
+
+/* Estilos para a barra de rolagem */
+.suggestions-box::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+}
+
+.suggestions-box::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3); /* Cor e transparência do polegar da barra de rolagem */
+    border-radius: 4px; /* Arredondamento do polegar */
+}
+
+.suggestions-box::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0); /* Fundo da faixa de rolagem transparente */
+}
+
+/* Para navegadores Firefox */
+.suggestions-box {
+    scrollbar-width: thin; /* Barra de rolagem fina */
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Cor do polegar e fundo da faixa */
+}
+
+/* Estilos para os itens da lista de sugestões */
+.suggestions-box div {
+    padding: 10px;
+    cursor: pointer; /* Aponta para a interação do mouse */
+}
+
+.suggestions-box div:hover {
+    background-color: #f0f0f0; /* Destaque ao passar o mouse */
+}
