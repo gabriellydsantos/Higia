@@ -316,7 +316,7 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                 <div class="row align-items-center">
                                     <div class="col">
                                         <div class="doctor-table-blk">
-                                            <h3>Lista dos funcionárioses</h3>
+                                            <h3>Lista dos funcionários</h3>
                                             <div class="doctor-search-blk">
                                                 <div class="top-nav-search table-search-blk">
                                                     <form method="GET">

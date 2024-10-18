@@ -1,3 +1,6 @@
+<?php
+session_start(); // Inicia a sessão para acessar os dados
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -176,15 +179,33 @@
                     src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
         </li> -->
                 <li class="nav-item dropdown has-arrow user-profile-list">
+                    <?php
+
+if (isset($_SESSION['user_id'])) {
+    $first_name = $_SESSION['first_name'];
+    $last_name = $_SESSION['last_name'];
+    $image = $_SESSION['image'];
+} else {
+    // Redirecionar para a página de login se não estiver logado
+    header("Location: login.php");
+    exit();
+}
+?>
+
                     <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
-                            <h5>lorem ipsum</h5>
+                            <h5><?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?></h5>
                             <span>Admin</span>
                         </div>
                         <span class="user-img">
-                            <img src="../assets/img/user-06.jpg" alt="Admin" />
+                            <?php
+        $userImage = $_SESSION['image'] ? '../uploads/uploads_funcionarios/' . $_SESSION['image'] : '../assets/img/';
+        echo "<img src='$userImage'  />";
+        ?>
                         </span>
                     </a>
+
+
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
                         <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
@@ -327,18 +348,30 @@
                                     Painel de administrador
                                 </li>
                             </ul>
+
+
+
+
                         </div>
                     </div>
                 </div>
 
                 <div class="good-morning-blk">
                     <div class="row">
+                        <?php
+                        if (isset($_SESSION['first_name'])) {
+                            $first_name = $_SESSION['first_name']; // Obtém o primeiro nome do staff logado
+                        } else {
+                            $first_name = "Adm"; // Nome padrão caso não haja ninguém logado
+                        }
+                        ?>
                         <div class="col-md-6">
                             <div class="morning-user">
-                                <h2>Olá, Adm <span>lorem ipsum</span></h2>
+                                <h2>Olá, Adm <span><?php echo htmlspecialchars($first_name); ?></span></h2>
                                 <p>Tenha um bom dia de trabalho</p>
                             </div>
                         </div>
+
                         <div class="col-md-6 position-blk">
                             <div class="morning-img">
                                 <!-- <img src="../assets/img/morning-img-01.png" alt> -->
@@ -558,33 +591,33 @@
                     window.onload = createChart;
                     </script>
                     <?php
-// Conexão com o banco de dados
-$conn = new mysqli("localhost", "root", "200812", "higia");
+                    // Conexão com o banco de dados
+                    $conn = new mysqli("localhost", "root", "200812", "higia");
 
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
-}
+                    if ($conn->connect_error) {
+                        die("Falha na conexão: " . $conn->connect_error);
+                    }
 
-// Executar a consulta para obter o nome do departamento e o total de pacientes
-$sql = "SELECT d.department_name, COUNT(a.id) AS total_pacientes 
+                    // Executar a consulta para obter o nome do departamento e o total de pacientes
+                    $sql = "SELECT d.department_name, COUNT(a.id) AS total_pacientes 
         FROM agendamentos a 
         JOIN departments d ON a.department = d.id 
         GROUP BY d.department_name"; // Aqui estamos agrupando pelo nome do departamento
 
-$result = $conn->query($sql);
+                    $result = $conn->query($sql);
 
-// Preparar os dados para o gráfico
-$departments = [];
-$patients = [];
+                    // Preparar os dados para o gráfico
+                    $departments = [];
+                    $patients = [];
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $departments[] = $row['department_name']; // Mudança aqui para pegar o nome
-        $patients[] = $row['total_pacientes'];
-    }
-}
-$conn->close();
-?>
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $departments[] = $row['department_name']; // Mudança aqui para pegar o nome
+                            $patients[] = $row['total_pacientes'];
+                        }
+                    }
+                    $conn->close();
+                    ?>
 
                     <script>
                     var departments = <?php echo json_encode($departments); ?>;
@@ -645,299 +678,81 @@ $conn->close();
 
 
 
+
+
+                    <?php
+// Conexão com o banco de dados
+include('database.php');
+
+// Consulta SQL para contar os agendamentos por departamento
+$query = "
+    SELECT department, COUNT(*) as total_agendamentos 
+    FROM agendamentos 
+    GROUP BY department 
+    ORDER BY total_agendamentos DESC;
+";
+
+$result = $conn->query($query);
+
+// Obter o total de agendamentos
+$totalQuery = "SELECT COUNT(*) as total FROM agendamentos";
+$totalResult = $conn->query($totalQuery);
+$totalRow = $totalResult->fetch_assoc();
+$totalAgendamentos = $totalRow['total'];
+
+// Preparar os dados para exibição
+$departamentos = [];
+while ($row = $result->fetch_assoc()) {
+    $departamento = $row['department'];
+    $total = $row['total_agendamentos'];
+    $porcentagem = ($total / $totalAgendamentos) * 100;
+    $departamentos[] = [
+        'department' => $departamento,
+        'total' => $total,
+        'percentage' => round($porcentagem, 2) // Arredondar para 2 casas decimais
+    ];
+}
+?>
+
+
+
                     <div class="col-12 col-md-12 col-xl-4">
                         <div class="card top-departments">
                             <div class="card-header">
                                 <h4 class="card-title mb-0">Departamentos principais</h4>
                             </div>
                             <div class="card-body">
+                                <?php foreach ($departamentos as $dep): ?>
                                 <div class="activity-top">
                                     <div class="activity-boxs comman-flex-center">
-                                        <img src="../assets/img/icons/dep-icon-01.svg" alt />
+                                        <!-- <img src="../assets/img/icons/dep-icon-01.svg" alt /> -->
                                     </div>
                                     <div class="departments-list">
-                                        <h4>Clínico geral</h4>
-                                        <p>35%</p>
+                                        <h4><?php echo $dep['department']; ?></h4>
+                                        <p><?php echo $dep['percentage']; ?>%</p>
                                     </div>
                                 </div>
-                                <div class="activity-top">
-                                    <div class="activity-boxs comman-flex-center">
-                                        <img src="../assets/img/icons/dep-icon-02.svg" alt />
-                                    </div>
-                                    <div class="departments-list">
-                                        <h4>Dentista</h4>
-                                        <p>24%</p>
-                                    </div>
-                                </div>
-                                <div class="activity-top">
-                                    <div class="activity-boxs comman-flex-center">
-                                        <img src="../assets/img/icons/dep-icon-03.svg" alt />
-                                    </div>
-                                    <div class="departments-list">
-                                        <h4>Otorrinolaringologista</h4>
-                                        <p>10%</p>
-                                    </div>
-                                </div>
-                                <div class="activity-top">
-                                    <div class="activity-boxs comman-flex-center">
-                                        <img src="../assets/img/icons/dep-icon-04.svg" alt />
-                                    </div>
-                                    <div class="departments-list">
-                                        <h4>Cardiologista</h4>
-                                        <p>15%</p>
-                                    </div>
-                                </div>
-                                <div class="activity-top mb-0">
-                                    <div class="activity-boxs comman-flex-center">
-                                        <img src="../assets/img/icons/dep-icon-05.svg" alt />
-                                    </div>
-                                    <div class="departments-list">
-                                        <h4>oftalmologista</h4>
-                                        <p>20%</p>
-                                    </div>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
 
 
 
+
+
+
+                    <?php
+                    // Conectar ao banco de dados
+                    include('database.php');
+
+                    // Consultar os pacientes logados
+                    $sql_logged_patients = "SELECT * FROM logged_patients ORDER BY data_login DESC";
+                    $result = $conn->query($sql_logged_patients);
+                    ?>
 
 
                     <div class="col-12 col-md-12 col-xl-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title d-inline-block">Próximas Edições</h4>
-                                <a href="appointments.php" class="patient-views float-end">Mostre tudo</a>
-                            </div>
-                            <div class="card-body p-0 table-dash">
-                                <div class="table-responsive">
-                                    <table class="table mb-0 border-0 datatable custom-table">
-                                        <thead>
-                                            <tr role="row">
-                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_1"
-                                                    rowspan="1" colspan="1" aria-sort="ascending" aria-label="
-                                                    
-                                                        
-                                                    
-                                                : activate to sort column descending" style="width: 21px">
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something" />
-                                                    </div>
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Carterinha: activate to sort column ascending"
-                                                    style="width: 78.975px">
-                                                    Carterinha
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Nome do paciente: activate to sort column ascending"
-                                                    style="width: 131.6px">
-                                                    Nome do paciente
-                                                </th>
-                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Idade: activate to sort column ascending"
-                                                    style="width: 41.275px">
-                                                    Idade
-                                                </th> -->
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Data de nascimento : activate to sort column ascending"
-                                                    style="width: 145.788px">
-                                                    Médico
-                                                </th>
-                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Diagnóstico: activate to sort column ascending"
-                                                    style="width: 87.2875px">
-                                                    Diagnóstico
-                                                </th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something" />
-                                                    </div>
-                                                </td>
-                                                <td>R00001</td>
-                                                <td>Lorem Ipsum</td>
-                                                <td class="table-image appoint-doctor">
-                                                    <img width="28" height="28" class="rounded-circle"
-                                                        src="../assets/img/profiles/avatar-02.jpg" alt />
-                                                    <h2>Dr.Lorem Ipsum</h2>
-                                                </td>
-
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-appointment.php"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_appointment"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i>
-                                                                Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something" />
-                                                    </div>
-                                                </td>
-                                                <td>R00002</td>
-                                                <td>Lorem Ipsum</td>
-                                                <td class="table-image appoint-doctor">
-                                                    <img width="28" height="28" class="rounded-circle"
-                                                        src="../assets/img/profiles/avatar-03.jpg" alt />
-                                                    <h2>Dr.Lorem Ipsum</h2>
-                                                </td>
-
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-appointment.php"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_appointment"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i>
-                                                                Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something" />
-                                                    </div>
-                                                </td>
-                                                <td>R00003</td>
-                                                <td>Lorem ipsum</td>
-                                                <td class="table-image appoint-doctor">
-                                                    <img width="28" height="28" class="rounded-circle"
-                                                        src="../assets/img/profiles/avatar-04.jpg" alt />
-                                                    <h2>Dr.Lorem Ipsum</h2>
-                                                </td>
-
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-appointment.php"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_appointment"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i>
-                                                                Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something" />
-                                                    </div>
-                                                </td>
-                                                <td>R00004</td>
-                                                <td>Lorem ipsum</td>
-                                                <td class="table-image appoint-doctor">
-                                                    <img width="28" height="28" class="rounded-circle"
-                                                        src="../assets/img/profiles/avatar-05.jpg" alt />
-                                                    <h2>Dr.Lorem ipsum</h2>
-                                                </td>
-
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="../edit-appointment.php"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_appointment"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i>
-                                                                Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="something" />
-                                                    </div>
-                                                </td>
-                                                <td>R00005</td>
-                                                <td>Lorem ipsum</td>
-                                                <td class="table-image appoint-doctor">
-                                                    <img width="28" height="28" class="rounded-circle"
-                                                        src="../assets/img/profiles/avatar-03.jpg" alt />
-                                                    <h2>Dr.Lorem ipsum</h2>
-                                                </td>
-
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle"
-                                                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="edit-appointment.php"><i
-                                                                    class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#delete_appointment"><i
-                                                                    class="fa fa-trash-alt m-r-5"></i>
-                                                                Excluir</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <?php
-// Conectar ao banco de dados
-include('database.php');
-
-// Consultar os pacientes logados
-$sql_logged_patients = "SELECT * FROM logged_patients ORDER BY data_login DESC";
-$result = $conn->query($sql_logged_patients);
-?>
-
-                <div class="row">
-                    <div class="col-12 col-xl-12">
                         <div class="card rounded-card">
                             <!-- Adicionei a classe aqui -->
                             <div class="card-header pb-0">
@@ -958,264 +773,53 @@ $result = $conn->query($sql_logged_patients);
                                         </thead>
                                         <tbody>
                                             <?php
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    // Extrair a data e a hora separadamente
-                                    $data_login = date('d/m/Y', strtotime($row['data_login']));
-                                    $hora_login = date('H:i', strtotime($row['data_login']));
-                                    
-                                    echo "<tr>";
-                                    echo "<td><div class='form-check check-tables'><input class='form-check-input' type='checkbox' /></div></td>";
-                                    echo "<td>" . $row['carteirinha'] . "</td>";
-                                    echo "<td>" . $row['nome'] . "</td>";
-                                    echo "<td>" . $row['telefone'] . "</td>";
-                                    echo "<td>" . $data_login . "</td>";
-                                    echo "<td>" . $hora_login . "</td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='6'>Nenhum paciente logado recentemente.</td></tr>";
-                            }
-                            ?>
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    // Extrair a data e a hora separadamente
+                                                    $data_login = date('d/m/Y', strtotime($row['data_login']));
+                                                    $hora_login = date('H:i', strtotime($row['data_login']));
+
+                                                    echo "<tr>";
+                                                    echo "<td><div class='form-check check-tables'><input class='form-check-input' type='checkbox' /></div></td>";
+                                                    echo "<td>" . $row['carteirinha'] . "</td>";
+                                                    echo "<td>" . $row['nome'] . "</td>";
+                                                    echo "<td>" . $row['telefone'] . "</td>";
+                                                    echo "<td>" . $data_login . "</td>";
+                                                    echo "<td>" . $hora_login . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='6'>Nenhum paciente logado recentemente.</td></tr>";
+                                            }
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+
+                    <style>
+                    .rounded-card {
+                        border-radius: 0.5rem;
+                        /* Ajuste o valor conforme necessário */
+                        overflow: hidden;
+                        /* Isso garante que os cantos arredondados se apliquem corretamente */
+                    }
+                    </style>
+
+
+
+
                 </div>
 
 
-                <style>
-                .rounded-card {
-                    border-radius: 0.5rem;
-                    /* Ajuste o valor conforme necessário */
-                    overflow: hidden;
-                    /* Isso garante que os cantos arredondados se apliquem corretamente */
-                }
-                </style>
-                <div class="notification-box">
-                    <div class="msg-sidebar notifications msg-noti">
-                        <div class="topnav-dropdown-header">
-                            <span>Mensagens</span>
-                        </div>
-                        <div class="drop-scroll msg-list-scroll" id="msg_list">
-                            <ul class="list-box">
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">R</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum </span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item new-message">
-                                            <div class="list-left">
-                                                <span class="avatar">J</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum</span>
-                                                <span class="message-time">1 de agosto</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">T</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author"> Lorem Ipsum</span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">M</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum</span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">C</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author"> Lorem Ipsum </span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">D</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author"> Lorem Ipsum </span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">B</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum </span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">R</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author"> Lorem Ipsum </span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">C</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author"> Lorem Ipsum</span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">M</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum</span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">J</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum</span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">L</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum</span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="chat.php">
-                                        <div class="list-item">
-                                            <div class="list-left">
-                                                <span class="avatar">T</span>
-                                            </div>
-                                            <div class="list-body">
-                                                <span class="message-author">Lorem Ipsum</span>
-                                                <span class="message-time">12:28 AM</span>
-                                                <div class="clearfix"></div>
-                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                    adipiscing</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="topnav-dropdown-footer">
-                            <a href="chat.php">Veja todas as mensagens</a>
-                        </div>
-                    </div>
-                </div>
+
+
+
+
             </div>
         </div>
         <div class="sidebar-overlay" data-reff></div>
