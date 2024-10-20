@@ -51,10 +51,6 @@
    - Configure o arquivo `database.php` com suas credenciais do MySQL.
    - Execute o servidor local (por exemplo, usando o Laragon ou XAMPP).
 
-4. **Instalar Dependências:**
-
-   - Se houver dependências externas, instale-as via Composer ou NPM, conforme necessário.
-<<<<<<< HEAD
 
 ## 🏃‍♂️ Executando o Sistema
 
