@@ -18,20 +18,13 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
 
 </head>
 
-
-
-
 <body>
-
-
-
-
-
-
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
@@ -40,17 +33,10 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
-
     <div class="main-wrapper">
-
-
-
-
-
-
         <div class="header">
             <div class="header-left">
                 <a href="/medic/index.php" class="logo">
@@ -171,8 +157,6 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                        <a class="dropdown-item" href="settings.php">Configurações</a>
                         <a class="dropdown-item" href="login.php">Sair</a>
                     </div>
                 </li>
@@ -186,8 +170,6 @@
                         class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                    <a class="dropdown-item" href="settings.php">Configurações</a>
                     <a class="dropdown-item" href="login.php">Sair</a>
                 </div>
             </div>
@@ -266,10 +248,6 @@
                                 <li><a href="edit-schedule.php">Editar Agenda</a></li>
                             </ul>
                         </li>
-
-
-
-
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-13.svg"
                                         alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
@@ -284,7 +262,7 @@
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
                                         alt></span> <span> Reagendamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="compose.php">Reagendamento</a></li>
+                                <li><a href="reagendamento.php">Reagendamento</a></li>
 
                             </ul>
                         </li>

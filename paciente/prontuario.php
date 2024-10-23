@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,14 +14,15 @@
             padding: 0;
         }
 
-        .navbar, .footer {
+        .navbar,
+        .footer {
             background-color: #f8f9fa;
             padding: 10px;
         }
 
         .content {
             padding: 20px;
-            margin: 0 40px; 
+            margin: 0 40px;
         }
 
         .title {
@@ -35,7 +37,7 @@
             border-radius: 5px;
             padding: 20px;
             margin-bottom: 20px;
-            margin-top: 20px; 
+            margin-top: 20px;
         }
 
         .appointment-card p {
@@ -100,8 +102,12 @@
         .download-certificate {
             background-color: #004085;
         }
-    </style>
+    </style> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
+
 </head>
+
 <body>
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
@@ -114,7 +120,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <div class="content">
         <div class="title">Meu Prontuário</div>
@@ -147,7 +153,8 @@
     </div>
 
     <div class="footer">
-        <?php include 'navEfooter/footer.html';?>
+        <?php include 'navEfooter/footer.html'; ?>
     </div>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,23 +13,28 @@
             padding: 0;
             background-color: #f4f4f9;
         }
+
         .header {
             background-color: #e6f7ff;
             text-align: center;
-            padding: 100px 20px; 
+            padding: 100px 20px;
             position: relative;
         }
+
         .header h1 {
             margin: 0;
             color: #003366;
         }
+
         .header p {
-            color:#333;
+            color: #333;
             font-size: 14px;
         }
+
         .search-bar {
             margin-top: 20px;
         }
+
         .search-bar input[type="text"] {
             width: 50%;
             padding: 10px;
@@ -36,11 +42,13 @@
             border: 1px solid #ccc;
             font-size: 16px;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
+
         .cards {
             display: flex;
             justify-content: center;
@@ -48,24 +56,27 @@
             margin: 10px;
             position: relative;
             top: -100px;
-            flex-wrap: wrap; 
+            flex-wrap: wrap;
         }
+
         .card {
-        background-color: #003366;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        width: 15%; 
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        flex: 1 1 calc(25% - 40px); 
-        box-sizing: border-box;
-        margin: 0 35px;
+            background-color: #003366;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 15%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(25% - 40px);
+            box-sizing: border-box;
+            margin: 0 35px;
         }
+
         .card i {
             font-size: 50px;
             margin-bottom: 10px;
         }
+
         .faq {
             margin: 60px 0;
             width: 62%;
@@ -74,32 +85,39 @@
             position: relative;
             top: -80px;
         }
+
         .faq h2 {
             color: #003366;
             cursor: pointer;
         }
+
         .faq h3 {
             color: #333;
             cursor: pointer;
         }
+
         .faq p {
             display: none;
             color: #666;
             padding: 0 20px;
         }
+
         .contact {
             text-align: center;
             margin: 20px 0;
             margin-top: -93px;
         }
+
         .contact h2 {
             color: #003366;
             margin-bottom: 10px;
         }
+
         .contact p {
             color: #666;
             margin-bottom: 20px;
         }
+
         .contact a {
             text-decoration: none;
             background-color: #003366;
@@ -108,6 +126,7 @@
             border-radius: 5px;
             display: inline-block;
         }
+
         footer {
             background-color: #003366;
             color: white;
@@ -119,47 +138,61 @@
             .header {
                 padding: 50px 20px;
             }
+
             .header h1 {
                 font-size: 24px;
             }
+
             .search-bar input[type="text"] {
                 width: 80%;
                 font-size: 14px;
             }
+
             .cards {
                 top: -50px;
             }
+
             .card {
                 flex: 1 1 calc(50% - 40px);
                 margin-bottom: 20px;
             }
+
             .faq {
                 width: 80%;
                 top: -60px;
             }
         }
+
         @media (max-width: 480px) {
             .header {
                 padding: 30px 20px;
             }
+
             .header h1 {
                 font-size: 18px;
             }
+
             .search-bar input[type="text"] {
                 width: 100%;
                 font-size: 12px;
             }
+
             .card {
                 flex: 1 1 100%;
                 margin-bottom: 20px;
             }
+
             .faq {
                 width: 100%;
                 top: -40px;
             }
         }
-    </style>
+    </style> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
+
 </head>
+
 <body>
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
@@ -172,7 +205,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <div class="header">
         <h1>Como Podemos Ajudar?</h1>
@@ -190,7 +223,7 @@
                 <p>Informações importantes sobre como utilizar o sistema e aproveitar ao máximo suas funcionalidades.</p>
             </div>
             <div class="card" onclick="location.href='#';">
-            <i class="fas fa-shield-alt"></i>
+                <i class="fas fa-shield-alt"></i>
                 <h2>Privacidade</h2>
                 <p>Seus dados são tratados com segurança. Para detalhes, acesse a Política de Privacidade.</p>
             </div>
@@ -221,9 +254,9 @@
         </div>
     </div><br><br>
 
-  
+
     <div class="footer">
-        <?php include 'navEfooter/footer.html';?>
+        <?php include 'navEfooter/footer.html'; ?>
     </div>
 
     <script>
@@ -255,4 +288,5 @@
         }
     </script>
 </body>
+
 </html>

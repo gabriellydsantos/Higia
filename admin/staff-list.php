@@ -28,6 +28,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
+    <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
 
 </head>
 
@@ -40,7 +43,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 <div class="main-wrapper">
     <div class="header">
@@ -452,28 +455,28 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
 
 
 <script>
-$(document).ready(function() {
-    // Função para realizar a busca dinâmica
-    $('#search-staff').on('input', function() {
-        var query = $(this).val();
+    $(document).ready(function() {
+        // Função para realizar a busca dinâmica
+        $('#search-staff').on('input', function() {
+            var query = $(this).val();
 
-        $.ajax({
-            url: 'fetch_staff.php',
-            type: 'GET',
-            data: {
-                query: query
-            },
-            success: function(data) {
-                $('#staff-table-body').html(data);
-            }
+            $.ajax({
+                url: 'fetch_staff.php',
+                type: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    $('#staff-table-body').html(data);
+                }
+            });
+        });
+
+        // Recarregar a página ao clicar no botão de refresh
+        $('#refresh-button').on('click', function() {
+            location.reload();
         });
     });
-
-    // Recarregar a página ao clicar no botão de refresh
-    $('#refresh-button').on('click', function() {
-        location.reload();
-    });
-});
 </script>
 
 <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

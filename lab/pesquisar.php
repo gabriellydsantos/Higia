@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <title>Higia Lab</title>
     <meta charset="utf-8" />
@@ -19,7 +20,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Higia | Pesquisar</title>
     <style>
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             display: flex;
@@ -89,10 +91,10 @@
             transition: all 0.2s ease;
         }
 
-        .input-container input:focus + label,
-        .input-container input:not(:placeholder-shown) + label,
-        .input-container select:focus + label,
-        .input-container select:not(:placeholder-shown) + label {
+        .input-container input:focus+label,
+        .input-container input:not(:placeholder-shown)+label,
+        .input-container select:focus+label,
+        .input-container select:not(:placeholder-shown)+label {
             color: #007BFF;
         }
 
@@ -165,8 +167,12 @@
         .results a:active {
             background-color: #0056b3;
         }
-    </style>
+    </style> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
+
 </head>
+
 <body>
     <div class="header">
         <div class="header-left">
@@ -210,38 +216,39 @@
             </div>
         </form>
         <div class="results">
-        <?php
-include("conexao.php");
+            <?php
+            include("conexao.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Obtém e escapa a string de pesquisa
-    $Pesquisar = mysqli_real_escape_string($mysqli, $_POST['Pesquisar']);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Obtém e escapa a string de pesquisa
+                $Pesquisar = mysqli_real_escape_string($mysqli, $_POST['Pesquisar']);
 
-    // Executa a consulta
-    $sql = "SELECT * FROM documento WHERE nome_cliente LIKE '%$Pesquisar%'";
-    $query = mysqli_query($mysqli, $sql);
+                // Executa a consulta
+                $sql = "SELECT * FROM documento WHERE nome_cliente LIKE '%$Pesquisar%'";
+                $query = mysqli_query($mysqli, $sql);
 
-    if (!$query) {
-        // Exibe mensagem de erro caso a consulta falhe
-        echo "Erro na consulta: " . mysqli_error($mysqli);
-    } else {
-        while ($retorno = mysqli_fetch_assoc($query)) {
-            $nome_cliente= $retorno['nome_cliente'];
-            $data= $retorno['data'];
-            $carterinha = $retorno['carterinha'];
-            $exame_tipo = $retorno['tipo_exame'];
-            $id = $retorno['id'];
+                if (!$query) {
+                    // Exibe mensagem de erro caso a consulta falhe
+                    echo "Erro na consulta: " . mysqli_error($mysqli);
+                } else {
+                    while ($retorno = mysqli_fetch_assoc($query)) {
+                        $nome_cliente = $retorno['nome_cliente'];
+                        $data = $retorno['data'];
+                        $carterinha = $retorno['carterinha'];
+                        $exame_tipo = $retorno['tipo_exame'];
+                        $id = $retorno['id'];
 
-            echo "<a href='baixar.php?id=".$id."'>".$nome_cliente."_".$carterinha."_".$exame_tipo."_".$data."</a>";
-            echo "<br>";  
-        }
-    }
-}
-?>
+                        echo "<a href='baixar.php?id=" . $id . "'>" . $nome_cliente . "_" . $carterinha . "_" . $exame_tipo . "_" . $data . "</a>";
+                        echo "<br>";
+                    }
+                }
+            }
+            ?>
 
 
 
         </div>
     </div>
 </body>
+
 </html>

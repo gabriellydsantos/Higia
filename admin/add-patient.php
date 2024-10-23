@@ -30,6 +30,9 @@
 
 
 
+    <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
 
 </head>
 
@@ -42,7 +45,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 <div class="main-wrapper">
     <div class="header">
@@ -623,95 +626,95 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                 </div>
 
                                 <script>
-                                // Máscara para CPF
-                                $('input[name="cpf"]').mask('000.000.000-00', {
-                                    reverse: true
+                                    // Máscara para CPF
+                                    $('input[name="cpf"]').mask('000.000.000-00', {
+                                        reverse: true
 
-                                });
+                                    });
 
-                                // Máscara para RG (ajustar conforme o formato desejado)
-                                $('input[name="rg"]').mask('00.000.000-0');
-                                $(document).ready(function() {
-                                    $('input[name="phone"]').mask('(00) 00000-0000');
-                                });
+                                    // Máscara para RG (ajustar conforme o formato desejado)
+                                    $('input[name="rg"]').mask('00.000.000-0');
+                                    $(document).ready(function() {
+                                        $('input[name="phone"]').mask('(00) 00000-0000');
+                                    });
 
 
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    document.querySelector('input[name="zipcode"]').addEventListener('blur',
-                                        function() {
-                                            var cep = this.value.replace(/\D/g,
-                                                ''); // Remove caracteres não numéricos
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        document.querySelector('input[name="zipcode"]').addEventListener('blur',
+                                            function() {
+                                                var cep = this.value.replace(/\D/g,
+                                                    ''); // Remove caracteres não numéricos
 
-                                            if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
-                                                fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                                                    .then(response => response.json())
-                                                    .then(data => {
-                                                        if (!data.erro) {
-                                                            // Preenche o campo de Endereço
-                                                            document.querySelector(
-                                                                    'input[name="address"]').value =
-                                                                data.logradouro + ', ' + data.bairro;
+                                                if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+                                                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            if (!data.erro) {
+                                                                // Preenche o campo de Endereço
+                                                                document.querySelector(
+                                                                        'input[name="address"]').value =
+                                                                    data.logradouro + ', ' + data.bairro;
 
-                                                            // Atualiza o campo de Estado
-                                                            var stateSelect = document.querySelector(
-                                                                'select[name="state"]');
-                                                            var optionFound = false;
+                                                                // Atualiza o campo de Estado
+                                                                var stateSelect = document.querySelector(
+                                                                    'select[name="state"]');
+                                                                var optionFound = false;
 
-                                                            // Itera sobre as opções do select de estado para selecionar a correta
-                                                            for (var i = 0; i < stateSelect.options
-                                                                .length; i++) {
-                                                                if (stateSelect.options[i].value ===
-                                                                    data.uf) {
-                                                                    stateSelect.selectedIndex = i;
-                                                                    optionFound = true;
-                                                                    break;
+                                                                // Itera sobre as opções do select de estado para selecionar a correta
+                                                                for (var i = 0; i < stateSelect.options
+                                                                    .length; i++) {
+                                                                    if (stateSelect.options[i].value ===
+                                                                        data.uf) {
+                                                                        stateSelect.selectedIndex = i;
+                                                                        optionFound = true;
+                                                                        break;
+                                                                    }
                                                                 }
+
+                                                                // Se a opção não foi encontrada, exibe uma mensagem
+                                                                if (!optionFound) {
+                                                                    alert(
+                                                                        'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
+                                                                    );
+                                                                }
+
+                                                                // Força a atualização do campo visível
+                                                                stateSelect.dispatchEvent(new Event(
+                                                                    'change'));
+
+                                                                // Atualiza o campo de Cidade
+                                                                var citySelect = document.querySelector(
+                                                                    'select[name="city"]');
+                                                                citySelect.innerHTML =
+                                                                    `<option value="${data.localidade}">${data.localidade}</option>`;
+
+                                                                // Preenche o campo de País com 'Brasil'
+                                                                document.querySelector(
+                                                                        'select[name="country"]').value =
+                                                                    'Brasil';
+                                                            } else {
+                                                                alert('CEP não encontrado.');
                                                             }
+                                                        })
+                                                        .catch(error => {
+                                                            console.error('Erro ao buscar CEP:', error);
+                                                            alert('Erro ao buscar CEP. Tente novamente.');
+                                                        });
+                                                } else {
+                                                    alert('Por favor, insira um CEP válido.');
+                                                }
+                                            });
+                                    });
 
-                                                            // Se a opção não foi encontrada, exibe uma mensagem
-                                                            if (!optionFound) {
-                                                                alert(
-                                                                    'Estado não encontrado no select. Verifique se a sigla do estado está correta.'
-                                                                );
-                                                            }
+                                    function updateUsername() {
+                                        const firstName = document.querySelector('input[name="first_name"]').value;
+                                        const carteirinha = document.querySelector('input[name="carteirinha"]').value;
 
-                                                            // Força a atualização do campo visível
-                                                            stateSelect.dispatchEvent(new Event(
-                                                                'change'));
+                                        // Formata o username com base no primeiro nome e carteirinha
+                                        const formattedUsername = firstName.toLowerCase() + "_" + carteirinha;
 
-                                                            // Atualiza o campo de Cidade
-                                                            var citySelect = document.querySelector(
-                                                                'select[name="city"]');
-                                                            citySelect.innerHTML =
-                                                                `<option value="${data.localidade}">${data.localidade}</option>`;
-
-                                                            // Preenche o campo de País com 'Brasil'
-                                                            document.querySelector(
-                                                                    'select[name="country"]').value =
-                                                                'Brasil';
-                                                        } else {
-                                                            alert('CEP não encontrado.');
-                                                        }
-                                                    })
-                                                    .catch(error => {
-                                                        console.error('Erro ao buscar CEP:', error);
-                                                        alert('Erro ao buscar CEP. Tente novamente.');
-                                                    });
-                                            } else {
-                                                alert('Por favor, insira um CEP válido.');
-                                            }
-                                        });
-                                });
-
-                                function updateUsername() {
-                                    const firstName = document.querySelector('input[name="first_name"]').value;
-                                    const carteirinha = document.querySelector('input[name="carteirinha"]').value;
-
-                                    // Formata o username com base no primeiro nome e carteirinha
-                                    const formattedUsername = firstName.toLowerCase() + "_" + carteirinha;
-
-                                    document.getElementById('username').value = formattedUsername;
-                                }
+                                        document.getElementById('username').value = formattedUsername;
+                                    }
                                 </script>
                             </form>
 

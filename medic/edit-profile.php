@@ -1,3 +1,137 @@
+<?php
+include "conexao.php";
+session_start();
+
+// Verificar se o usuário está logado
+if (!isset($_SESSION['doctor_id'])) {
+    header("Location: loginM.php");
+    exit();
+}
+
+// Verificar se o ID foi passado para edição
+if (isset($_SESSION['doctor_id'])) {
+    $id = $_SESSION['doctor_id'];
+
+    // Buscar o registro a ser editado
+    $sql = "SELECT * FROM doctors WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $doctor = $result->fetch_assoc();
+
+        // Atualizar a sessão com os dados do médico
+        $_SESSION['doctor_first_name'] = $doctor['first_name'];
+        $_SESSION['doctor_last_name'] = $doctor['last_name'];
+        $_SESSION['doctor_username'] = $doctor['username'];
+        $_SESSION['doctor_phone'] = $doctor['phone'];
+        $_SESSION['doctor_email'] = $doctor['email'];
+        $_SESSION['doctor_password'] = $doctor['password'];
+        $_SESSION['doctor_carteirinha'] = $doctor['carteirinha'];
+        $_SESSION['doctor_birth_date'] = $doctor['birth_date'];
+        $_SESSION['gender'] = $doctor['gender'];
+        $_SESSION['doctor_address'] = $doctor['address'];
+        $_SESSION['doctor_city'] = $doctor['city'];
+        $_SESSION['doctor_state'] = $doctor['state'];
+        $_SESSION['doctor_department'] = $doctor['department'];
+        $_SESSION['doctor_image'] = $doctor['image'];
+    } else {
+        echo "Registro não encontrado!";
+        exit();
+    }
+}
+
+// Atualizar os dados após o envio do formulário
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $first_name = $_POST['first_name'] ?? '';
+    $image = $_POST['image'] ?? '';
+    $last_name = $_POST['last_name'] ?? '';
+    $username = $_POST['username'] ?? '';
+    $phone = $_POST['phone'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $carteirinha = $_POST['carteirinha'] ?? '';
+    $birth_date = $_POST['birth_date'] ?? '';
+    $gender = $_POST['gender'] ?? '';
+    $address = $_POST['adress'] ?? ''; // Corrigir para 'adress'
+    $city = $_POST['city'] ?? '';
+    $state = $_POST['state'] ?? '';
+    $department = $_POST['department'] ?? '';
+
+    // Verifica se o arquivo de imagem foi enviado
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $image = '../uploads/uploads_doctor/' . basename($_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], $image);
+    } else {
+        $image = $_SESSION['doctor_image']; // Caso a imagem não seja alterada
+    }
+
+    // Atualizar o registro no banco de dados
+    $query = "UPDATE doctors SET 
+        first_name = ?, 
+        last_name = ?, 
+        username = ?, 
+        phone = ?, 
+        email = ?, 
+        password = ?, 
+        carteirinha = ?, 
+        birth_date = ?, 
+        gender = ?, 
+        address = ?, 
+        city = ?, 
+        state = ?, 
+        department = ?, 
+        image = ? 
+        WHERE id = ?";
+
+    $stmt = $conn->prepare($query);
+
+    // Bind dos parâmetros com os valores do formulário
+    $stmt->bind_param(
+        "ssssssssssssssi",
+        $first_name,
+        $last_name,
+        $username,
+        $phone,
+        $email,
+        $password,
+        $carteirinha,
+        $birth_date,
+        $gender,
+        $address,
+        $city,
+        $state,
+        $department,
+        $image,
+        $id
+    );
+
+    if ($stmt->execute()) {
+        echo "Registro atualizado com sucesso!";
+        // Atualizar as variáveis de sessão
+        $_SESSION['doctor_first_name'] = $first_name;
+        $_SESSION['doctor_last_name'] = $last_name; //
+        $_SESSION['doctor_username'] = $username;
+        $_SESSION['doctor_phone'] = $phone; //
+        $_SESSION['doctor_email'] = $email; //
+        $_SESSION['doctor_password'] = $password; //
+        $_SESSION['doctor_carteirinha'] = $carteirinha;
+        $_SESSION['doctor_birth_date'] = $birth_date;
+        $_SESSION['gender'] = $gender; //
+        $_SESSION['doctor_address'] = $address; //
+        $_SESSION['doctor_city'] = $city; //
+        $_SESSION['doctor_state'] = $state; //
+        $_SESSION['doctor_department'] = $department; //
+        $_SESSION['doctor_image'] = $image;
+    } else {
+        echo "Erro ao atualizar o registro: " . $stmt->error;
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -19,19 +153,13 @@
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
 
 </head>
 
-
-
-
 <body>
-
-
-
-
-
-
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
@@ -40,32 +168,17 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-
-
     <div class="main-wrapper">
-
-
-
-
-
-
         <div class="header">
             <div class="header-left">
                 <a href="/medic/index.php" class="logo">
                     <img src="../assets/img/logo 1.png" width="100" height="40" alt />
                 </a>
             </div>
-            <a id="toggle_btn" href="javascript:void(0);"><img src="../assets/img/icons/bar-icon.svg" alt /></a>
             <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img
                     src="../assets/img/icons/bar-icon.svg" alt /></a>
-            <div class="top-nav-search mob-view">
-                <form>
-                    <input type="text" class="form-control" placeholder="Pesquisar aqui" />
-                    <a class="btn"><img src="../assets/img/icons/search-normal.svg" alt /></a>
-                </form>
-            </div>
             <ul class="nav user-menu float-end">
                 <li class="nav-item dropdown d-none d-md-block">
                     <!--<a href="/medic/#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
@@ -162,17 +275,17 @@
                 <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="/medic/#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
-                            <h5>lorem ipsum</h5>
-                            <span>Admin</span>
+                            <h5><?php echo $_SESSION['doctor_username']; ?></h5>
+                            <span>Médico</span>
                         </div>
                         <span class="user-img">
-                            <img src="../assets/img/user-06.jpg" alt="Admin" />
+                            <?php
+                            echo "<img src='" . $_SESSION['doctor_image'] . "' alt='img'/>";
+                            ?>
                         </span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                        <a class="dropdown-item" href="settings.php">Configurações</a>
                         <a class="dropdown-item" href="login.php">Sair</a>
                     </div>
                 </li>
@@ -186,8 +299,6 @@
                         class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                    <a class="dropdown-item" href="settings.php">Configurações</a>
                     <a class="dropdown-item" href="login.php">Sair</a>
                 </div>
             </div>
@@ -196,7 +307,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Interface Base</li>
+
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg"
                                         alt="" /></span>
@@ -251,7 +362,6 @@
                             <ul style="display: none">
                                 <li><a href="appointments.php">Lista de Consultas</a></li>
                                 <li><a href="add-appointment.php">Agendar Consulta</a></li>
-                                <li><a href="edit-appointment.php">Editar Consulta</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -265,10 +375,6 @@
                                 <li><a href="edit-schedule.php">Editar Agenda</a></li>
                             </ul>
                         </li>
-
-
-
-
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-13.svg"
                                         alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
@@ -277,13 +383,11 @@
 
                             </ul>
                         </li>
-
-
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
-                                        alt></span> <span> Reagendamento</span> <span class="menu-arrow"></span></a>
+                                        alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="compose.php">Reagendamento</a></li>
+                                <li><a href="reagendamento.php">Gerar guia</a></li>
 
                             </ul>
                         </li>
@@ -300,61 +404,59 @@
         </div>
         <div class="page-wrapper">
             <div class="content">
-
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.php">Dashboard </a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                                <li class="breadcrumb-item active">Edit Profile</li>
+                                <li class="breadcrumb-item active">Editar Perfil</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <form>
+                <form method="POST">
                     <div class="card-box">
-                        <h3 class="card-title">Basic Informations</h3>
+                        <h3 class="card-title">Minhas informações</h3>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="profile-img-wrap">
-                                    <img class="inline-block" src="../assets/img/user.jpg" alt="user">
-                                    <div class="fileupload btn">
-                                        <span class="btn-text">edit</span>
-                                        <input class="upload" type="file">
-                                    </div>
+                                    <img class="inline-block" <?php echo "src='" . $_SESSION['doctor_image'] . "'"; ?> name="image" alt="user">
+                                    <!-- <div class="fileupload btn">
+                                        <span class="btn-text">editar</span>
+                                        <input class="upload" type="file" name="image">
+                                    </div> -->
                                 </div>
                                 <div class="profile-basic">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-block local-forms">
-                                                <label class="focus-label">First Name</label>
-                                                <input type="text" class="form-control floating" value="John">
+                                                <label class="focus-label">Primeiro nome</label>
+                                                <input type="text" class="form-control floating" name="first_name" value="<?php echo $_SESSION['doctor_first_name']; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-block local-forms">
-                                                <label class="focus-label">Last Name</label>
-                                                <input type="text" class="form-control floating" value="Doe">
+                                                <label class="focus-label">Sobrenome</label>
+                                                <input type="text" class="form-control floating" name="last_name" value="<?php echo $_SESSION['doctor_last_name']; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-block local-forms ">
-                                                <label class="focus-label">Birth Date</label>
+                                                <label class="focus-label">Data de Nascimento</label>
                                                 <div class="cal-icon">
-                                                    <input class="form-control floating datetimepicker" type="text"
-                                                        value="05/06/1985">
+                                                    <input class="form-control floating datetimepicker" type="text" name="birth_date" value="<?php echo $_SESSION['doctor_birth_date']; ?>">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-block local-forms">
-                                                <label class="focus-label">Gendar</label>
-                                                <select class="form-control select">
-                                                    <option>Select Gendar</option>
-                                                    <option>Male</option>
-                                                    <option selected>Female</option>
+                                                <label class="focus-label">Gênero</label>
+                                                <select class="form-control select" name="gender">
+                                                    <option>Selecionar gênero</option>
+                                                    <option value="Feminino" <?php if ($_SESSION['gender'] == 'Feminino') echo 'selected'; ?>>Feminino</option>
+                                                    <option value="Masculino" <?php if ($_SESSION['gender'] == 'Masculino') echo 'selected'; ?>>Masculino</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -363,363 +465,307 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-box">
-                        <h3 class="card-title">Contact Informations</h3>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Address</label>
-                                    <input type="text" class="form-control floating" value="4487 Snowbird Lane">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">State</label>
-                                    <input type="text" class="form-control floating" value="New York">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Country</label>
-                                    <input type="text" class="form-control floating" value="United States">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Pin Code</label>
-                                    <input type="text" class="form-control floating" value="10523">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Phone Number</label>
-                                    <input type="text" class="form-control floating" value="631-889-3206">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-box">
-                        <h3 class="card-title">Education Informations</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Institution</label>
-                                    <input type="text" class="form-control floating" value="Oxford University">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Subject</label>
-                                    <input type="text" class="form-control floating" value="Computer Science">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Starting Date</label>
-                                    <div class="cal-icon">
-                                        <input type="text" class="form-control floating datetimepicker"
-                                            value="01/06/2002">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Complete Date</label>
-                                    <div class="cal-icon">
-                                        <input type="text" class="form-control floating datetimepicker"
-                                            value="31/05/2006">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Degree</label>
-                                    <input type="text" class="form-control floating" value="BE Computer Science">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Grade</label>
-                                    <input type="text" class="form-control floating" value="Grade A">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="add-more">
-                            <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add More Institute</a>
-                        </div>
-                    </div>
-                    <div class="card-box">
-                        <h3 class="card-title">Experience Informations</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Company Name</label>
-                                    <input type="text" class="form-control floating" value="Digital Devlopment Inc">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Location</label>
-                                    <input type="text" class="form-control floating" value="United States">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Job Position</label>
-                                    <input type="text" class="form-control floating" value="Web Developer">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Period From</label>
-                                    <div class="cal-icon">
-                                        <input type="text" class="form-control floating datetimepicker"
-                                            value="01/07/2007">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-block local-forms">
-                                    <label class="focus-label">Period To</label>
-                                    <div class="cal-icon">
-                                        <input type="text" class="form-control floating datetimepicker"
-                                            value="08/06/2018">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="add-more">
-                            <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add More Experience</a>
-                        </div>
-                    </div>
-                    <div class="text-center ">
-                        <button class="btn btn-primary submit-btn mb-4" type="button">Save</button>
-                    </div>
-                </form>
             </div>
-            <div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
+            <div class="card-box">
+                <h3 class="card-title">Informações para contato</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Endereço</label>
+                            <input type="text" class="form-control floating" name="adress" value="<?php echo $_SESSION['doctor_address']; ?>">
+                        </div>
                     </div>
-                    <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Cidade</label>
+                            <input type="text" class="form-control floating" name="city" value="<?php echo $_SESSION['doctor_city']; ?>">
+                        </div>
                     </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="chat.php">See all messages</a>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Estado</label>
+                            <input type="text" class="form-control floating" name="state" value="<?php echo $_SESSION['doctor_state']; ?>">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">E-mail</label>
+                            <input type="text" class="form-control floating" name="email" value="<?php echo $_SESSION['doctor_email']; ?>">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Telefone</label>
+                            <input type="text" class="form-control floating" name="phone" value="<?php echo $_SESSION['doctor_phone']; ?>">
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="card-box">
+                <h3 class="card-title">Informações gerais</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Especialidade</label>
+                            <input type="text" class="form-control floating" name="department" value="<?php echo $_SESSION['doctor_department']; ?>">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">CRM</label>
+                            <input type="text" class="form-control floating" value="CRM/SP 123456">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Nome social</label>
+                            <input type="text" class="form-control floating" name="username" value="<?php echo $_SESSION['doctor_username']; ?>">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Carteirinha</label>
+                            <input type="text" class="form-control floating" name="carteirinha" value="<?php echo $_SESSION['doctor_carteirinha']; ?>">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-block local-forms">
+                            <label class="focus-label">Senha</label>
+                            <input type="text" class="form-control floating" name="password" value="<?php echo $_SESSION['doctor_password']; ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="text-center ">
+                <button class="btn btn-primary submit-btn mb-4" type="submit">Salvar</button>
+            </div>
+            </form>
         </div>
+        <div class="notification-box">
+            <div class="msg-sidebar notifications msg-noti">
+                <div class="topnav-dropdown-header">
+                    <span>Messages</span>
+                </div>
+                <div class="drop-scroll msg-list-scroll" id="msg_list">
+                    <ul class="list-box">
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">R</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author">Richard Miles </span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item new-message">
+                                    <div class="list-left">
+                                        <span class="avatar">J</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author">John Doe</span>
+                                        <span class="message-time">1 Aug</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">T</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author"> Tarah Shropshire </span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">M</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author">Mike Litorus</span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">C</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author"> Catherine Manseau </span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">D</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author"> Domenic Houston </span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">B</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author"> Buster Wigton </span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">R</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author"> Rolland Webber </span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">C</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author"> Claire Mapes </span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">M</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author">Melita Faucher</span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">J</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author">Jeffery Lalor</span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">L</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author">Loren Gatlin</span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="chat.php">
+                                <div class="list-item">
+                                    <div class="list-left">
+                                        <span class="avatar">T</span>
+                                    </div>
+                                    <div class="list-body">
+                                        <span class="message-author">Tarah Shropshire</span>
+                                        <span class="message-time">12:28 AM</span>
+                                        <div class="clearfix"></div>
+                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                            adipiscing</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="topnav-dropdown-footer">
+                    <a href="chat.php">See all messages</a>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <div class="sidebar-overlay" data-reff></div>
     <script src="../assets/js/jquery-3.7.1.min.js" type="c4b7f5a1e167df25f2330219-text/javascript"></script>

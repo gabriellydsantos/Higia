@@ -1,4 +1,10 @@
-
+<?php
+include "conexao.php";
+session_start();
+//ocultar erros
+error_reporting(0);
+ini_set('display_errors', 0);
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -21,6 +27,9 @@
   <link rel="stylesheet" href="../assets/css/feather.css" />
   <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- acessibilidade -->
+  <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
 
 </head>
 
@@ -38,23 +47,14 @@
 
 
   <div class="main-wrapper">
-
-
     <div class="header">
       <div class="header-left">
-       <a href="/medic/index.php" class="logo">
+        <a href="/medic/index.php" class="logo">
           <img src="../assets/img/logo 1.png" width="100" height="40" alt />
         </a>
       </div>
-      <a id="toggle_btn" href="javascript:void(0);"><img src="../assets/img/icons/bar-icon.svg" alt /></a>
       <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img src="../assets/img/icons/bar-icon.svg"
           alt /></a>
-      <div class="top-nav-search mob-view">
-        <form>
-          <input type="text" class="form-control" placeholder="Pesquisar aqui" />
-          <a class="btn"><img src="../assets/img/icons/search-normal.svg" alt /></a>
-        </form>
-      </div>
       <ul class="nav user-menu float-end">
         <li class="nav-item dropdown d-none d-md-block">
           <!--<a href="/medic/#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
@@ -66,7 +66,7 @@
             <div class="drop-scroll">
               <ul class="notification-list">
                 <li class="notification-message">
-                 <a href="/medic/activities.php">
+                  <a href="/medic/activities.php">
                     <div class="media">
                       <span class="avatar">
                         <img alt="John Doe" src="../assets/img/user.jpg" class="img-fluid" />
@@ -85,7 +85,7 @@
                   </a>
                 </li>
                 <li class="notification-message">
-                 <a href="/medic/activities.php">
+                  <a href="/medic/activities.php">
                     <div class="media">
                       <span class="avatar">V</span>
                       <div class="media-body">
@@ -103,7 +103,7 @@
                   </a>
                 </li>
                 <li class="notification-message">
-                 <a href="/medic/activities.php">
+                  <a href="/medic/activities.php">
                     <div class="media">
                       <span class="avatar">L</span>
                       <div class="media-body">
@@ -123,7 +123,7 @@
                   </a>
                 </li>
                 <li class="notification-message">
-                 <a href="/medic/activities.php">
+                  <a href="/medic/activities.php">
                     <div class="media">
                       <span class="avatar">G</span>
                       <div class="media-body">
@@ -148,19 +148,23 @@
                     src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
         </li> -->
         <li class="nav-item dropdown has-arrow user-profile-list">
-         <a href="/medic/#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
+          <a href="/medic/#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
             <div class="user-names">
-              <h5>lorem ipsum</h5>
-              <span>Admin</span>
+              <h5><?php
+                  include "conexao.php";
+                  session_start();
+                  echo $_SESSION['doctor_username'];
+                  ?></h5>
+              <span>Médico</span>
             </div>
             <span class="user-img">
-              <img src="../assets/img/user-06.jpg" alt="Admin" />
+              <?php
+              echo "<img src='" . $_SESSION['doctor_image'] . "' alt='Admin'/>";
+              ?>
             </span>
           </a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-            <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-            <a class="dropdown-item" href="settings.php">Configurações</a>
             <a class="dropdown-item" href="login.php">Sair</a>
           </div>
         </li>
@@ -170,12 +174,10 @@
         </li> -->
       </ul>
       <div class="dropdown mobile-user-menu float-end">
-       <a href="/medic/#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
+        <a href="/medic/#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
             class="fa-solid fa-ellipsis-vertical"></i></a>
         <div class="dropdown-menu dropdown-menu-end">
           <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-          <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-          <a class="dropdown-item" href="settings.php">Configurações</a>
           <a class="dropdown-item" href="login.php">Sair</a>
         </div>
       </div>
@@ -185,9 +187,9 @@
       <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
           <ul>
-            <li class="menu-title">Interface Base</li>
+
             <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg" alt="" /></span>
+              <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg" alt="" /></span>
                 <span> Controle </span>
                 <span class="menu-arrow"></span></a>
               <ul style="display: none">
@@ -233,16 +235,15 @@
               </ul>
             </li> -->
             <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg" alt="" /></span>
+              <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg" alt="" /></span>
                 <span> Consultas </span> <span class="menu-arrow"></span></a>
               <ul style="display: none">
                 <li><a href="appointments.php">Lista de Consultas</a></li>
                 <li><a href="add-appointment.php">Agendar Consulta</a></li>
-                <li><a href="edit-appointment.php">Editar Consulta</a></li>
               </ul>
             </li>
             <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-05.svg" alt="" /></span>
+              <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-05.svg" alt="" /></span>
                 <span> Agenda</span>
                 <span class="menu-arrow"></span></a>
               <ul style="display: none">
@@ -251,31 +252,25 @@
                 <li><a href="edit-schedule.php">Editar Agenda</a></li>
               </ul>
             </li>
-
-
-
-
             <li class="submenu">
               <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-13.svg" alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
               <ul style="display: none;">
-              <li><a href="compose.php">Receita</a></li>
-              
+                <li><a href="compose.php">Receita</a></li>
+
               </ul>
-              </li> 
+            </li>
+            <li class="submenu">
+              <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg" alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
+              <ul style="display: none;">
+                <li><a href="reagendamento.php">Gerar guia</a></li>
+
+              </ul>
+            </li>
 
 
-              <li class="submenu">
-                <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg" alt></span> <span> Reagendamento</span> <span class="menu-arrow"></span></a>
-                <ul style="display: none;">
-                <li><a href="compose.php">Reagendamento</a></li>
-                
-                </ul>
-                </li> 
-
-                
           </ul>
           <div class="logout-btn">
-           <a href="/medic/login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg" alt="" /></span>
+            <a href="/medic/login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg" alt="" /></span>
               <span>Sair</span></a>
           </div>
         </div>
@@ -293,7 +288,7 @@
             <div class="col-sm-12">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                 <a href="/medic/schedule.php">Doctor Shedule </a>
+                  <a href="/medic/schedule.php">Doctor Shedule </a>
                 </li>
                 <li class="breadcrumb-item">
                   <i class="feather-chevron-right"></i>
@@ -321,19 +316,19 @@
                             </form>
                           </div>
                           <div class="add-group">
-                           <a href="/medic/add-schedule.php" class="btn btn-primary add-pluss ms-2"><img
+                            <a href="/medic/add-schedule.php" class="btn btn-primary add-pluss ms-2"><img
                                 src="../assets/img/icons/plus.svg" alt /></a>
-                           <a href="/medic/javascript:;" class="btn btn-primary doctor-refresh ms-2"><img
+                            <a href="/medic/javascript:;" class="btn btn-primary doctor-refresh ms-2"><img
                                 src="../assets/img/icons/re-fresh.svg" alt /></a>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-auto text-end float-end ms-auto download-grp">
-                     <a href="/medic/javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-01.svg" alt /></a>
-                     <a href="/medic/javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-02.svg" alt /></a>
-                     <a href="/medic/javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-03.svg" alt /></a>
-                     <a href="/medic/javascript:;"><img src="../assets/img/icons/pdf-icon-04.svg" alt /></a>
+                      <a href="/medic/javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-01.svg" alt /></a>
+                      <a href="/medic/javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-02.svg" alt /></a>
+                      <a href="/medic/javascript:;" class="me-2"><img src="../assets/img/icons/pdf-icon-03.svg" alt /></a>
+                      <a href="/medic/javascript:;"><img src="../assets/img/icons/pdf-icon-04.svg" alt /></a>
                     </div>
                   </div>
                 </div>
@@ -362,7 +357,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-01.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-01.jpg"
                               class="rounded-circle m-r-5" alt />
                             Lorem Ipsum</a>
                         </td>
@@ -376,7 +371,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -396,7 +391,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-02.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-02.jpg"
                               class="rounded-circle m-r-5" alt />
                             Lorem Ipsum</a>
                         </td>
@@ -410,7 +405,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -430,7 +425,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-03.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-03.jpg"
                               class="rounded-circle m-r-5" alt />
                             Lorem Ipsum</a>
                         </td>
@@ -444,7 +439,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -464,7 +459,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-04.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-04.jpg"
                               class="rounded-circle m-r-5" alt />
                             Lorem Ipsum</a>
                         </td>
@@ -478,7 +473,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -498,7 +493,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-06.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-06.jpg"
                               class="rounded-circle m-r-5" alt />Lorem Ipsum</a>
                         </td>
                         <td> 00/00/0000</td>
@@ -511,7 +506,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -531,7 +526,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-05.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-05.jpg"
                               class="rounded-circle m-r-5" alt />
                             Lorem Ipsum</a>
                         </td>
@@ -545,7 +540,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -565,7 +560,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-01.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-01.jpg"
                               class="rounded-circle m-r-5" alt />
                             Lorem Ipsum</a>
                         </td>
@@ -579,7 +574,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -599,7 +594,7 @@
                           </div>
                         </td>
                         <td class="profile-image">
-                         <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-02.jpg"
+                          <a href="/medic/profile.php"><img width="28" height="28" src="../assets/img/profiles/avatar-02.jpg"
                               class="rounded-circle m-r-5" alt />
                             Lorem Ipsum</a>
                         </td>
@@ -613,7 +608,7 @@
                         </td>
                         <td class="text-end">
                           <div class="dropdown dropdown-action">
-                           <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">
                               <a class="dropdown-item" href="edit-schedule.php"><i
@@ -642,7 +637,7 @@
           <div class="drop-scroll msg-list-scroll" id="msg_list">
             <ul class="list-box">
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">R</span>
@@ -658,7 +653,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item new-message">
                     <div class="list-left">
                       <span class="avatar">J</span>
@@ -674,7 +669,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">T</span>
@@ -690,7 +685,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">M</span>
@@ -706,7 +701,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">C</span>
@@ -722,7 +717,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">D</span>
@@ -738,7 +733,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">B</span>
@@ -754,7 +749,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">R</span>
@@ -770,7 +765,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">C</span>
@@ -786,7 +781,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">M</span>
@@ -802,7 +797,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">J</span>
@@ -818,7 +813,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">L</span>
@@ -834,7 +829,7 @@
                 </a>
               </li>
               <li>
-               <a href="/medic/chat.php">
+                <a href="/medic/chat.php">
                   <div class="list-item">
                     <div class="list-left">
                       <span class="avatar">T</span>
@@ -852,7 +847,7 @@
             </ul>
           </div>
           <div class="topnav-dropdown-footer">
-           <a href="/medic/chat.php">See all messages</a>
+            <a href="/medic/chat.php">See all messages</a>
           </div>
         </div>
       </div>
@@ -864,7 +859,7 @@
             <img src="../assets/img/sent.png" alt width="50" height="46" />
             <h3>Are you sure want to delete this ?</h3>
             <div class="m-t-20">
-             <a href="/medic/#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+              <a href="/medic/#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
               <button type="submit" class="btn btn-danger">Delete</button>
             </div>
           </div>

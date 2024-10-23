@@ -27,127 +27,133 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reschedule_id'])) {
 }
 
 // Consultar agendamentos
-$sql_agendamentos = "SELECT a.id, a.department, a.date, a.time, d.username 
+$sql_agendamentos = "SELECT a.id, d.department_name AS department_name, a.date, a.time, doc.username 
                      FROM agendamentos a 
-                     JOIN doctors d ON a.doctor = d.username";
+                     JOIN doctors doc ON a.doctor = doc.username
+                     JOIN departments d ON a.department = d.id";
 $result_agendamentos = $conn->query($sql_agendamentos);
 ?>
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultas Agendadas</title>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-    body {
-        font-family: Arial, sans-serif;
-    }
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-    .navbar,
-    .footer {
-        background-color: #f8f9fa;
-        padding: 10px;
-    }
+        .navbar,
+        .footer {
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
 
-    .content {
-        padding: 20px;
-    }
+        .content {
+            padding: 20px;
+        }
 
-    .title {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-    .appointment-card {
-        border: 1px solid black;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        .appointment-card {
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .appointment-info {
-        max-width: 70%;
-    }
+        .appointment-info {
+            max-width: 70%;
+        }
 
-    .appointment-info p {
-        margin: 5px 0;
-    }
+        .appointment-info p {
+            margin: 5px 0;
+        }
 
-    .appointment-actions {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-    }
+        .appointment-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
-    .appointment-actions button {
-        margin: 5px 0;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        color: white;
-    }
+        .appointment-actions button {
+            margin: 5px 0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
 
-    .reschedule-btn {
-        background-color: #161D53;
-    }
+        .reschedule-btn {
+            background-color: #161D53;
+        }
 
-    .cancel-btn {
-        background-color: #B72345; 
-    }
+        .cancel-btn {
+            background-color: #B72345;
+        }
 
-    .details-link {
-        font-size: 12px;
-        color: blue;
-        cursor: pointer;
-        text-decoration: underline;
-    }
+        .details-link {
+            font-size: 12px;
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+        }
 
-    .reschedule-form {
-        display: none;
-        flex-direction: column;
-        margin-top: 20px; 
-        margin-bottom: 20px;
-        padding: 10px; 
-        border: 1px solid #ccc; 
-        border-radius: 5px;
-        background-color: #f9f9f9; 
-    }
+        .reschedule-form {
+            display: none;
+            flex-direction: column;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
 
-    .reschedule-form input {
-        margin: 13px 0; 
-        margin-right: 10px;
-        padding: 8px; 
-        border: 1px solid #ddd; 
-        border-radius: 5px; 
-    }
+        .reschedule-form input {
+            margin: 13px 0;
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-    .reschedule-form input[type="time"] {
-        margin-top: 10px; 
-    }
+        .reschedule-form input[type="time"] {
+            margin-top: 10px;
+        }
 
-    .reschedule-form button {
-        margin-top: 10px; 
-        padding: 10px; 
-        background-color: #161D53; 
-        color: white; 
-        border: none; 
-        border-radius: 5px; 
-        cursor: pointer; 
-    }
-
+        .reschedule-form button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #161D53;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
+
     <script>
         function toggleRescheduleForm(id) {
             const form = document.getElementById('reschedule-form-' + id);
             form.style.display = form.style.display === 'none' || form.style.display === '' ? 'flex' : 'none';
         }
-    </script>
+    </script> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
+
 </head>
+
 <body>
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
@@ -173,13 +179,13 @@ $result_agendamentos = $conn->query($sql_agendamentos);
             while ($row = $result_agendamentos->fetch_assoc()) {
                 echo '<div class="appointment-card">';
                 echo '<div class="appointment-info">';
-                echo '<p>Consulta em: <strong>' . htmlspecialchars($row['department']) . '</strong> <span class="details-link">Ver detalhes</span></p>';
+                echo '<p>Consulta em: <strong>' . htmlspecialchars($row['department_name']) . '</strong> <a href="comprovante.php?id=' . htmlspecialchars($row['id']) . '" class="details-link">Comprovante</a></p>';
                 echo '<p>Data: <strong>' . date('d/m/Y', strtotime($row['date'])) . '</strong></p>';
                 echo '<p>Horário: <strong>' . htmlspecialchars($row['time']) . '</strong></p>';
-                echo '<p>Profissional: <strong> ' . htmlspecialchars($row['username']) . '</strong></p>';
+                echo '<p>Profissional: <strong>' . htmlspecialchars($row['username']) . '</strong></p>';
                 echo '</div>';
                 echo '<div class="appointment-actions">';
-                
+
                 // Botão para reagendar
                 echo '<button class="reschedule-btn" onclick="toggleRescheduleForm(' . htmlspecialchars($row['id']) . ')">Reagendar</button>';
                 // Formulário para cancelar
@@ -191,7 +197,7 @@ $result_agendamentos = $conn->query($sql_agendamentos);
                 echo '</div>'; // appointment-card
 
                 // Formulário de Reagendamento (fora do card)
-                echo '<div id="reschedule-form-' . htmlspecialchars($row['id']) . '" class="reschedule-form">';
+                echo '<div id="reschedule-form-' . htmlspecialchars($row['id']) . '" class="reschedule-form" style="display:none;">';
                 echo '<form method="POST" action="">';
                 echo '<input type="hidden" name="reschedule_id" value="' . htmlspecialchars($row['id']) . '">';
                 echo 'Nova Data: <input type="date" name="new_date" required>';
@@ -210,4 +216,5 @@ $result_agendamentos = $conn->query($sql_agendamentos);
         <?php include 'navEfooter/footer.html'; ?>
     </div>
 </body>
+
 </html>

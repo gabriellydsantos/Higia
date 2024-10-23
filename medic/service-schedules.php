@@ -1,3 +1,10 @@
+<?php
+include "conexao.php";
+session_start();
+//ocultar erros
+error_reporting(0);
+ini_set('display_errors', 0);
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -8,22 +15,18 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
-
     <title>Higia</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css" />
-
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
-
     <link rel="stylesheet" type="text/css" href="../assets/css/select2.min.css" />
-
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
-
     <link rel="stylesheet" href="../assets/css/feather.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" /> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
-    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+
 </head>
 
 <body>
@@ -35,7 +38,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -48,15 +51,8 @@
                     <img src="../assets/img/logo 1.png" width="100" height="40" alt />
                 </a>
             </div>
-            <a id="toggle_btn" href="javascript:void(0);"><img src="../assets/img/icons/bar-icon.svg" alt /></a>
             <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img
                     src="../assets/img/icons/bar-icon.svg" alt /></a>
-            <div class="top-nav-search mob-view">
-                <form>
-                    <input type="text" class="form-control" placeholder="Pesquisar aqui" />
-                    <a class="btn"><img src="../assets/img/icons/search-normal.svg" alt /></a>
-                </form>
-            </div>
             <ul class="nav user-menu float-end">
                 <li class="nav-item dropdown d-none d-md-block">
                     <!-- <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
@@ -151,19 +147,23 @@
                           src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
               </li> -->
                 <li class="nav-item dropdown has-arrow user-profile-list">
-                    <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
+                    <a href="/medic/#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
-                            <h5>lorem ipsum</h5>
-                            <span>Admin</span>
+                            <h5><?php
+                                include "conexao.php";
+                                session_start();
+                                echo $_SESSION['doctor_username'];
+                                ?></h5>
+                            <span>Médico</span>
                         </div>
                         <span class="user-img">
-                            <img src="../assets/img/user-06.jpg" alt="Admin" />
+                            <?php
+                            echo "<img src='" . $_SESSION['doctor_image'] . "' alt='Admin'/>";
+                            ?>
                         </span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                        <a class="dropdown-item" href="settings.php">Configurações</a>
                         <a class="dropdown-item" href="login.php">Sair</a>
                     </div>
                 </li>
@@ -177,8 +177,6 @@
                         class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                    <a class="dropdown-item" href="settings.php">Configurações</a>
                     <a class="dropdown-item" href="login.php">Sair</a>
                 </div>
             </div>
@@ -188,7 +186,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Interface Base</li>
+
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg"
                                         alt="" /></span>
@@ -273,9 +271,9 @@
 
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
-                                        alt></span> <span> Reagendamento</span> <span class="menu-arrow"></span></a>
+                                        alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="compose.php">Reagendamento</a></li>
+                                <li><a href="reagendamento.php">Gerar guia</a></li>
 
                             </ul>
                         </li>
@@ -331,24 +329,24 @@
                                     <button type="button"
                                         class="btn w-100 btn-outline-primary active">Adicionar</button>
                                     <style>
-                                    #horarioser {
-                                        font-size: 20px;
-                                    }
+                                        #horarioser {
+                                            font-size: 20px;
+                                        }
 
-                                    .btn-outline-primary.active:not(:disabled):not(.disabled),
-                                    .btn-outline-primary:active:not(:disabled):not(.disabled),
-                                    .show>.btn-outline-primary.dropdown-toggle {
-                                        background-color: #009efb;
-                                        border-color: #009efb;
-                                        color: #fff;
-                                        width: 30%;
-                                        margin-left: 60%;
-                                    }
+                                        .btn-outline-primary.active:not(:disabled):not(.disabled),
+                                        .btn-outline-primary:active:not(:disabled):not(.disabled),
+                                        .show>.btn-outline-primary.dropdown-toggle {
+                                            background-color: #009efb;
+                                            border-color: #009efb;
+                                            color: #fff;
+                                            width: 30%;
+                                            margin-left: 60%;
+                                        }
 
-                                    .position-blk {
-                                        position: relative;
-                                        align-content: center;
-                                    }
+                                        .position-blk {
+                                            position: relative;
+                                            align-content: center;
+                                        }
                                     </style>
                                     <!-- <img src="../assets/img/morning-img-01.png" alt> -->
                                 </div>
@@ -435,6 +433,7 @@
                                     </div>
                                 </form>
                             </div>
+
                             <div class="table-responsive">
                                 <table class="table border-0 custom-table comman-table datatable mb-0">
                                     <thead>
@@ -562,6 +561,10 @@
 
 
                 </div>
+
+
+
+
             </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">

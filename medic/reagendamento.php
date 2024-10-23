@@ -1,18 +1,26 @@
 <?php
-include "conexao.php";
 
+include "conexao.php";
 session_start();
+
+// Verificar se a variável de sessão 'contador' existe, se não, iniciar com 0
+if (!isset($_SESSION['contador'])) {
+    $_SESSION['contador'] = 0;
+}
+
+// Verificar se o botão foi pressionado
+if (isset($_POST['incrementar'])) {
+    // Incrementar o valor da variável de sessão 'contador'
+    $_SESSION['contador']++;
+}
+
+// Armazenar o valor do contador em uma variável
+$contador = $_SESSION['contador'];
+
 //ocultar erros
 error_reporting(0);
 ini_set('display_errors', 0);
-
-// Verificar se o usuário está logado
-if (!isset($_SESSION['doctor_id'])) {
-    header("Location: loginM.php");
-    exit();
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -33,7 +41,12 @@ if (!isset($_SESSION['doctor_id'])) {
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- acessibilidade -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .medida {
+            width: 100%;
+        }
+    </style> <!-- acessibilidade -->
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
 
@@ -187,6 +200,7 @@ if (!isset($_SESSION['doctor_id'])) {
                 </div>
             </div>
         </div>
+
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
@@ -259,14 +273,20 @@ if (!isset($_SESSION['doctor_id'])) {
                                 <li><a href="edit-schedule.php">Editar Agenda</a></li>
                             </ul>
                         </li>
+
+
+
+
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-13.svg"
                                         alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="compose.php">Receita</a></li>
+                                <li><a href="reagendamento.php">Receita</a></li>
 
                             </ul>
                         </li>
+
+
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
                                         alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
@@ -288,336 +308,157 @@ if (!isset($_SESSION['doctor_id'])) {
         </div>
 
 
-
-
-
-
         <div class="page-wrapper">
             <div class="content">
-                <div class="row">
-                    <div class="col-sm-7 col-6">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.php">Perfil </a></li>
-                            <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                            <li class="breadcrumb-item active">Meu Perfil</li>
-                        </ul>
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="inbox.php">Encaminhamento</a></li>
+                                <li class="breadcrumb-item">
+                                    <i class="feather-chevron-right"></i>
+                                </li>
+                                <li class="breadcrumb-item active">Gerar guia</li>
+                            </ul>
+                        </div>
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-4 d-flex">
+                        <div class="card chat-box">
+                            <div class="chat-widgets">
+                                <div class="chat-user-group d-flex align-items-center">
+                                    <div class="img-users call-user">
+                                        <?php
+                                        echo '<img src="' . $_SESSION["doctor_image"] . '" alt="img"/>'
+                                        ?>
+
+                                    </div>
+                                    <div class="chat-users user-main">
+                                        <div class="user-titles user-head-compse">
+                                            <?php
+                                            echo "<h5>" . $_SESSION['doctor_username'] . "</h5>";
+                                            ?>
+                                            <div class="chat-user-time">
+                                                <p>CRM/SP 123456</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="compose-mail">
+                                    <a href="#gerarGuia" class="btn btn-primary"><img
+                                            src="../assets/img/icons/edit-2.svg" class="me-2" alt="img" />Escrever guia</a>
+                                </div>
+                                <div class="email-menu-blk">
+                                    <ul>
+                                        <li class="active">
+                                            <a href="/medic/javascript:;"><img src="../assets/img/icons/inbox.svg"
+                                                    class="me-2" alt="img" />Guias geradas<span
+                                                    class="comman-flex"><?php echo $_SESSION['contador']; ?></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post" id="gerarGuia">
+                        <div class="col-xl-8">
+                            <div class="card chat-box mb-2 medida">
+                                <div class="compose-mail">
+                                    <h3>Gerar nova guia </h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="input-block local-forms">
+                                            <label>Nome do paciente</label>
+                                            <input type="text" class="form-control" name="nome">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="input-block local-forms">
+                                            <label>Carteirinha</label>
+                                            <input type="text" class="form-control" name="carteirinha">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="input-block local-forms">
+                                            <label>Procedimento</label>
+                                            <input type="text" class="form-control" name="procedimento">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="input-block local-forms">
+                                            <label>Quantidade de sessões</label>
+                                            <select class="form-control" name="sessoes" id="">
+                                                <option value="5sesoes"> 5 Sessões </option>
+                                                <option value="10sesoes"> 10 Sessões </option>
+                                                <option value="15sesoes"> 15 Sessões </option>
+                                                <option value="20sesoes"> 20 Sessões </option>
+                                                <option value="exame"> Exame </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="input-block local-forms">
+                                            <label>Data de vencimento</label>
+                                            <input type="date" class="form-control" name="dataRetorno">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="input-block summer-mail">
+                                            <textarea rows="4" cols="5" class="form-control"
+                                                placeholder="Observações" name="obs"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="mail-send">
+                                            <button type="submit" class="btn btn-primary" name="incrementar">Enviar</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <?php
-                    if (isset($_SESSION['doctor_id'])) {
-                        // Criar um link de edição usando o valor de doctor_id da sessão
-                        $doctorId = $_SESSION['doctor_id'];
-                        //echo '<a href="editar.php?id=' . $doctorId . '">Editar Perfil do Médico</a>';
-                    } else {
-                        echo 'ID do médico não está definido na sessão!';
+
+                    // Verificar se o formulário foi enviado
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        // Pegar os dados enviados pelo formulário
+                        $nome = $_POST['nome'];
+                        $carteirinha = $_POST['carteirinha'];
+                        $procedimento = $_POST['procedimento'];
+                        $sessoes = $_POST['sessoes'];
+                        $dataRetorno = $_POST['dataRetorno'];
+                        $obs = $_POST['obs'];
+
+                        // Prevenir SQL Injection
+                        $nome = $conn->real_escape_string($nome);
+                        $carteirinha = $conn->real_escape_string($carteirinha);
+                        $procedimento = $conn->real_escape_string($procedimento);
+                        $sessoes = $conn->real_escape_string($sessoes);
+                        $dataRetorno = $conn->real_escape_string($dataRetorno);
+                        $obs = $conn->real_escape_string($obs);
+
+                        // Obter os valores das variáveis de sessão corretamente
+                        $carteirinhaDoutor = $_SESSION['doctor_carteirinha'];
+                        $doctorUsername = $_SESSION['doctor_username'];
+
+                        // Preparar a consulta SQL de inserção
+                        $sql = "INSERT INTO guia (nome, carteirinha, carteirinhaDoutor, doctor, procedimento, sessoes, dataRetorno, obs) 
+                                    VALUES ('$nome', '$carteirinha', '$carteirinhaDoutor', '$doctorUsername', '$procedimento', '$sessoes', '$dataRetorno', '$obs')";
+
+                        // Executar a consulta
+                        if ($conn->query($sql) === TRUE) {
+                            echo "Guia cadastrado com sucesso!";
+                        } else {
+                            echo "Erro ao criar guia: " . $conn->error;
+                        }
                     }
                     ?>
-
-                    <div class="col-sm-5 col-6 text-end m-b-30">
-                        <?php echo '<a class="btn btn-primary btn-rounded" href="edit-profile.php?id=' . $doctorId . '">Editar Perfil</a>'; ?>
-                    </div>
                 </div>
-                <div class="card-box profile-header">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="profile-view">
-                                <div class="profile-img-wrap">
-                                    <div class="profile-img">
-                                        <?php
-                                        echo "<img class='avatar' src='" . $_SESSION['doctor_image'] . "' alt='Admin'/>";
-
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="profile-basic">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="profile-info-left">
-                                                <h3 class="user-name m-t-0 mb-0"><?php echo $_SESSION['doctor_first_name'] . " " . $_SESSION['doctor_last_name']; ?></h3>
-                                                <small class="text-muted"><?php echo $_SESSION['doctor_department']; ?></small>
-                                                <div class="staff-id">CRM/SP 123355</div>
-                                                <div class="staff-msg"><a href="https://api.whatsapp.com/send?phone=5511941782793&text=Olá,%20gostaria%20de%20acessar%20o%20suporte" target="_blank" class="btn btn-primary">Central de
-                                                        ajuda</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <ul class="personal-info">
-                                                <li>
-                                                    <span class="title">Telefone</span>
-                                                    <span class="text"><a href><?php echo $_SESSION['doctor_phone']; ?></a></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Email:</span>
-                                                    <span class="text"><a href><span class="__cf_email__"
-                                                                data-cfemail="4d2e3f243e3924232c2a3f223b283e0d28352c203d2128632e2220">[email&#160;protegido]</span></a></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Status:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_status']; ?></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Endereço:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_address']  . ", " . $_SESSION['doctor_city'] . "-" . $_SESSION['doctor_state']; ?></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Gênero:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_gender']; ?></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-                <div class="row">
-
-
-
-                    <div class="good-morning-blk">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="morning-user" style="padding: 20px 30px 20px">
-                                    <h2 id="horarioser">Horários de Serviços</h2>
-                                    <p>Adicione seus horários de atendimento</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 position-blk">
-                                <div class="morning-img">
-                                    <a href="#adicionar"> <button type="button"
-                                            class="btn w-100 btn-outline-primary active">Adicionar</button> </a>
-                                    <style>
-                                        .row {
-                                            margin-top: 40px;
-                                            margin-bottom: 40px;
-                                        }
-
-                                        #horarioser {
-                                            font-size: 20px;
-                                        }
-
-                                        .btn-outline-primary.active:not(:disabled):not(.disabled),
-                                        .btn-outline-primary:active:not(:disabled):not(.disabled),
-                                        .show>.btn-outline-primary.dropdown-toggle {
-                                            background-color: #009efb;
-                                            border-color: #009efb;
-                                            color: #fff;
-                                            width: 30%;
-                                            margin-left: 60%;
-                                        }
-
-                                        .position-blk {
-                                            position: relative;
-                                            align-content: center;
-                                        }
-                                    </style>
-                                    <!-- <img src="../assets/img/morning-img-01.png" alt> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="card card-table show-entire">
-                        <div class="card-body">
-                            <div class="page-table-header mb-2">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <div class="doctor-table-blk">
-                                            <h3>Semanalmente</h3>
-
-                                        </div>
-                                    </div>
-
-
-
-
-
-                                </div>
-                            </div>
-
-                            <div class="staff-search-table">
-                                <form method="POST" id="adicionar">
-                                    <div class="row">
-
-                                        <!-- <div class="col-12 col-md-6 col-xl-4">
-                        <div class="input-block local-forms">
-                            <label>Especialidade </label>
-                            <select class="form-control select">
-                                <option>Selecione a especialidade</option>
-                                <option>Medical Leave</option>
-                                <option>Casual Leave</option>
-                                <option>Loss of Pay</option>
-
-                            </select>
-                        </div>
-                    </div> -->
-
-
-
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="input-block local-forms cal-icon">
-                                                <label>Data </label>
-                                                <input class="form-control datetimepicker" type="text" name="data" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="input-block local-forms ">
-                                                <label>Horário</label>
-                                                <input class="form-control" type="time" name="horario" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="doctor-submit">
-                                                <button type="submit" class="btn btn-primary submit-list-form me-2">
-                                                    Salvar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <?php
-                            // Verifica se o formulário foi enviado
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                                // Capturar os valores enviados pelo formulário
-                                $data = $_POST['data'] ?? '';
-                                $horario = $_POST['horario'] ?? '';
-                                $medico = $_SESSION['doctor_username'];
-                                $especialidade = $_SESSION['doctor_department'];
-
-                                // Converte a data de dd/mm/yyyy para yyyy-mm-dd
-                                $data_formatada = DateTime::createFromFormat('d/m/Y', $data)->format('Y-m-d');
-
-                                // Valida se os campos foram preenchidos
-                                if (!empty($data) && !empty($horario) && !empty($medico) && !empty($especialidade)) {
-                                    // Inserir os dados na tabela appointments
-                                    $query = "INSERT INTO appointments (data, horario, medico, especialidade) VALUES (?, ?, ?, ?)";
-
-                                    // Preparar a consulta
-                                    $stmt = $conn->prepare($query);
-                                    if ($stmt) {
-                                        // Passar as variáveis diretamente sem aspas simples
-                                        $stmt->bind_param("ssss", $data_formatada, $horario, $medico, $especialidade);
-
-                                        // Executar a consulta
-                                        if ($stmt->execute()) {
-                                            echo " <p class='sucess'> Horário agendada com sucesso! </p>";
-                                        } else {
-                                            echo "Erro ao agendar a consulta: " . $stmt->error;
-                                        }
-
-                                        // Fechar a declaração
-                                        $stmt->close();
-                                    } else {
-                                        echo "Erro ao preparar a consulta: " . $conn->error;
-                                    }
-                                } else {
-                                    echo "Por favor, preencha todos os campos.";
-                                }
-
-                                // Fechar a conexão com o banco de dados
-                                $conn->close();
-                            }
-                            ?>
-
-
-                            <?php
-                            include 'conexao.php'; // Certifique-se de ter o arquivo de conexão com o banco de dados
-
-                            // Consulta para buscar os registros da tabela appointments
-                            $query = "SELECT * FROM appointments";
-                            $result = $conn->query($query);
-
-                            // Verifica se há registros na tabela
-                            if ($result->num_rows > 0) {
-                                echo '
-    <div class="table-responsive">
-        <table class="table border-0 custom-table comman-table datatable mb-0">
-            <thead>
-                <tr style="margin-top: 70px;">
-                    <th>
-                        <div class="form-check check-tables">
-                            <input class="form-check-input" type="checkbox" value="something" />
-                        </div>
-                    </th>
-                    <th>Especialidade</th>
-                    <th>Médico(a)</th>
-                    <th>Data</th>
-                    <th>Horário</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>';
-
-                                // Loop através dos registros e exibe cada um deles na tabela
-                                while ($row = $result->fetch_assoc()) {
-                                    // Formatar data e horário para exibição
-                                    $data_formatada = date("d.m.Y", strtotime($row['data']));
-                                    $horario_formatado = date("H:i", strtotime($row['horario']));
-
-                                    echo '
-            <tr>
-                <td>
-                    <div class="form-check check-tables">
-                        <input class="form-check-input" type="checkbox" value="something" />
-                    </div>
-                </td>
-                <td class="profile-image">' . htmlspecialchars($row['especialidade']) . '</td>
-                <td>' . htmlspecialchars($row['medico']) . '</td>
-                <td>' . $data_formatada . '</td>
-                <td>' . $horario_formatado . '</td>
-            </tr>';
-                                }
-
-                                echo '
-            </tbody>
-        </table>
-    </div>';
-                            } else {
-                                echo 'Nenhum registro encontrado.';
-                            }
-
-                            // Fechar a conexão
-                            $conn->close();
-                            ?>
-
-
-
-
-
-
-
-
-
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-
-
-
-
-
-
-
-
-
             </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
@@ -627,7 +468,7 @@ if (!isset($_SESSION['doctor_id'])) {
                     <div class="drop-scroll msg-list-scroll" id="msg_list">
                         <ul class="list-box">
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">R</span>
@@ -643,7 +484,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item new-message">
                                         <div class="list-left">
                                             <span class="avatar">J</span>
@@ -659,7 +500,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">T</span>
@@ -675,7 +516,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">M</span>
@@ -691,7 +532,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">C</span>
@@ -707,7 +548,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">D</span>
@@ -723,7 +564,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">B</span>
@@ -739,7 +580,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">R</span>
@@ -755,7 +596,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">C</span>
@@ -771,7 +612,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">M</span>
@@ -787,7 +628,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">J</span>
@@ -803,7 +644,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">L</span>
@@ -819,7 +660,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">T</span>
@@ -837,26 +678,37 @@ if (!isset($_SESSION['doctor_id'])) {
                         </ul>
                     </div>
                     <div class="topnav-dropdown-footer">
-                        <a href="chat.php">See all messages</a>
+                        <a href="/medic/chat.php">See all messages</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="sidebar-overlay" data-reff></div>
-    <script src="../assets/js/jquery-3.7.1.min.js" type="0384ef50617693332c161f48-text/javascript"></script>
-    <script src="../assets/js/bootstrap.bundle.min.js" type="0384ef50617693332c161f48-text/javascript"></script>
-    <script src="../assets/js/feather.min.js" type="0384ef50617693332c161f48-text/javascript"></script>
-    <script src="../assets/js/jquery.slimscroll.js" type="0384ef50617693332c161f48-text/javascript"></script>
-    <script src="../assets/js/select2.min.js" type="0384ef50617693332c161f48-text/javascript"></script>
+    <script src="../assets/js/jquery-3.7.1.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+    <script src="../assets/js/feather.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+    <script src="../assets/js/jquery.slimscroll.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+    <script src="../assets/js/select2.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+    <script src="../assets/plugins/datatables/jquery.dataTables.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+    </script>
+    <script src="../assets/plugins/datatables/datatables.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+    </script>
 
-    <script src="../assets/plugins/moment/moment.min.js" type="0384ef50617693332c161f48-text/javascript"></script>
-    <script src="../assets/js/bootstrap-datetimepicker.min.js" type="0384ef50617693332c161f48-text/javascript"></script>
-    <script src="../assets/js/app.js" type="0384ef50617693332c161f48-text/javascript"></script>
+    <script src="../assets/js/jquery.waypoints.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+    <script src="../assets/js/jquery.counterup.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+
+    <script src="../assets/plugins/summernote/summernote-bs5.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+    </script>
+
+    <script src="../assets/plugins/apexchart/apexcharts.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+    </script>
+    <script src="../assets/plugins/apexchart/chart-data.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+    <script src="../assets/js/app.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
     <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
-        data-cf-settings="0384ef50617693332c161f48-|49" defer></script>
+        data-cf-settings="967dc55985ab8a5097efb074-|49" defer></script>
 </body>
 
-<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/profile.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:42:43 GMT -->
+<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/compose.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:43:51 GMT -->
 
 </html>

@@ -1,23 +1,23 @@
+<?php
+include '../database.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comprovante de Agendamento</title>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', 'Inter';
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
-        }
-
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin: 20px 0;
         }
 
         .content {
@@ -27,79 +27,98 @@
         }
 
         .card {
+            font-family: 'Montserrat', 'Inter';
             background-color: white;
             border-radius: 5px;
             position: relative;
             overflow: hidden;
+            padding: 20px;
         }
 
         .card::before {
+            font-family: 'Montserrat', 'Inter';
             content: "";
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 80px; /* Altura da forma geométrica azul */
+            height: 80px;
             background-color: #003d80;
             clip-path: polygon(0 0, 100% 0, 100% 80%, 0 50%);
             z-index: -1;
         }
 
-        .card .header {
-            height: 60px;
-            background-color: #0056b3;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 60%);
-        }
-
-        .card .header-content {
-            color: white;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-        }
-
         .card p {
+            font-family: 'Montserrat', 'Inter';
             margin: 10px 0;
         }
 
-        .card .section-title {
-            font-size: 18px;
+        .card strong {
+            font-family: 'Montserrat', 'Inter';
             font-weight: bold;
-            margin-top: 15px;
         }
 
-        .card .detail-item {
+        .header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .card .detail-item p {
-            margin: 0 10px 0 0;
-        }
-
-        .card .detail-item p:last-child {
-            margin-right: 0;
-        }
-
-        .card .detail-item strong {
+        .header h2 {
+            font-size: 24px;
             font-weight: bold;
+            margin: 0;
+            line-height: 40px;
         }
 
-        .observations {
-            margin-top: 20px;
+        .header img {
+            max-height: 40px;
+            width: auto;
         }
 
-        .observations p {
-            margin: 5px 0;
+        #download-pdf {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #003d80;
+            color: white;
+            cursor: pointer;
         }
-    </style>
+
+        #download-pdf:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header img {
+                margin-bottom: 10px;
+            }
+
+            .header h2 {
+                text-align: center;
+                margin-bottom: 23px;
+            }
+        }
+    </style> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
+
 </head>
-<div class="navbar">
+
+<body>
+    <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
     </div>
-<body>
-<div vw class="enabled">
+    <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
             <div class="vw-plugin-top-wrapper"></div>
@@ -107,37 +126,77 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-    <div class="title">Comprovante de agendamento</div>
-
+    <br><br>
     <div class="content">
         <div class="card">
-            <div class="header">
-                <div class="header-content"></div>
-            </div>
-            <p><strong>Nome do Paciente:</strong> [Nome do paciente]</p>
-            <div class="detail-item">
-                <p><strong>Data:</strong> 05 de maio de 2024</p>
-                <p><strong>Hora:</strong> 10:00</p>
-            </div>
-            <p><strong>Especialidade:</strong> [Especialidade médica]</p>
-            <hr>
-            <p><strong>Médico:</strong> [Nome do médico]</p>
-            <p><strong>Clínica:</strong> [Nome da clínica]</p>
-            <p><strong>Endereço:</strong> [Endereço da clínica]</p>
-            <p><strong>Telefone:</strong> [Telefone da clínica]</p>
-            <hr>
-            <div class="observations">
-                <p><strong>Observações</strong></p>
-                <p>Por favor, chegue 15 minutos antes do horário agendado.</p>
-                <p>Em caso de cancelamento, favor entrar em contato com a clínica.</p>
-            </div>
+            <?php
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+
+                $stmt = $conn->prepare("SELECT a.*, d.department_name AS department_name, doc.username AS doctor_name
+                                    FROM agendamentos a
+                                    JOIN departments d ON a.department = d.id
+                                    JOIN doctors doc ON a.doctor = doc.username
+                                    WHERE a.id = ?");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $agendamento = $result->fetch_assoc();
+                    echo "<div class='header'>";
+                    echo "<h2>Comprovante de Agendamento</h2>";
+                    echo "<img src='ecommerce/logo (1).png' alt='Logo'>";
+                    echo "</div>";
+                    echo "<p>Consulta agendada com: <strong>" . htmlspecialchars($agendamento['department_name']) . "</strong></p>";
+                    echo "<p>Profissional: <strong> " . htmlspecialchars($agendamento["doctor_name"]) . "</strong></p>";
+                    echo "<p>Data da consulta: <strong>" . date('d/m/Y', strtotime($agendamento["date"])) . "</strong></p>";
+                    echo "<p>Horario: <strong>" . htmlspecialchars($agendamento["time"]) . "</strong></p>";
+                } else {
+                    echo "Agendamento não encontrado.";
+                }
+            } else {
+                echo "ID de agendamento não especificado.";
+            }
+            ?>
+            <br>
+            <p><strong>Orientações:</strong></p>
+            <p>- Favor Levar documentação com foto.</p>
+            <p>- Chegar com pelo menos 15 min de antecedência.</p>
         </div>
+
+        <button id='download-pdf'>Baixar Comprovante em PDF</button>
     </div>
-    <br><br><br><br><br>
+    <br><br>
     <div class="footer">
-        <?php include 'navEfooter/footer.html';?>
+        <?php include 'navEfooter/footer.html'; ?>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function() {
+            const element = document.querySelector('.card');
+            const options = {
+                margin: 1,
+                filename: 'comprovante-agendamento.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+            html2pdf().from(element).set(options).save();
+        });
+    </script>
 </body>
+
 </html>

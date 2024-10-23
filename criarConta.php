@@ -13,7 +13,10 @@
     <!-- normalize css -->
     <link rel="stylesheet" href="css/normalize.css">
     <!-- custom css -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css"> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
+
 </head>
 
 <body>
@@ -25,7 +28,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <!-- header -->
     <header class="header bg-blue">

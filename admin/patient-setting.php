@@ -23,7 +23,10 @@
 
     <link rel="stylesheet" href="../assets/css/feather.css" />
 
-    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" /> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
+
 </head>
 
 <body>

@@ -27,6 +27,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
 
 </head>
 
@@ -38,7 +41,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 
 <div class="main-wrapper">
@@ -669,35 +672,35 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    // Atualizar a página ao clicar no botão de refresh
-    $('.doctor-refresh').click(function() {
-        location.reload(); // Recarrega a página
-    });
-
-    // Função para carregar os médicos com base na consulta de pesquisa
-    function loadDoctors(query = '') {
-        $.ajax({
-            url: "fetch_doctors.php", // Arquivo PHP que fará a consulta ao banco de dados
-            method: "GET",
-            data: {
-                query: query
-            },
-            success: function(data) {
-                $('#doctors-table-body').html(data); // Atualiza o corpo da tabela com os resultados
-            }
+    $(document).ready(function() {
+        // Atualizar a página ao clicar no botão de refresh
+        $('.doctor-refresh').click(function() {
+            location.reload(); // Recarrega a página
         });
-    }
 
-    // Chamar a função loadDoctors ao digitar no campo de pesquisa
-    $('.table-search-blk input').on('keyup', function() {
-        var query = $(this).val();
-        loadDoctors(query);
+        // Função para carregar os médicos com base na consulta de pesquisa
+        function loadDoctors(query = '') {
+            $.ajax({
+                url: "fetch_doctors.php", // Arquivo PHP que fará a consulta ao banco de dados
+                method: "GET",
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    $('#doctors-table-body').html(data); // Atualiza o corpo da tabela com os resultados
+                }
+            });
+        }
+
+        // Chamar a função loadDoctors ao digitar no campo de pesquisa
+        $('.table-search-blk input').on('keyup', function() {
+            var query = $(this).val();
+            loadDoctors(query);
+        });
+
+        // Carregar todos os médicos ao carregar a página
+        loadDoctors();
     });
-
-    // Carregar todos os médicos ao carregar a página
-    loadDoctors();
-});
 </script>
 
 <div class="sidebar-overlay" data-reff></div>

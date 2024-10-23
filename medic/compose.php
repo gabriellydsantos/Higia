@@ -1,3 +1,10 @@
+<?php
+include "conexao.php";
+session_start();
+//ocultar erros
+error_reporting(0);
+ini_set('display_errors', 0);
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -19,18 +26,17 @@
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .medida {
+            width: 100%
+        }
+    </style> <!-- acessibilidade -->
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
 
 </head>
 
-
-
-
 <body>
-
-
-
-
-
 
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -40,32 +46,17 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-
-
     <div class="main-wrapper">
-
-
-
-
-
-
         <div class="header">
             <div class="header-left">
                 <a href="/medic/index.php" class="logo">
                     <img src="../assets/img/logo 1.png" width="100" height="40" alt />
                 </a>
             </div>
-            <a id="toggle_btn" href="javascript:void(0);"><img src="../assets/img/icons/bar-icon.svg" alt /></a>
             <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img
                     src="../assets/img/icons/bar-icon.svg" alt /></a>
-            <div class="top-nav-search mob-view">
-                <form>
-                    <input type="text" class="form-control" placeholder="Pesquisar aqui" />
-                    <a class="btn"><img src="../assets/img/icons/search-normal.svg" alt /></a>
-                </form>
-            </div>
             <ul class="nav user-menu float-end">
                 <li class="nav-item dropdown d-none d-md-block">
                     <!--<a href="/medic/#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
@@ -162,17 +153,21 @@
                 <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="/medic/#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
-                            <h5>lorem ipsum</h5>
-                            <span>Admin</span>
+                            <h5><?php
+                                include "conexao.php";
+                                session_start();
+                                echo $_SESSION['doctor_username'];
+                                ?></h5>
+                            <span>Médico</span>
                         </div>
                         <span class="user-img">
-                            <img src="../assets/img/user-06.jpg" alt="Admin" />
+                            <?php
+                            echo "<img src='" . $_SESSION['doctor_image'] . "' alt='Admin'/>";
+                            ?>
                         </span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                        <a class="dropdown-item" href="settings.php">Configurações</a>
                         <a class="dropdown-item" href="login.php">Sair</a>
                     </div>
                 </li>
@@ -186,8 +181,6 @@
                         class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                    <a class="dropdown-item" href="settings.php">Configurações</a>
                     <a class="dropdown-item" href="login.php">Sair</a>
                 </div>
             </div>
@@ -197,7 +190,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Interface Base</li>
+
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg"
                                         alt="" /></span>
@@ -252,7 +245,6 @@
                             <ul style="display: none">
                                 <li><a href="appointments.php">Lista de Consultas</a></li>
                                 <li><a href="add-appointment.php">Agendar Consulta</a></li>
-                                <li><a href="edit-appointment.php">Editar Consulta</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -272,9 +264,9 @@
 
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-13.svg"
-                                        alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
+                                        alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="compose.php">Receita</a></li>
+                                <li><a href="compose.php">Gerar guia</a></li>
 
                             </ul>
                         </li>
@@ -284,7 +276,7 @@
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
                                         alt></span> <span> Reagendamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="compose.php">Reagendamento</a></li>
+                                <li><a href="reagendamento.php">Reagendamento</a></li>
 
                             </ul>
                         </li>
@@ -307,413 +299,379 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="inbox.php">App </a></li>
+                                <li class="breadcrumb-item"><a href="inbox.php">Receita </a></li>
                                 <li class="breadcrumb-item">
                                     <i class="feather-chevron-right"></i>
                                 </li>
-                                <li class="breadcrumb-item active">Inbox</li>
+                                <li class="breadcrumb-item active">Nova Receita</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xl-4 d-flex">
+                    <div class="col-xl-4 d-flex medida">
                         <div class="card chat-box">
                             <div class="chat-widgets">
                                 <div class="chat-user-group d-flex align-items-center">
                                     <div class="img-users call-user">
-                                        <img src="../assets/img/profiles/avatar-01.jpg" alt="img" />
+                                        <?php
+                                        echo "<img src='" . $_SESSION['doctor_image'] . "' alt='img'/>";
+                                        ?>
                                     </div>
                                     <div class="chat-users user-main">
                                         <div class="user-titles user-head-compse">
-                                            <h5>Lorem Ipsum</h5>
+                                            <h5><?php echo $_SESSION['doctor_username']; ?></h5>
                                             <div class="chat-user-time">
-                                                <p>10:22 AM</p>
+
                                             </div>
                                         </div>
-                                        <div class="drop-item chat-menu user-dot-list">
-                                            <a href="/medic/#" data-bs-toggle="dropdown" aria-expanded="false" class>
-                                                <i class="feather-more-vertical"></i>
-                                            </a>
-                                            <div class="dropdown-menu" style>
-                                                <a class="dropdown-item" href="javascript:;"><i
-                                                        class="feather-user me-2 text-primary"></i>
-                                                    Profile</a>
-                                                <a class="dropdown-item" href="javascript:;"><i
-                                                        class="feather-plus-circle me-2 text-success"></i>
-                                                    Archive</a>
-                                                <a class="dropdown-item" href="javascript:;"><i
-                                                        class="feather-trash-2 me-2 text-danger"></i>
-                                                    Delete</a>
-                                                <a class="dropdown-item" href="javascript:;"><i
-                                                        class="feather-slash me-2 text-secondary"></i>
-                                                    Block</a>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="compose-mail">
-                                    <a href="/medic/compose.php" class="btn btn-primary"><img
-                                            src="../assets/img/icons/edit-2.svg" class="me-2" alt="img" />Compose
-                                        Mail</a>
+                                    <a href="view.php" class="btn btn-primary"><img
+                                            src="../assets/img/icons/edit-2.svg" class="me-2" alt="img" />Ver Receitas
+                                    </a>
                                 </div>
                                 <div class="email-menu-blk">
-                                    <ul>
-                                        <li class="active">
-                                            <a href="/medic/javascript:;"><img src="../assets/img/icons/inbox.svg"
-                                                    class="me-2" alt="img" />Enviados<span
-                                                    class="comman-flex">50</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="/medic/javascript:;"><img src="../assets/img/icons/trash.svg"
-                                                    class="me-2" alt="img" />Excluidos
-                                                <span class="comman-flex">12</span></a>
-                                        </li>
 
-
-                                    </ul>
-                                </div>
-
-
-                                <div class="label-blk comman-space-flex">
-                                    <h4>Pastas</h4>
-                                    <ul class="nav label-add-list">
-                                        <li>
-                                            <a href="/medic/javascript:;" class="add-list-btn me-2"><i
-                                                    class="feather-plus"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="/medic/javascript:;" data-bs-toggle="dropdown"
-                                                aria-expanded="false" class="add-list-btn">
-                                                <i class="feather-more-vertical"></i>
-                                            </a>
-                                            <div class="dropdown-menu" style>
-
-                                                <a class="dropdown-item" href="javascript:;"><i
-                                                        class="feather-plus-circle me-2 text-success"></i>
-                                                    Archive</a>
-                                                <a class="dropdown-item" href="javascript:;"><i
-                                                        class="feather-trash-2 me-2 text-danger"></i>
-                                                    Delete</a>
-
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="email-menu-blk">
-                                    <ul class="mb-0">
-
-                                        <li>
-                                            <a href="/medic/javascript:;"><img
-                                                    src="../assets/img/icons/folder-icon-04.svg" class="me-2"
-                                                    alt="img" />Medical <span class="comman-flex">20</span></a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                    <div class="col-xl-8">
-                        <div class="card chat-box mb-2">
-                            <div class="compose-mail">
-                                <h3>Compose New Mail</h3>
-                            </div>
-                            <div class="row">
+                </div>
+                <div class="col-xl-8 medida">
+                    <div class="card chat-box mb-2">
+                        <div class="compose-mail">
+                            <h3>Nova Receita</h3>
+                        </div>
+                        <div class="row">
+                            <form method="post">
                                 <div class="col-lg-12">
                                     <div class="input-block local-forms">
-                                        <label>To</label>
-                                        <input type="text" class="form-control ">
+                                        <label>Nome:</label>
+                                        <input type="text" class="form-control" name="nome">
                                         <ul class="nav sub-mails">
-                                            <li><a href="javascript:;">CC</a></li>
-                                            <li><a href="javascript:;">Bcc</a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="input-block local-forms">
-                                        <label>Subject</label>
-                                        <input type="text" class="form-control ">
+                                        <label>Carterinha</label>
+                                        <input type="text" class="form-control" name="carterinha">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="input-block summer-mail">
-                                        <textarea rows="4" cols="5" class="form-control summernote"
-                                            placeholder="Enter your message here"></textarea>
+                                    <div class="input-block">
+                                        <textarea rows="4" cols="5" class="form-control"
+                                            placeholder="Escreva sua receita aqui" name="receita"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-12">
-                                    <div class="input-block local-top-form">
-                                        <label class="local-top">Attachments <span class="login-danger">*</span></label>
-                                        <div class="settings-btn upload-files-avator">
-                                            <input type="file" accept="image/*" name="image" id="file"
-                                                onchange="if (!window.__cfRLUnblockHandlers) return false; loadFile(event)"
-                                                class="hide-input" data-cf-modified-967dc55985ab8a5097efb074->
-                                            <label for="file" class="upload">Choose File</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="mail-send">
-                                        <a href="javascript.php"><img src="assets/img/icons/trash.svg" class="me-2"
-                                                alt="img"></a>
-                                        <a href="javascript.php"><img src="assets/img/icons/ram.svg" class="me-2"
-                                                alt="img"></a>
-                                        <a href="javascript.php" class="btn btn-primary">Send</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                    <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="/medic/chat.php">See all messages</a>
+                <div class="col-lg-12">
+                    <div class="mail-send">
+                        <button class="btn btn-primary" type="submit">Enviar</button>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="sidebar-overlay" data-reff></div>
-    <script src="../assets/js/jquery-3.7.1.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../assets/js/bootstrap.bundle.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../assets/js/feather.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../assets/js/jquery.slimscroll.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../assets/js/select2.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../assets/plugins/datatables/jquery.dataTables.min.js" type="967dc55985ab8a5097efb074-text/javascript">
-    </script>
-    <script src="../assets/plugins/datatables/datatables.min.js" type="967dc55985ab8a5097efb074-text/javascript">
-    </script>
+    </div>
+    </div>
+    <div class="notification-box">
+        <div class="msg-sidebar notifications msg-noti">
+            <div class="topnav-dropdown-header">
+                <span>Messages</span>
+            </div>
+            <div class="drop-scroll msg-list-scroll" id="msg_list">
+                <ul class="list-box">
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">R</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author">Richard Miles </span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item new-message">
+                                <div class="list-left">
+                                    <span class="avatar">J</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author">John Doe</span>
+                                    <span class="message-time">1 Aug</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">T</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author"> Tarah Shropshire </span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">M</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author">Mike Litorus</span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">C</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author"> Catherine Manseau </span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">D</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author"> Domenic Houston </span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">B</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author"> Buster Wigton </span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">R</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author"> Rolland Webber </span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">C</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author"> Claire Mapes </span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">M</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author">Melita Faucher</span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">J</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author">Jeffery Lalor</span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">L</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author">Loren Gatlin</span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/medic/chat.php">
+                            <div class="list-item">
+                                <div class="list-left">
+                                    <span class="avatar">T</span>
+                                </div>
+                                <div class="list-body">
+                                    <span class="message-author">Tarah Shropshire</span>
+                                    <span class="message-time">12:28 AM</span>
+                                    <div class="clearfix"></div>
+                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="topnav-dropdown-footer">
+                <a href="/medic/chat.php">See all messages</a>
+            </div>
+        </div>
+    </div>
+    <?php
+    // Verificar se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Pegar os dados do formulário e sanitizá-los
+        $nome = $_POST['nome'];
+        $carterinha = $_POST['carterinha'];
+        $receita = $_POST['receita'];
 
-    <script src="../assets/js/jquery.waypoints.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../assets/js/jquery.counterup.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        // Obter o nome do médico da sessão
+        $doctor_username = $_SESSION['doctor_username'];
 
-    <script src="../assets/plugins/summernote/summernote-bs5.min.js" type="967dc55985ab8a5097efb074-text/javascript">
-    </script>
+        // Preparar a consulta SQL para inserção
+        $sql = "INSERT INTO receita (doctor, nome, carteirinha, receita) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
 
-    <script src="../assets/plugins/apexchart/apexcharts.min.js" type="967dc55985ab8a5097efb074-text/javascript">
-    </script>
-    <script src="../assets/plugins/apexchart/chart-data.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../assets/js/app.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
-    <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
-        data-cf-settings="967dc55985ab8a5097efb074-|49" defer></script>
+        if ($stmt) {
+            // Vincular os parâmetros (s = string)
+            $stmt->bind_param("ssss", $doctor_username, $nome, $carterinha, $receita);
+
+            // Executar a consulta
+            if ($stmt->execute()) {
+                echo "Dados inseridos com sucesso!";
+            } else {
+                echo "Erro ao inserir dados: " . $stmt->error;
+            }
+
+            // Fechar a declaração
+            $stmt->close();
+        } else {
+            echo "Erro ao preparar a consulta!";
+        }
+
+        // Fechar a conexão
+        $conn->close();
+    }
+    ?>
+
+
+    <!DOCTYPE html>
+    <html lang="pt-br">
+
+    <head>
+        </div>
+        </div>
+        <div class="sidebar-overlay" data-reff></div>
+        <script src="../assets/js/jquery-3.7.1.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../assets/js/bootstrap.bundle.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../assets/js/feather.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../assets/js/jquery.slimscroll.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../assets/js/select2.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../assets/plugins/datatables/jquery.dataTables.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+        </script>
+        <script src="../assets/plugins/datatables/datatables.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+        </script>
+
+        <script src="../assets/js/jquery.waypoints.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../assets/js/jquery.counterup.min.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+
+        <script src="../assets/plugins/summernote/summernote-bs5.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+        </script>
+
+        <script src="../assets/plugins/apexchart/apexcharts.min.js" type="967dc55985ab8a5097efb074-text/javascript">
+        </script>
+        <script src="../assets/plugins/apexchart/chart-data.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../assets/js/app.js" type="967dc55985ab8a5097efb074-text/javascript"></script>
+        <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
+            data-cf-settings="967dc55985ab8a5097efb074-|49" defer></script>
 </body>
 
 <!-- Mirrored from preclinic.dreamstechnologies.com/html/template/compose.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:43:51 GMT -->

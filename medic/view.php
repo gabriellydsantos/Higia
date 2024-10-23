@@ -1,18 +1,10 @@
 <?php
 include "conexao.php";
-
 session_start();
 //ocultar erros
 error_reporting(0);
 ini_set('display_errors', 0);
-
-// Verificar se o usuário está logado
-if (!isset($_SESSION['doctor_id'])) {
-    header("Location: loginM.php");
-    exit();
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -33,7 +25,8 @@ if (!isset($_SESSION['doctor_id'])) {
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- acessibilidade -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- acessibilidade -->
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
 
@@ -50,6 +43,8 @@ if (!isset($_SESSION['doctor_id'])) {
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+
+
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left">
@@ -187,6 +182,7 @@ if (!isset($_SESSION['doctor_id'])) {
                 </div>
             </div>
         </div>
+
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
@@ -198,54 +194,16 @@ if (!isset($_SESSION['doctor_id'])) {
                                 <span> Controle </span>
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
-                                <!-- <li><a href="index.php">Painel do Admin</a></li> -->
                                 <li><a href="doctor-dashboard.php">Painel do Médico</a></li>
-                                <!-- <li>
-                 <a href="/medic/patient-dashboard.php">Painel do Paciente</a>
-                </li> -->
                             </ul>
                         </li>
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-02.svg" alt="" /></span>
-                <span> Médicos </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="doctors.php">Lista de Médicos</a></li>
-                <li><a href="add-doctor.php">Adicionar Médico</a></li>
-                <li><a href="edit-doctor.php">Editar Médico</a></li>
-                <li><a href="doctor-profile.php">Perfil do Médico</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-03.svg" alt="" /></span>
-                <span> Pacientes </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="patients.php">Lista de Pacientes</a></li>
-                <li><a href="add-patient.php">Adicionar Paciente</a></li>
-                <li><a href="edit-patient.php">Editar Paciente</a></li>
-                <li><a href="patient-profile.php">Perfil do Paciente</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-08.svg" alt="" /></span>
-                <span> Funcionários </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="staff-list.php">Lista de Funcionários</a></li>
-                <li><a href="add-staff.php">Adicionar Funcionário</a></li>
-                <li>
-                 <a href="/medic/staff-profile.php">Perfil do Funcionário</a>
-                </li>
-                <li><a href="staff-leave.php">Licenças</a></li>
-                <li><a href="staff-holiday.php">Feriados</a></li>
-                <li><a href="staff-attendance.php">Presenças</a></li>
-              </ul>
-            </li> -->
+
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg"
                                         alt="" /></span>
                                 <span> Consultas </span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li><a href="appointments.php">Lista de Consultas</a></li>
-                                <li><a href="add-appointment.php">Agendar Consulta</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -261,7 +219,7 @@ if (!isset($_SESSION['doctor_id'])) {
                         </li>
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-13.svg"
-                                        alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
+                                        alt></span> <span>Receita</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="compose.php">Receita</a></li>
 
@@ -275,8 +233,6 @@ if (!isset($_SESSION['doctor_id'])) {
 
                             </ul>
                         </li>
-
-
                     </ul>
                     <div class="logout-btn">
                         <a href="/medic/login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
@@ -288,336 +244,116 @@ if (!isset($_SESSION['doctor_id'])) {
         </div>
 
 
-
-
-
-
         <div class="page-wrapper">
             <div class="content">
-                <div class="row">
-                    <div class="col-sm-7 col-6">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.php">Perfil </a></li>
-                            <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                            <li class="breadcrumb-item active">Meu Perfil</li>
-                        </ul>
-                    </div>
-                    <?php
-                    if (isset($_SESSION['doctor_id'])) {
-                        // Criar um link de edição usando o valor de doctor_id da sessão
-                        $doctorId = $_SESSION['doctor_id'];
-                        //echo '<a href="editar.php?id=' . $doctorId . '">Editar Perfil do Médico</a>';
-                    } else {
-                        echo 'ID do médico não está definido na sessão!';
-                    }
-                    ?>
-
-                    <div class="col-sm-5 col-6 text-end m-b-30">
-                        <?php echo '<a class="btn btn-primary btn-rounded" href="edit-profile.php?id=' . $doctorId . '">Editar Perfil</a>'; ?>
-                    </div>
-                </div>
-                <div class="card-box profile-header">
+                <div class="page-header">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="profile-view">
-                                <div class="profile-img-wrap">
-                                    <div class="profile-img">
-                                        <?php
-                                        echo "<img class='avatar' src='" . $_SESSION['doctor_image'] . "' alt='Admin'/>";
-
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="profile-basic">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="profile-info-left">
-                                                <h3 class="user-name m-t-0 mb-0"><?php echo $_SESSION['doctor_first_name'] . " " . $_SESSION['doctor_last_name']; ?></h3>
-                                                <small class="text-muted"><?php echo $_SESSION['doctor_department']; ?></small>
-                                                <div class="staff-id">CRM/SP 123355</div>
-                                                <div class="staff-msg"><a href="https://api.whatsapp.com/send?phone=5511941782793&text=Olá,%20gostaria%20de%20acessar%20o%20suporte" target="_blank" class="btn btn-primary">Central de
-                                                        ajuda</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <ul class="personal-info">
-                                                <li>
-                                                    <span class="title">Telefone</span>
-                                                    <span class="text"><a href><?php echo $_SESSION['doctor_phone']; ?></a></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Email:</span>
-                                                    <span class="text"><a href><span class="__cf_email__"
-                                                                data-cfemail="4d2e3f243e3924232c2a3f223b283e0d28352c203d2128632e2220">[email&#160;protegido]</span></a></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Status:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_status']; ?></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Endereço:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_address']  . ", " . $_SESSION['doctor_city'] . "-" . $_SESSION['doctor_state']; ?></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Gênero:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_gender']; ?></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-sm-12">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/medic/appointments.php">Receitas</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <i class="feather-chevron-right"></i>
+                                </li>
+                                <li class="breadcrumb-item active">Lista de Receitas</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
 
                 <div class="row">
-
-
-
-                    <div class="good-morning-blk">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="morning-user" style="padding: 20px 30px 20px">
-                                    <h2 id="horarioser">Horários de Serviços</h2>
-                                    <p>Adicione seus horários de atendimento</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 position-blk">
-                                <div class="morning-img">
-                                    <a href="#adicionar"> <button type="button"
-                                            class="btn w-100 btn-outline-primary active">Adicionar</button> </a>
-                                    <style>
-                                        .row {
-                                            margin-top: 40px;
-                                            margin-bottom: 40px;
-                                        }
-
-                                        #horarioser {
-                                            font-size: 20px;
-                                        }
-
-                                        .btn-outline-primary.active:not(:disabled):not(.disabled),
-                                        .btn-outline-primary:active:not(:disabled):not(.disabled),
-                                        .show>.btn-outline-primary.dropdown-toggle {
-                                            background-color: #009efb;
-                                            border-color: #009efb;
-                                            color: #fff;
-                                            width: 30%;
-                                            margin-left: 60%;
-                                        }
-
-                                        .position-blk {
-                                            position: relative;
-                                            align-content: center;
-                                        }
-                                    </style>
-                                    <!-- <img src="../assets/img/morning-img-01.png" alt> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="card card-table show-entire">
-                        <div class="card-body">
-                            <div class="page-table-header mb-2">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <div class="doctor-table-blk">
-                                            <h3>Semanalmente</h3>
-
-                                        </div>
-                                    </div>
-
-
-
-
-
-                                </div>
-                            </div>
-
-                            <div class="staff-search-table">
-                                <form method="POST" id="adicionar">
-                                    <div class="row">
-
-                                        <!-- <div class="col-12 col-md-6 col-xl-4">
-                        <div class="input-block local-forms">
-                            <label>Especialidade </label>
-                            <select class="form-control select">
-                                <option>Selecione a especialidade</option>
-                                <option>Medical Leave</option>
-                                <option>Casual Leave</option>
-                                <option>Loss of Pay</option>
-
-                            </select>
-                        </div>
-                    </div> -->
-
-
-
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="input-block local-forms cal-icon">
-                                                <label>Data </label>
-                                                <input class="form-control datetimepicker" type="text" name="data" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="input-block local-forms ">
-                                                <label>Horário</label>
-                                                <input class="form-control" type="time" name="horario" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="doctor-submit">
-                                                <button type="submit" class="btn btn-primary submit-list-form me-2">
-                                                    Salvar
-                                                </button>
+                    <div class="col-sm-12">
+                        <div class="card card-table show-entire">
+                            <div class="card-body">
+                                <div class="page-table-header mb-2">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <div class="doctor-table-blk">
+                                                <h3>Receitas</h3>
+                                                <div class="doctor-search-blk">
+                                                    <div class="top-nav-search table-search-blk">
+                                                        <form>
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Procure aqui" />
+                                                            <a class="btn"><img
+                                                                    src="../assets/img/icons/search-normal.svg"
+                                                                    alt /></a>
+                                                        </form>
+                                                    </div>
+                                                    <div class="add-group">
+                                                        <a href="compose.php"
+                                                            class="btn btn-primary add-pluss ms-2"><img
+                                                                src="../assets/img/icons/plus.svg" alt /></a>
+                                                        <a href="#" id="reiniciarBtn"
+                                                            class="btn btn-primary doctor-refresh ms-2"><img
+                                                                src="../assets/img/icons/re-fresh.svg" alt /></a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <?php
-                            // Verifica se o formulário foi enviado
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                                // Capturar os valores enviados pelo formulário
-                                $data = $_POST['data'] ?? '';
-                                $horario = $_POST['horario'] ?? '';
-                                $medico = $_SESSION['doctor_username'];
-                                $especialidade = $_SESSION['doctor_department'];
+                                </div>
 
-                                // Converte a data de dd/mm/yyyy para yyyy-mm-dd
-                                $data_formatada = DateTime::createFromFormat('d/m/Y', $data)->format('Y-m-d');
+                                <div class="table-responsive">
+                                    <?php
+                                    $doutor = $_SESSION['doctor_username'];
+                                    $sql = "SELECT id, doctor, nome, carteirinha, created_at FROM receita WHERE doctor = '$doutor'";
+                                    $result = $conn->query($sql);
 
-                                // Valida se os campos foram preenchidos
-                                if (!empty($data) && !empty($horario) && !empty($medico) && !empty($especialidade)) {
-                                    // Inserir os dados na tabela appointments
-                                    $query = "INSERT INTO appointments (data, horario, medico, especialidade) VALUES (?, ?, ?, ?)";
+                                    if ($result->num_rows > 0) {
+                                        echo '<table class="table border-0 custom-table comman-table datatable mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Médico(a)</th>
+                                                        <th>Paciente</th>
+                                                        <th>Carteirinha</th>
+                                                        <th>Data de emissão</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>';
 
-                                    // Preparar a consulta
-                                    $stmt = $conn->prepare($query);
-                                    if ($stmt) {
-                                        // Passar as variáveis diretamente sem aspas simples
-                                        $stmt->bind_param("ssss", $data_formatada, $horario, $medico, $especialidade);
-
-                                        // Executar a consulta
-                                        if ($stmt->execute()) {
-                                            echo " <p class='sucess'> Horário agendada com sucesso! </p>";
-                                        } else {
-                                            echo "Erro ao agendar a consulta: " . $stmt->error;
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<tr>
+                                                    <td>' . $row["id"] . '</td>
+                                                    <td>' . $row["doctor"] . '</td>
+                                                    <td>' . $row["nome"] . '</td>
+                                                    <td>' . $row["carteirinha"] . '</td>
+                                                    <td>' . date("d.m.Y", strtotime($row["created_at"])) . '</td>
+                                                    <td class="text-end">
+                                                        <div class="dropdown dropdown-action">
+                                                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="fa fa-ellipsis-v"></i>
+                                                            </a>
+                                                            
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a class="dropdown-item" href="view-unico.php?id=' . $row["id"] . '"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ver</a>
+                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Excluir</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>';
                                         }
 
-                                        // Fechar a declaração
-                                        $stmt->close();
+                                        echo '</tbody></table>';
                                     } else {
-                                        echo "Erro ao preparar a consulta: " . $conn->error;
+                                        echo "Nenhum dado encontrado.";
                                     }
-                                } else {
-                                    echo "Por favor, preencha todos os campos.";
-                                }
-
-                                // Fechar a conexão com o banco de dados
-                                $conn->close();
-                            }
-                            ?>
-
-
-                            <?php
-                            include 'conexao.php'; // Certifique-se de ter o arquivo de conexão com o banco de dados
-
-                            // Consulta para buscar os registros da tabela appointments
-                            $query = "SELECT * FROM appointments";
-                            $result = $conn->query($query);
-
-                            // Verifica se há registros na tabela
-                            if ($result->num_rows > 0) {
-                                echo '
-    <div class="table-responsive">
-        <table class="table border-0 custom-table comman-table datatable mb-0">
-            <thead>
-                <tr style="margin-top: 70px;">
-                    <th>
-                        <div class="form-check check-tables">
-                            <input class="form-check-input" type="checkbox" value="something" />
-                        </div>
-                    </th>
-                    <th>Especialidade</th>
-                    <th>Médico(a)</th>
-                    <th>Data</th>
-                    <th>Horário</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>';
-
-                                // Loop através dos registros e exibe cada um deles na tabela
-                                while ($row = $result->fetch_assoc()) {
-                                    // Formatar data e horário para exibição
-                                    $data_formatada = date("d.m.Y", strtotime($row['data']));
-                                    $horario_formatado = date("H:i", strtotime($row['horario']));
-
-                                    echo '
-            <tr>
-                <td>
-                    <div class="form-check check-tables">
-                        <input class="form-check-input" type="checkbox" value="something" />
-                    </div>
-                </td>
-                <td class="profile-image">' . htmlspecialchars($row['especialidade']) . '</td>
-                <td>' . htmlspecialchars($row['medico']) . '</td>
-                <td>' . $data_formatada . '</td>
-                <td>' . $horario_formatado . '</td>
-            </tr>';
-                                }
-
-                                echo '
-            </tbody>
-        </table>
-    </div>';
-                            } else {
-                                echo 'Nenhum registro encontrado.';
-                            }
-
-                            // Fechar a conexão
-                            $conn->close();
-                            ?>
-
-
-
-
-
-
-
-
-
+                                    $conn->close();
+                                    ?>
+                                    <!--  Código para reiniciar a página e assim atualizar a tabela -->
+                                    <script>
+                                        const reiniciarBtn = document.getElementById('reiniciarBtn');
+                                        reiniciarBtn.addEventListener('click', function() {
+                                            location.reload();
+                                        });
+                                    </script>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
-
-
-
-
-
-
-
-
-
             </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
@@ -627,7 +363,7 @@ if (!isset($_SESSION['doctor_id'])) {
                     <div class="drop-scroll msg-list-scroll" id="msg_list">
                         <ul class="list-box">
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">R</span>
@@ -643,7 +379,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item new-message">
                                         <div class="list-left">
                                             <span class="avatar">J</span>
@@ -659,7 +395,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">T</span>
@@ -675,7 +411,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">M</span>
@@ -691,7 +427,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">C</span>
@@ -707,7 +443,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">D</span>
@@ -723,7 +459,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">B</span>
@@ -739,7 +475,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">R</span>
@@ -755,7 +491,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">C</span>
@@ -771,7 +507,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">M</span>
@@ -787,7 +523,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">J</span>
@@ -803,7 +539,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">L</span>
@@ -819,7 +555,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 </a>
                             </li>
                             <li>
-                                <a href="chat.php">
+                                <a href="/medic/chat.php">
                                     <div class="list-item">
                                         <div class="list-left">
                                             <span class="avatar">T</span>
@@ -837,7 +573,21 @@ if (!isset($_SESSION['doctor_id'])) {
                         </ul>
                     </div>
                     <div class="topnav-dropdown-footer">
-                        <a href="chat.php">See all messages</a>
+                        <a href="/medic/chat.php">See all messages</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="delete_patient" class="modal fade delete-modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <img src="../assets/img/sent.png" alt width="50" height="46" />
+                        <h3>Are you sure want to delete this ?</h3>
+                        <div class="m-t-20">
+                            <a href="/medic/#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -857,6 +607,6 @@ if (!isset($_SESSION['doctor_id'])) {
         data-cf-settings="0384ef50617693332c161f48-|49" defer></script>
 </body>
 
-<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/profile.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:42:43 GMT -->
+<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/appointments.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:43:17 GMT -->
 
 </html>
