@@ -1,6 +1,3 @@
-<?php
-session_start(); // Inicia a sessão para acessar os dados
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -50,7 +47,7 @@ session_start(); // Inicia a sessão para acessar os dados
         </div>
         <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
         <script>
-            new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
         </script>
 
     </div>
@@ -172,34 +169,21 @@ session_start(); // Inicia a sessão para acessar os dados
                     src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
         </li> -->
             <li class="nav-item dropdown has-arrow user-profile-list">
-                <?php
-
-                if (isset($_SESSION['user_id'])) {
-                    $first_name = $_SESSION['first_name'];
-                    $last_name = $_SESSION['last_name'];
-                    $image = $_SESSION['image'];
-                } else {
-                    // Redirecionar para a página de login se não estiver logado
-                    header("Location: login.php");
-                    exit();
-                }
-                ?>
-
                 <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                     <div class="user-names">
-                        <h5><?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?></h5>
+                        <h5>lorem ipsum</h5>
                         <span>Admin</span>
                     </div>
                     <span class="user-img">
-                        <?php
-                        $userImage = $_SESSION['image'] ? '../uploads/uploads_funcionarios/' . $_SESSION['image'] : '../assets/img/';
-                        echo "<img src='$userImage'  />";
-                        ?>
+                        <img src="../assets/img/user-06.jpg" alt="Admin" />
                     </span>
                 </a>
-
-
                 <div class="dropdown-menu">
+                    <a class="dropdown-item" href="profile.php">Meu Perfil</a>
+                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
+                    <a class="dropdown-item" href="settings.php">Configurações</a>
+                    <a class="dropdown-item" href="login.php">Sair</a>
+                    </ <div class="dropdown-menu">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
                     <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
                     <a class="dropdown-item" href="settings.php">Configurações</a>
@@ -349,22 +333,15 @@ session_start(); // Inicia a sessão para acessar os dados
                 </div>
             </div>
 
+
             <div class="good-morning-blk">
                 <div class="row">
-                    <?php
-                    if (isset($_SESSION['first_name'])) {
-                        $first_name = $_SESSION['first_name']; // Obtém o primeiro nome do staff logado
-                    } else {
-                        $first_name = "Adm"; // Nome padrão caso não haja ninguém logado
-                    }
-                    ?>
                     <div class="col-md-6">
                         <div class="morning-user">
-                            <h2>Olá, Adm <span><?php echo htmlspecialchars($first_name); ?></span></h2>
+                            <h2>Olá, Adm <span>lorem ipsum</span></h2>
                             <p>Tenha um bom dia de trabalho</p>
                         </div>
                     </div>
-
                     <div class="col-md-6 position-blk">
                         <div class="morning-img">
                             <!-- <img src="../assets/img/morning-img-01.png" alt> -->
@@ -372,7 +349,6 @@ session_start(); // Inicia a sessão para acessar os dados
                     </div>
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
@@ -393,17 +369,17 @@ session_start(); // Inicia a sessão para acessar os dados
 
 
                 <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Defina o caminho correto para get_staff_count.php
-                        fetch('get_staff_count.php')
-                            .then(response => response.text())
-                            .then(data => {
-                                document.getElementById('staff-count').innerText =
-                                    data; // Atualiza o contador
-                            })
-                            .catch(error => console.error('Erro ao buscar a quantidade de funcionários:',
-                                error));
-                    });
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Defina o caminho correto para get_staff_count.php
+                    fetch('get_staff_count.php')
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('staff-count').innerText =
+                                data; // Atualiza o contador
+                        })
+                        .catch(error => console.error('Erro ao buscar a quantidade de funcionários:',
+                            error));
+                });
                 </script>
 
 
@@ -426,15 +402,15 @@ session_start(); // Inicia a sessão para acessar os dados
                 </div>
 
                 <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Defina o caminho correto para get_patient_count.php
-                        fetch('get_patient_count.php')
-                            .then(response => response.text())
-                            .then(data => {
-                                document.getElementById('patient-count').innerText = data;
-                            })
-                            .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
-                    });
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Defina o caminho correto para get_patient_count.php
+                    fetch('get_patient_count.php')
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('patient-count').innerText = data;
+                        })
+                        .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
+                });
                 </script>
 
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
@@ -455,15 +431,15 @@ session_start(); // Inicia a sessão para acessar os dados
 
 
                 <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Defina o caminho correto para get_patient_count.php
-                        fetch('get_doctor_count.php')
-                            .then(response => response.text())
-                            .then(data => {
-                                document.getElementById('doctor-count').innerText = data;
-                            })
-                            .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
-                    });
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Defina o caminho correto para get_patient_count.php
+                    fetch('get_doctor_count.php')
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('doctor-count').innerText = data;
+                        })
+                        .catch(error => console.error('Erro ao buscar a quantidade de pacientes:', error));
+                });
                 </script>
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
             </div>
@@ -500,90 +476,90 @@ session_start(); // Inicia a sessão para acessar os dados
                 </div>
 
                 <script>
-                    async function fetchGenderData() {
-                        const response = await fetch(
-                            'gender_data.php'); // Altere para o caminho correto se necessário
-                        const data = await response.json();
-                        return data;
-                    }
+                async function fetchGenderData() {
+                    const response = await fetch(
+                        'gender_data.php'); // Altere para o caminho correto se necessário
+                    const data = await response.json();
+                    return data;
+                }
 
-                    async function createChart() {
-                        const genderData = await fetchGenderData();
-                        const ctx = document.getElementById('genderChart').getContext('2d');
+                async function createChart() {
+                    const genderData = await fetchGenderData();
+                    const ctx = document.getElementById('genderChart').getContext('2d');
 
-                        // Prepara os dados para o gráfico
-                        const months = Array.from({
-                            length: 12
-                        }, (_, i) => i + 1); // 1 a 12
-                        const masculinoData = months.map(month => genderData.Masculino[month] || 0);
-                        const femininoData = months.map(month => genderData.Feminino[month] || 0);
+                    // Prepara os dados para o gráfico
+                    const months = Array.from({
+                        length: 12
+                    }, (_, i) => i + 1); // 1 a 12
+                    const masculinoData = months.map(month => genderData.Masculino[month] || 0);
+                    const femininoData = months.map(month => genderData.Feminino[month] || 0);
 
-                        // Total de visitas masculinas e femininas
-                        const totalMasculino = masculinoData.reduce((a, b) => a + b, 0);
-                        const totalFeminino = femininoData.reduce((a, b) => a + b, 0);
-                        const total = totalMasculino + totalFeminino;
+                    // Total de visitas masculinas e femininas
+                    const totalMasculino = masculinoData.reduce((a, b) => a + b, 0);
+                    const totalFeminino = femininoData.reduce((a, b) => a + b, 0);
+                    const total = totalMasculino + totalFeminino;
 
-                        // Calcular as porcentagens
-                        const masculinoPercentage = total ? ((totalMasculino / total) * 100).toFixed(2) : 0;
-                        const femininoPercentage = total ? ((totalFeminino / total) * 100).toFixed(2) : 0;
+                    // Calcular as porcentagens
+                    const masculinoPercentage = total ? ((totalMasculino / total) * 100).toFixed(2) : 0;
+                    const femininoPercentage = total ? ((totalFeminino / total) * 100).toFixed(2) : 0;
 
-                        // Atualiza os elementos de porcentagem
-                        document.getElementById('masculino-percentage').innerText = masculinoPercentage + '%';
-                        document.getElementById('feminino-percentage').innerText = femininoPercentage + '%';
+                    // Atualiza os elementos de porcentagem
+                    document.getElementById('masculino-percentage').innerText = masculinoPercentage + '%';
+                    document.getElementById('feminino-percentage').innerText = femininoPercentage + '%';
 
-                        const genderChart = new Chart(ctx, {
-                            type: 'bar', // Gráfico de barras
-                            data: {
-                                labels: [
-                                    'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-                                    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
-                                ],
-                                datasets: [{
-                                        label: 'Masculino',
-                                        data: masculinoData,
-                                        backgroundColor: 'rgba(46, 55, 164, 0.85)', // Nova cor para masculino
-                                        borderColor: 'rgba(46, 55, 164, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Feminino',
-                                        data: femininoData,
-                                        backgroundColor: 'rgba(0, 211, 199, 0.85)', // Nova cor para feminino
-                                        borderColor: 'rgba(0, 211, 199, 1)',
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true // Começar o eixo Y em zero
-                                    }
+                    const genderChart = new Chart(ctx, {
+                        type: 'bar', // Gráfico de barras
+                        data: {
+                            labels: [
+                                'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                                'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+                            ],
+                            datasets: [{
+                                    label: 'Masculino',
+                                    data: masculinoData,
+                                    backgroundColor: 'rgba(46, 55, 164, 0.85)', // Nova cor para masculino
+                                    borderColor: 'rgba(46, 55, 164, 1)',
+                                    borderWidth: 1
                                 },
-                                plugins: {
-                                    legend: {
-                                        position: 'top',
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(context) {
-                                                let label = context.dataset.label || '';
-                                                if (label) {
-                                                    label += ': ';
-                                                }
-                                                label += context.raw; // Adiciona o número de registros
-                                                return label;
+                                {
+                                    label: 'Feminino',
+                                    data: femininoData,
+                                    backgroundColor: 'rgba(0, 211, 199, 0.85)', // Nova cor para feminino
+                                    borderColor: 'rgba(0, 211, 199, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true // Começar o eixo Y em zero
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
                                             }
+                                            label += context.raw; // Adiciona o número de registros
+                                            return label;
                                         }
                                     }
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
+                }
 
-                    // Chamar a função para criar o gráfico ao carregar a página
-                    window.onload = createChart;
+                // Chamar a função para criar o gráfico ao carregar a página
+                window.onload = createChart;
                 </script>
                 <?php
                 // Conexão com o banco de dados
@@ -615,8 +591,8 @@ session_start(); // Inicia a sessão para acessar os dados
                 ?>
 
                 <script>
-                    var departments = <?php echo json_encode($departments); ?>;
-                    var patients = <?php echo json_encode($patients); ?>;
+                var departments = <?php echo json_encode($departments); ?>;
+                var patients = <?php echo json_encode($patients); ?>;
                 </script>
 
                 <div class="col-12 col-md-12 col-lg-6 col-xl-3 d-flex">
@@ -632,43 +608,43 @@ session_start(); // Inicia a sessão para acessar os dados
 
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script>
-                    var ctx = document.getElementById('donut-chart-dash').getContext('2d');
-                    var donutChart = new Chart(ctx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: departments, // Aqui já estamos usando os nomes dos departamentos
-                            datasets: [{
-                                label: 'Pacientes',
-                                data: patients, // quantidade de pacientes
-                                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                                    '#9966FF'
-                                ], // cores para os departamentos
-                                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                                    '#9966FF'
-                                ]
-                            }]
+                var ctx = document.getElementById('donut-chart-dash').getContext('2d');
+                var donutChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: departments, // Aqui já estamos usando os nomes dos departamentos
+                        datasets: [{
+                            label: 'Pacientes',
+                            data: patients, // quantidade de pacientes
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                                '#9966FF'
+                            ], // cores para os departamentos
+                            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                                '#9966FF'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        layout: {
+                            padding: {
+                                top: 0,
+                                bottom: 20, // Adicionando padding na parte inferior para mover a legenda para baixo
+                                left: 0,
+                                right: 0
+                            }
                         },
-                        options: {
-                            responsive: true,
-                            layout: {
-                                padding: {
-                                    top: 0,
-                                    bottom: 20, // Adicionando padding na parte inferior para mover a legenda para baixo
-                                    left: 0,
-                                    right: 0
-                                }
+                        plugins: {
+                            legend: {
+                                position: 'bottom', // Legenda na parte inferior
                             },
-                            plugins: {
-                                legend: {
-                                    position: 'bottom', // Legenda na parte inferior
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Pacientes por Departamento'
-                                }
+                            title: {
+                                display: true,
+                                text: 'Pacientes por Departamento'
                             }
                         }
-                    });
+                    }
+                });
                 </script>
 
 
@@ -718,15 +694,15 @@ session_start(); // Inicia a sessão para acessar os dados
                         </div>
                         <div class="card-body">
                             <?php foreach ($departamentos as $dep): ?>
-                                <div class="activity-top">
-                                    <div class="activity-boxs comman-flex-center">
-                                        <!-- <img src="../assets/img/icons/dep-icon-01.svg" alt /> -->
-                                    </div>
-                                    <div class="departments-list">
-                                        <h4><?php echo $dep['department']; ?></h4>
-                                        <p><?php echo $dep['percentage']; ?>%</p>
-                                    </div>
+                            <div class="activity-top">
+                                <div class="activity-boxs comman-flex-center">
+                                    <!-- <img src="../assets/img/icons/dep-icon-01.svg" alt /> -->
                                 </div>
+                                <div class="departments-list">
+                                    <h4><?php echo $dep['department']; ?></h4>
+                                    <p><?php echo $dep['percentage']; ?>%</p>
+                                </div>
+                            </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -797,12 +773,12 @@ session_start(); // Inicia a sessão para acessar os dados
 
 
                 <style>
-                    .rounded-card {
-                        border-radius: 0.5rem;
-                        /* Ajuste o valor conforme necessário */
-                        overflow: hidden;
-                        /* Isso garante que os cantos arredondados se apliquem corretamente */
-                    }
+                .rounded-card {
+                    border-radius: 0.5rem;
+                    /* Ajuste o valor conforme necessário */
+                    overflow: hidden;
+                    /* Isso garante que os cantos arredondados se apliquem corretamente */
+                }
                 </style>
 
 

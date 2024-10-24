@@ -1,49 +1,45 @@
 <?php
 include("database.php"); // Inclui o arquivo de conexão
-
-if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
-    if (strlen($_POST['carteirinha']) == 0) {
-        echo "Preencha corretamente o campo de login com o número da sua carteirinha.";
+ 
+if (isset($_POST['cpf']) && isset($_POST['password'])) {
+    if (strlen($_POST['cpf']) == 0) {
+        echo "Preencha corretamente o campo de login com o número do seu CPF.";
     } else if (strlen($_POST['password']) == 0) {
         echo "Preencha corretamente o campo de senha.";
     } else {
         // Validação do login
-        $carteirinha = $conn->real_escape_string($_POST['carteirinha']);
+        $cpf = $conn->real_escape_string($_POST['cpf']);
         $password = $conn->real_escape_string($_POST['password']);
-
+ 
         // Verificar se é um paciente
-        $sql_patient = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
+        $sql_patient = "SELECT * FROM patients WHERE cpf = '$cpf' AND password = '$password'";
         $query_patient = $conn->query($sql_patient);
-
+ 
         if ($query_patient->num_rows == 1) {
             // Login como paciente
             $usuario = $query_patient->fetch_assoc();
-            
-            // Atualizar a hora do último login
-            $update_login_time = "UPDATE patients SET last_login = NOW() WHERE id = " . $usuario['id'];
-            $conn->query($update_login_time);
-        
-            // Registrar o paciente na tabela logged_patients
-            $carteirinha = $usuario['carteirinha'];
-            $nome = $usuario['first_name'] . ' ' . $usuario['last_name'];
-            $telefone = $usuario['phone'];
-        
-            $sql_insert_logged = "INSERT INTO logged_patients (carteirinha, nome, telefone) VALUES ('$carteirinha', '$nome', '$telefone')";
-            $conn->query($sql_insert_logged);
-        
             session_start(); // Inicia a sessão
             $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do paciente na sessão
-            header('Location: paciente/home.php');  // Vai para a página de pacientes
+
+            // Inserir paciente na tabela logged_patients
+            $carteirinha = $usuario['carteirinha'];
+            $nome = $usuario['first_name'] . " " . $usuario['last_name'];
+            $telefone = $usuario['phone'];
+
+            $sql_insert_logged = "INSERT INTO logged_patients (carteirinha, nome, telefone, data_login) 
+                                  VALUES ('$carteirinha', '$nome', '$telefone', NOW())";
+            $conn->query($sql_insert_logged);
+
+            // Redireciona para a página de pacientes
+            $_SESSION['patient_id'] = $usuario['id'];
+            header('Location: paciente/home.php');
             exit();
-        }
-        else {
-            // Falha no login
-            echo "Falha ao logar: Carteirinha ou senha incorretos.";
+        } else {
+            echo "Falha ao logar: CPF ou senha incorretos.";
         }
     }
 }
 ?>
-
 
 
 
@@ -64,8 +60,8 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
             <h2>Login</h2>
             <form action="" method="post">
                 <p class="input-box">
-                    <span class="input-group">N° Carteirinha:</span>
-                    <input type="text" required placeholder="000000" name="carteirinha">
+                    <span class="input-group">N° do CPF:</span>
+                    <input type="text" required placeholder="000000" name="cpf">
                 </p>
 
                 <p class="input-box">
