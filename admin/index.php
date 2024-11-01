@@ -723,9 +723,16 @@
                 ?>
 
 
+                <?php
+include("database.php"); // Inclui o arquivo de conexão
+
+// Consulta para obter os logins recentes
+$sql_recent_logins = "SELECT * FROM logged_patients ORDER BY data_login DESC LIMIT 10";
+$result = $conn->query($sql_recent_logins);
+?>
+
                 <div class="col-12 col-md-12 col-xl-8">
                     <div class="card rounded-card">
-                        <!-- Adicionei a classe aqui -->
                         <div class="card-header pb-0">
                             <h4 class="card-title d-inline-block">Pacientes recentes</h4>
                         </div>
@@ -744,25 +751,25 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                // Extrair a data e a hora separadamente
-                                                $data_login = date('d/m/Y', strtotime($row['data_login']));
-                                                $hora_login = date('H:i', strtotime($row['data_login']));
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                // Extrair a data e a hora separadamente
+                                $data_login = date('d/m/Y', strtotime($row['data_login']));
+                                $hora_login = date('H:i', strtotime($row['data_login']));
 
-                                                echo "<tr>";
-                                                echo "<td><div class='form-check check-tables'><input class='form-check-input' type='checkbox' /></div></td>";
-                                                echo "<td>" . $row['carteirinha'] . "</td>";
-                                                echo "<td>" . $row['nome'] . "</td>";
-                                                echo "<td>" . $row['telefone'] . "</td>";
-                                                echo "<td>" . $data_login . "</td>";
-                                                echo "<td>" . $hora_login . "</td>";
-                                                echo "</tr>";
-                                            }
-                                        } else {
-                                            echo "<tr><td colspan='6'>Nenhum paciente logado recentemente.</td></tr>";
-                                        }
-                                        ?>
+                                echo "<tr>";
+                                echo "<td><div class='form-check check-tables'><input class='form-check-input' type='checkbox' /></div></td>";
+                                echo "<td>" . $row['carteirinha'] . "</td>";
+                                echo "<td>" . $row['nome'] . "</td>";
+                                echo "<td>" . $row['telefone'] . "</td>";
+                                echo "<td>" . $data_login . "</td>";
+                                echo "<td>" . $hora_login . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='6'>Nenhum paciente logado recentemente.</td></tr>";
+                        }
+                        ?>
                                     </tbody>
                                 </table>
                             </div>

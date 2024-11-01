@@ -3,14 +3,15 @@ include "conexao.php";
 session_start();
 
 // Verificar se o usuário está logado
-if (!isset($_SESSION['doctor_id'])) {
-    header("Location: loginM.php");
+$id = $_SESSION['doctor_id'];
+if (!isset($id)) {
+    header("Location: index.php");
     exit();
 }
 
 // Verificar se o ID foi passado para edição
 if (isset($_SESSION['doctor_id'])) {
-    $id = $_SESSION['doctor_id'];
+    //$id = $_SESSION['doctor_id'];
 
     // Buscar o registro a ser editado
     $sql = "SELECT * FROM doctors WHERE id = ?";
@@ -153,9 +154,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- acessibilidade -->
-    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
-
 
 </head>
 
@@ -170,10 +168,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left">
-                <a href="/medic/index.php" class="logo">
+                <a href="doctor-dashboard.php" class="logo">
                     <img src="../assets/img/logo 1.png" width="100" height="40" alt />
                 </a>
             </div>
@@ -286,7 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="login.php">Sair</a>
+                        <a class="dropdown-item" href="logout.php">Sair</a>
                     </div>
                 </li>
                 <!-- <li class="nav-item ">
@@ -299,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="login.php">Sair</a>
+                    <a class="dropdown-item" href="logout.php">Sair</a>
                 </div>
             </div>
         </div>
@@ -307,6 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
+                        <li class="menu-title">Interface Base</li>
 
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg"
@@ -314,54 +314,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <span> Controle </span>
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
-                                <!-- <li><a href="index.php">Painel do Admin</a></li> -->
                                 <li><a href="doctor-dashboard.php">Painel do Médico</a></li>
-                                <!-- <li>
-                 <a href="/medic/patient-dashboard.php">Painel do Paciente</a>
-                </li> -->
                             </ul>
                         </li>
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-02.svg" alt="" /></span>
-                <span> Médicos </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="doctors.php">Lista de Médicos</a></li>
-                <li><a href="add-doctor.php">Adicionar Médico</a></li>
-                <li><a href="edit-doctor.php">Editar Médico</a></li>
-                <li><a href="doctor-profile.php">Perfil do Médico</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-03.svg" alt="" /></span>
-                <span> Pacientes </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="patients.php">Lista de Pacientes</a></li>
-                <li><a href="add-patient.php">Adicionar Paciente</a></li>
-                <li><a href="edit-patient.php">Editar Paciente</a></li>
-                <li><a href="patient-profile.php">Perfil do Paciente</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-08.svg" alt="" /></span>
-                <span> Funcionários </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="staff-list.php">Lista de Funcionários</a></li>
-                <li><a href="add-staff.php">Adicionar Funcionário</a></li>
-                <li>
-                 <a href="/medic/staff-profile.php">Perfil do Funcionário</a>
-                </li>
-                <li><a href="staff-leave.php">Licenças</a></li>
-                <li><a href="staff-holiday.php">Feriados</a></li>
-                <li><a href="staff-attendance.php">Presenças</a></li>
-              </ul>
-            </li> -->
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg"
                                         alt="" /></span>
                                 <span> Consultas </span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li><a href="appointments.php">Lista de Consultas</a></li>
-                                <li><a href="add-appointment.php">Agendar Consulta</a></li>
+                                <li><a href="appointmentsDia.php">Consultas de hoje</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -370,9 +332,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <span> Agenda</span>
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
-                                <li><a href="schedule.php">Lista de Agendas</a></li>
-                                <li><a href="add-schedule.php">Adicionar Agenda</a></li>
-                                <li><a href="edit-schedule.php">Editar Agenda</a></li>
+                                <li><a href="fullcalendar/index.php">Agenda</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -380,22 +340,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="compose.php">Receita</a></li>
-
+                                <li><a href="view.php">Lista de Receitas</a></li>
                             </ul>
                         </li>
+
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
                                         alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="reagendamento.php">Gerar guia</a></li>
-
+                                <li><a href="reagendamento.php">Gerar Guia</a></li>
+                                <li><a href="viewGuia.php">Listar Guias</a></li>
                             </ul>
                         </li>
-
-
                     </ul>
                     <div class="logout-btn">
-                        <a href="/medic/login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="logout.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>

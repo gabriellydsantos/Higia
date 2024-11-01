@@ -1,47 +1,66 @@
 <?php
 include("database.php"); // Inclui o arquivo de conexão
- 
-if (isset($_POST['cpf']) && isset($_POST['password'])) {
-    if (strlen($_POST['cpf']) == 0) {
-        echo "Preencha corretamente o campo de login com o número do seu CPF.";
+
+if (isset($_POST['carteirinha']) && isset($_POST['password'])) {
+    if (strlen($_POST['carteirinha']) == 0) {
+        echo "Preencha corretamente o campo de login com o número da sua carteirinha.";
     } else if (strlen($_POST['password']) == 0) {
         echo "Preencha corretamente o campo de senha.";
     } else {
         // Validação do login
-        $cpf = $conn->real_escape_string($_POST['cpf']);
+        $carteirinha = $conn->real_escape_string($_POST['carteirinha']);
         $password = $conn->real_escape_string($_POST['password']);
- 
+
         // Verificar se é um paciente
-        $sql_patient = "SELECT * FROM patients WHERE cpf = '$cpf' AND password = '$password'";
+        $sql_patient = "SELECT * FROM patients WHERE carteirinha = '$carteirinha' AND password = '$password'";
         $query_patient = $conn->query($sql_patient);
- 
+
+        // Verificar se é um médico
+        $sql_doctor = "SELECT * FROM doctors WHERE carteirinha = '$carteirinha' AND password = '$password'";
+        $query_doctor = $conn->query($sql_doctor);
+
+        // Verificar se é um staff
+        $sql_staff = "SELECT * FROM staff WHERE carteirinha = '$carteirinha' AND password = '$password'";
+        $query_staff = $conn->query($sql_staff);
+
         if ($query_patient->num_rows == 1) {
             // Login como paciente
             $usuario = $query_patient->fetch_assoc();
             session_start(); // Inicia a sessão
+            $_SESSION['patients_carteirinha'] = $_POST['carteirinha'];
             $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do paciente na sessão
 
-            // Inserir paciente na tabela logged_patients
-            $carteirinha = $usuario['carteirinha'];
-            $nome = $usuario['first_name'] . " " . $usuario['last_name'];
+            // Registrar o login na tabela logged_patients
+            $nome = $usuario['first_name'] . ' ' . $usuario['last_name'];
             $telefone = $usuario['phone'];
+            $stmt = $conn->prepare("INSERT INTO logged_patients (carteirinha, nome, telefone) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $carteirinha, $nome, $telefone);
+            $stmt->execute();
+            $stmt->close();
 
-            $sql_insert_logged = "INSERT INTO logged_patients (carteirinha, nome, telefone, data_login) 
-                                  VALUES ('$carteirinha', '$nome', '$telefone', NOW())";
-            $conn->query($sql_insert_logged);
-
-            // Redireciona para a página de pacientes
-            $_SESSION['patient_id'] = $usuario['id'];
-            header('Location: paciente/home.php');
+            header('Location: paciente/home.php');  // Vai para a página de pacientes
+            exit();
+        } elseif ($query_doctor->num_rows == 1) {
+            // Login como médico
+            $usuario = $query_doctor->fetch_assoc();
+            session_start(); // Inicia a sessão
+            $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do médico na sessão
+            header('Location: medic/doctor-dashboard.php');  // Vai para a página de médicos
+            exit();
+        } elseif ($query_staff->num_rows == 1) {
+            // Login como staff
+            $usuario = $query_staff->fetch_assoc();
+            session_start(); // Inicia a sessão
+            $_SESSION = array_merge($_SESSION, $usuario); // Armazena dados do staff na sessão
+            header('Location: admin/index.php');  // Vai para a página do staff
             exit();
         } else {
-            echo "Falha ao logar: CPF ou senha incorretos.";
+            // Falha no login
+            echo "Falha ao logar: Carteirinha ou senha incorretos.";
         }
     }
 }
 ?>
-
-
 
 
 <div vw class="enabled">
@@ -60,8 +79,8 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
             <h2>Login</h2>
             <form action="" method="post">
                 <p class="input-box">
-                    <span class="input-group">N° do CPF:</span>
-                    <input type="text" required placeholder="000000" name="cpf">
+                    <span class="input-group">N° Carteirinha:</span>
+                    <input type="text" required placeholder="000000" name="carteirinha">
                 </p>
 
                 <p class="input-box">

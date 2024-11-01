@@ -7,8 +7,9 @@ error_reporting(0);
 ini_set('display_errors', 0);
 
 // Verificar se o usuário está logado
-if (!isset($_SESSION['doctor_id'])) {
-    header("Location: loginM.php");
+$id = $_SESSION['doctor_id'];
+if (!isset($id)) {
+    header("Location: index.php");
     exit();
 }
 ?>
@@ -33,10 +34,7 @@ if (!isset($_SESSION['doctor_id'])) {
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- acessibilidade -->
-    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -50,10 +48,11 @@ if (!isset($_SESSION['doctor_id'])) {
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left">
-                <a href="/medic/index.php" class="logo">
+                <a href="doctor-dashboard.php" class="logo">
                     <img src="../assets/img/logo 1.png" width="100" height="40" alt />
                 </a>
             </div>
@@ -170,27 +169,27 @@ if (!isset($_SESSION['doctor_id'])) {
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="login.php">Sair</a>
+                        <a class="dropdown-item" href="logout.php">Sair</a>
                     </div>
                 </li>
-                <!-- <li class="nav-item ">
-           <a href="/medic/settings.php" class="hasnotifications nav-link"><img
-                    src="../assets/img/icons/setting-icon-01.svg" alt> </a>
-        </li> -->
             </ul>
             <div class="dropdown mobile-user-menu float-end">
                 <a href="/medic/#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
                         class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="login.php">Sair</a>
+                    <a class="dropdown-item" href="logout.php">Sair</a>
                 </div>
             </div>
         </div>
+
+
+
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
+                        <li class="menu-title">Interface Base</li>
 
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg"
@@ -198,54 +197,16 @@ if (!isset($_SESSION['doctor_id'])) {
                                 <span> Controle </span>
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
-                                <!-- <li><a href="index.php">Painel do Admin</a></li> -->
                                 <li><a href="doctor-dashboard.php">Painel do Médico</a></li>
-                                <!-- <li>
-                 <a href="/medic/patient-dashboard.php">Painel do Paciente</a>
-                </li> -->
                             </ul>
                         </li>
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-02.svg" alt="" /></span>
-                <span> Médicos </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="doctors.php">Lista de Médicos</a></li>
-                <li><a href="add-doctor.php">Adicionar Médico</a></li>
-                <li><a href="edit-doctor.php">Editar Médico</a></li>
-                <li><a href="doctor-profile.php">Perfil do Médico</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-03.svg" alt="" /></span>
-                <span> Pacientes </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="patients.php">Lista de Pacientes</a></li>
-                <li><a href="add-patient.php">Adicionar Paciente</a></li>
-                <li><a href="edit-patient.php">Editar Paciente</a></li>
-                <li><a href="patient-profile.php">Perfil do Paciente</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-08.svg" alt="" /></span>
-                <span> Funcionários </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="staff-list.php">Lista de Funcionários</a></li>
-                <li><a href="add-staff.php">Adicionar Funcionário</a></li>
-                <li>
-                 <a href="/medic/staff-profile.php">Perfil do Funcionário</a>
-                </li>
-                <li><a href="staff-leave.php">Licenças</a></li>
-                <li><a href="staff-holiday.php">Feriados</a></li>
-                <li><a href="staff-attendance.php">Presenças</a></li>
-              </ul>
-            </li> -->
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg"
                                         alt="" /></span>
                                 <span> Consultas </span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li><a href="appointments.php">Lista de Consultas</a></li>
-                                <li><a href="add-appointment.php">Agendar Consulta</a></li>
+                                <li><a href="appointmentsDia.php">Consultas de hoje</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -254,9 +215,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 <span> Agenda</span>
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
-                                <li><a href="schedule.php">Lista de Agendas</a></li>
-                                <li><a href="add-schedule.php">Adicionar Agenda</a></li>
-                                <li><a href="edit-schedule.php">Editar Agenda</a></li>
+                                <li><a href="fullcalendar/index.php">Agenda</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -264,31 +223,27 @@ if (!isset($_SESSION['doctor_id'])) {
                                         alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="compose.php">Receita</a></li>
-
+                                <li><a href="view.php">Lista de Receitas</a></li>
                             </ul>
                         </li>
+
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
                                         alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="reagendamento.php">Gerar guia</a></li>
-
+                                <li><a href="reagendamento.php">Gerar Guia</a></li>
+                                <li><a href="viewGuia.php">Listar Guias</a></li>
                             </ul>
                         </li>
-
-
                     </ul>
                     <div class="logout-btn">
-                        <a href="/medic/login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="logout.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
 
 
 
@@ -359,8 +314,8 @@ if (!isset($_SESSION['doctor_id'])) {
                                                     <span class="text"><?php echo $_SESSION['doctor_address']  . ", " . $_SESSION['doctor_city'] . "-" . $_SESSION['doctor_state']; ?></span>
                                                 </li>
                                                 <li>
-                                                    <span class="title">Gênero:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_gender']; ?></span>
+                                                    <span class="title">CEP:</span>
+                                                    <span class="text"><?php echo $_SESSION['doctor_zipcode']; ?></span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -535,9 +490,9 @@ if (!isset($_SESSION['doctor_id'])) {
 
                             <?php
                             include 'conexao.php'; // Certifique-se de ter o arquivo de conexão com o banco de dados
-
+                            $medico = $_SESSION['doctor_username'];
                             // Consulta para buscar os registros da tabela appointments
-                            $query = "SELECT * FROM appointments";
+                            $query = "SELECT * FROM appointments WHERE medico = '$medico'";
                             $result = $conn->query($query);
 
                             // Verifica se há registros na tabela

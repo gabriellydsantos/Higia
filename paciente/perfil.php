@@ -379,6 +379,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="item-box" onclick="location.href='carteirinha.php';">Carteirinha Digital</div>
             <div class="item-box" onclick="location.href='prontuario.php';">Meu Prontuário</div>
             <div class="item-box" onclick="location.href='agendadas.php';">Minhas Consultas</div>
+            <div class="item-box" onclick="location.href='exames.php';">Meus exames</div>
             <div class="item-box" onclick="location.href='centralajuda.php';">Central de Ajudas</div>
         </div>
     </div>

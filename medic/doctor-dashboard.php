@@ -18,10 +18,7 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
     <link rel="stylesheet" href="../assets/css/feather.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- acessibilidade -->
-    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -32,6 +29,13 @@
     //echo "Bem-vindo, " . $_SESSION['doctor_username'];
     error_reporting(0);
     ini_set('display_errors', 0);
+
+    // Verificar se o usuário está logado
+    $id = $_SESSION['doctor_id'];
+    if (!isset($id)) {
+        header("Location: index.php");
+        exit();
+    }
     ?>
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -41,121 +45,27 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-
-
-
-
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left">
-                <a href="/medic/index.php" class="logo">
+                <a href="doctor-dashboard.php" class="logo">
                     <img src="../assets/img/logo 1.png" width="100" height="40" alt />
                 </a>
             </div>
             <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img
                     src="../assets/img/icons/bar-icon.svg" alt /></a>
             <ul class="nav user-menu float-end">
-                <li class="nav-item dropdown d-none d-md-block">
-                    <!--<a href="/medic/#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img
-                    src="../assets/img/icons/note-icon-02.svg" alt><span class="pulse"></span> </a> -->
-                    <div class="dropdown-menu notifications">
-                        <div class="topnav-dropdown-header">
-                            <span>Notificações</span>
-                        </div>
-                        <div class="drop-scroll">
-                            <ul class="notification-list">
-                                <li class="notification-message">
-                                    <a href="/medic/activities.php">
-                                        <div class="media">
-                                            <span class="avatar">
-                                                <img alt="John Doe" src="../assets/img/user.jpg" class="img-fluid" />
-                                            </span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Lorem ipsum</span>
-                                                    adicionou nova tarefa
-                                                    <span class="noti-title">Reserva de compromisso do paciente</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">4 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="/medic/activities.php">
-                                        <div class="media">
-                                            <span class="avatar">V</span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Tarah Shropshire</span>
-                                                    alterou o nome da tarefa
-                                                    <span class="noti-title">Agendamento de consulta com gateway de
-                                                        pagamento</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">6 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="/medic/activities.php">
-                                        <div class="media">
-                                            <span class="avatar">L</span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Misty Tison</span>
-                                                    adicionou
-                                                    <span class="noti-title">Domenic Houston</span> e
-                                                    <span class="noti-title">Claire Mapes</span> ao
-                                                    projeto
-                                                    <span class="noti-title">Módulo de disponibilidade do médico</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">8 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="/medic/activities.php">
-                                        <div class="media">
-                                            <span class="avatar">G</span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">Rolland Webber</span>
-                                                    completou a tarefa
-                                                    <span class="noti-title">Videoconferência entre Paciente e
-                                                        Médico</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">12 minutos atrás</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <!-- <li class="nav-item dropdown d-none d-md-block">
-           <a href="/medic/javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
-                    src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
-        </li> -->
                 <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="/medic/#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
                             <h5><?php
                                 include "conexao.php";
-                                session_start();
+                              
+                    
                                 echo $_SESSION['doctor_username'];
                                 ?></h5>
                             <span>Médico</span>
@@ -168,20 +78,16 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="login.php">Sair</a>
+                        <a class="dropdown-item" href="logout.php">Sair</a>
                     </div>
                 </li>
-                <!-- <li class="nav-item ">
-           <a href="/medic/settings.php" class="hasnotifications nav-link"><img
-                    src="../assets/img/icons/setting-icon-01.svg" alt> </a>
-        </li> -->
             </ul>
             <div class="dropdown mobile-user-menu float-end">
                 <a href="/medic/#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
                         class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="login.php">Sair</a>
+                    <a class="dropdown-item" href="logout.php">Sair</a>
                 </div>
             </div>
         </div>
@@ -190,6 +96,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
+                        <li class="menu-title">Interface Base</li>
 
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-01.svg"
@@ -197,54 +104,16 @@
                                 <span> Controle </span>
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
-                                <!-- <li><a href="index.php">Painel do Admin</a></li> -->
                                 <li><a href="doctor-dashboard.php">Painel do Médico</a></li>
-                                <!-- <li>
-                 <a href="/medic/patient-dashboard.php">Painel do Paciente</a>
-                </li> -->
                             </ul>
                         </li>
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-02.svg" alt="" /></span>
-                <span> Médicos </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="doctors.php">Lista de Médicos</a></li>
-                <li><a href="add-doctor.php">Adicionar Médico</a></li>
-                <li><a href="edit-doctor.php">Editar Médico</a></li>
-                <li><a href="doctor-profile.php">Perfil do Médico</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-03.svg" alt="" /></span>
-                <span> Pacientes </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="patients.php">Lista de Pacientes</a></li>
-                <li><a href="add-patient.php">Adicionar Paciente</a></li>
-                <li><a href="edit-patient.php">Editar Paciente</a></li>
-                <li><a href="patient-profile.php">Perfil do Paciente</a></li>
-              </ul>
-            </li> -->
-                        <!-- <li class="submenu">
-             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-08.svg" alt="" /></span>
-                <span> Funcionários </span> <span class="menu-arrow"></span></a>
-              <ul style="display: none">
-                <li><a href="staff-list.php">Lista de Funcionários</a></li>
-                <li><a href="add-staff.php">Adicionar Funcionário</a></li>
-                <li>
-                 <a href="/medic/staff-profile.php">Perfil do Funcionário</a>
-                </li>
-                <li><a href="staff-leave.php">Licenças</a></li>
-                <li><a href="staff-holiday.php">Feriados</a></li>
-                <li><a href="staff-attendance.php">Presenças</a></li>
-              </ul>
-            </li> -->
                         <li class="submenu">
                             <a href="/medic/#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-04.svg"
                                         alt="" /></span>
                                 <span> Consultas </span> <span class="menu-arrow"></span></a>
                             <ul style="display: none">
                                 <li><a href="appointments.php">Lista de Consultas</a></li>
-                                <li><a href="add-appointment.php">Agendar Consulta</a></li>
+                                <li><a href="appointmentsDia.php">Consultas de hoje</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -253,38 +122,29 @@
                                 <span> Agenda</span>
                                 <span class="menu-arrow"></span></a>
                             <ul style="display: none">
-                                <li><a href="schedule.php">Lista de Agendas</a></li>
-                                <li><a href="add-schedule.php">Adicionar Agenda</a></li>
-                                <li><a href="edit-schedule.php">Editar Agenda</a></li>
+                                <li><a href="fullcalendar/index.php">Agenda</a></li>
                             </ul>
                         </li>
-
-
-
-
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-13.svg"
                                         alt></span> <span> Receita</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="compose.php">Receita</a></li>
-
+                                <li><a href="view.php">Lista de Receitas</a></li>
                             </ul>
                         </li>
-
 
                         <li class="submenu">
                             <a href="#"><span class="menu-side"><img src="../assets/img/icons/menu-icon-15.svg"
                                         alt></span> <span>Encaminhamento</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="reagendamento.php">Gerar guia</a></li>
-
+                                <li><a href="reagendamento.php">Gerar Guia</a></li>
+                                <li><a href="viewGuia.php">Listar Guias</a></li>
                             </ul>
                         </li>
-
-
                     </ul>
                     <div class="logout-btn">
-                        <a href="/medic/login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="logout.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>
@@ -337,9 +197,24 @@
                             <div class="dash-boxs comman-flex-center">
                                 <img src="../assets/img/icons/calendar.svg" alt />
                             </div>
+                            <?php
+                            // Consulta para contar o número de linhas na tabela agendamentos
+                            $sql_agendamentos = "SELECT COUNT(*) AS total_agendamentos FROM agendamentos";
+                            $result_agendamentos = $conn->query($sql_agendamentos);
+                            $total_agendamentos = ($result_agendamentos->num_rows > 0) ? $result_agendamentos->fetch_assoc()['total_agendamentos'] : 0;
+
+                            // Consulta para contar o número de linhas na tabela events
+                            $sql_events = "SELECT COUNT(*) AS total_events FROM events";
+                            $result_events = $conn->query($sql_events);
+                            $total_events = ($result_events->num_rows > 0) ? $result_events->fetch_assoc()['total_events'] : 0;
+
+                            // Soma dos totais das duas tabelas
+                            $total_linhas = $total_agendamentos + $total_events;
+                            ?>
+
                             <div class="dash-content dash-count">
                                 <h4>Compromissos</h4>
-                                <h2><span class="counter-up">250</span></h2>
+                                <h2><span class="counter-up"><?php echo $total_linhas; ?></span></h2>
                                 <p>
                                     <span class="passive-view"><i class="feather-arrow-up-right me-1"></i>40%</span>
                                     Mês Passado
@@ -347,6 +222,10 @@
                             </div>
                         </div>
                     </div>
+                    <?php
+                    $sql = "SELECT COUNT(*) AS total FROM agendamentos";
+                    $result = $conn->query($sql);
+                    ?>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
@@ -354,7 +233,14 @@
                             </div>
                             <div class="dash-content dash-count">
                                 <h4>Pacientes</h4>
-                                <h2><span class="counter-up">140</span></h2>
+                                <h2><span class="counter-up"><?php
+                                                                if ($result->num_rows > 0) {
+                                                                    $row = $result->fetch_assoc();
+                                                                    echo $row['total'];
+                                                                } else {
+                                                                    echo "0";
+                                                                }
+                                                                ?></span></h2>
                                 <p>
                                     <span class="passive-view"><i class="feather-arrow-up-right me-1"></i>20%</span>
                                     vs Mês passado
@@ -369,7 +255,7 @@
                             </div>
                             <div class="dash-content dash-count">
                                 <h4>Cancelado</h4>
-                                <h2><span class="counter-up">56</span></h2>
+                                <h2><span class="counter-up">0</span></h2>
                                 <p>
                                     <span class="negative-view"><i class="feather-arrow-down-right me-1"></i>15%</span>
                                     Mês passado
@@ -380,540 +266,332 @@
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
                 </div>
 
-                <div class="good-morning-blk">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="morning-user" style="padding: 20px 30px 20px">
-                                <h2 id="horarioser">Horários Serviços</h2>
-                                <!-- <p>Tenha um bom dia de trabalho</p> -->
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 position-blk">
-                            <div class="morning-img">
-                                <a href="profile.php">
-                                    <button type="button"
-                                        class="btn w-100 btn-outline-primary active">Adicionar</button>
-                                </a>
-                                <style>
-                                    #horarioser {
-                                        font-size: 20px;
-                                    }
-
-                                    .btn-outline-primary.active:not(:disabled):not(.disabled),
-                                    .btn-outline-primary:active:not(:disabled):not(.disabled),
-                                    .show>.btn-outline-primary.dropdown-toggle {
-                                        background-color: #009efb;
-                                        border-color: #009efb;
-                                        color: #fff;
-                                        width: 30%;
-                                        margin-left: 60%;
-                                    }
-
-                                    .position-blk {
-                                        position: relative;
-                                        align-content: center;
-                                    }
-                                </style>
-                                <!-- <img src="../assets/img/morning-img-01.png" alt> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
 
                 <div class="row">
 
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-12 col-xl-7">
-
-
-                        <div class="row">
-                            <div class="col-12 col-md-12 col-xl-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title d-inline-block">
-                                            Compromissos recentes
-                                        </h4>
-                                        <a href="/medic/appointments.php" class="patient-views float-end">Mostre
-                                            tudo</a>
-                                    </div>
-                                    <div class="card-body p-0 table-dash">
-                                        <div class="table-responsive">
-                                            <table class="table mb-0 border-0 custom-table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="table-image appoint-doctor">
-                                                            <img width="28" height="28" class="rounded-circle"
-                                                                src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                            <h2>Dr.Lorem Ipsum </h2>
-                                                        </td>
-                                                        <td class="appoint-time text-center">
-                                                            <h6>Hoje 17:40</h6>
-                                                            <span>Lorem Ipsum</span>
-                                                        </td>
-                                                        <td>
-                                                            <button class="check-point status-green me-1">
-                                                                <i class="feather-check"></i>
-                                                            </button>
-                                                            <button class="check-point status-pink">
-                                                                <i class="feather-x"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="table-image appoint-doctor">
-                                                            <img width="28" height="28" class="rounded-circle"
-                                                                src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                            <h2>Dr.Lorem Ipsum</h2>
-                                                        </td>
-                                                        <td class="appoint-time text-center">
-                                                            <h6>Hoje 17:40</h6>
-                                                            <span>Lorem Ipsum</span>
-                                                        </td>
-                                                        <td>
-                                                            <button class="check-point status-green me-1">
-                                                                <i class="feather-check"></i>
-                                                            </button>
-                                                            <button class="check-point status-pink">
-                                                                <i class="feather-x"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="table-image appoint-doctor">
-                                                            <img width="28" height="28" class="rounded-circle"
-                                                                src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                            <h2>Dr.Lorem Ipsum</h2>
-                                                        </td>
-                                                        <td class="appoint-time text-center">
-                                                            <h6>Hoje 17:40</h6>
-                                                            <span>Lorem Ipsum</span>
-                                                        </td>
-                                                        <td>
-                                                            <button class="check-point status-green me-1">
-                                                                <i class="feather-check"></i>
-                                                            </button>
-                                                            <button class="check-point status-pink">
-                                                                <i class="feather-x"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-4 d-flex">
-                                <div class="card wallet-widget">
-                                    <div class="circle-bar circle-bar2">
-                                        <div class="circle-graph2" data-percent="66">
-                                            <b><img src="../assets/img/icons/timer.svg" alt /></b>
-                                        </div>
-                                    </div>
-                                    <div class="main-limit">
-                                        <p>Next Appointment in</p>
-                                        <h4>02h:12m</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="chart-title patient-visit">
-                                    <h4>Gráfico de atividades</h4>
-                                    <div>
-                                        <ul class="nav chat-user-total">
-                                            <li>
-                                                <i class="fa fa-circle low-users" aria-hidden="true"></i>Baixo
-                                            </li>
-                                            <li>
-                                                <i class="fa fa-circle current-users" aria-hidden="true"></i>
-                                                Alto
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="input-block mb-0">
-                                        <select class="form-control select">
-                                            <option>This Week</option>
-                                            <option>Last Week</option>
-                                            <option>This Month</option>
-                                            <option>Last Month</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="activity-chart"></div>
-                            </div>
-                        </div>
-
-
-
-
-
-
-
-
-                    </div>
-                    <div class="col-12 col-lg-12 col-xl-5 d-flex">
-                        <div class="card flex-fill comman-shadow">
-                            <div class="card-header">
-                                <h4 class="card-title d-inline-block">Compromissos recentes</h4>
-                                <a href="/medic/appointments.php" class="patient-views float-end">Show all</a>
-                            </div>
-                            <div class="card-body">
-                                <div class="teaching-card">
-                                    <ul class="steps-history">
-                                        <li>08:00</li>
-                                    </ul>
-                                    <ul class="activity-feed">
-                                        <li class="feed-item d-flex align-items-center">
-                                            <div class="dolor-activity hide-activity">
-                                                <ul class="doctor-date-list mb-2">
-                                                    <li class="stick-line">
-                                                        <i class="fas fa-circle me-2"></i>08:00
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                    <li class="stick-line">
-                                                        <i class="fas fa-circle me-2"></i>08:00
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                    <li class="dropdown ongoing-blk">
-                                                        <a href="/medic/#" class="dropdown-toggle active-doctor"
-                                                            data-bs-toggle="dropdown">
-                                                            <i class="fas fa-circle me-2 active-circles"></i>08:00
-                                                            <span>Lorem Ipsum </span><span class="ongoing-drapt">Ongoing
-                                                                <i class="feather-chevron-down ms-2"></i></span>
-                                                        </a>
-                                                        <ul class="doctor-sub-list dropdown-menu">
-                                                            <li class="patient-new-list dropdown-item">
-                                                                Patient<span>Marie kennedy</span><a href="javascript:;"
-                                                                    class="new-dot status-green"><i
-                                                                        class="fas fa-circle me-1 fa-2xs"></i>New</a>
-                                                            </li>
-                                                            <li class="dropdown-item">
-                                                                Time<span>8:30 - 9:00 (30min)</span>
-                                                            </li>
-                                                            <li class="schedule-blk mb-0 pt-2 dropdown-item">
-                                                                <ul class="nav schedule-time">
-                                                                    <li>
-                                                                        <a href="/medic/javascript:;"><img
-                                                                                src="../assets/img/icons/trash.svg"
-                                                                                alt /></a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="/medic/javascript:;"><img
-                                                                                src="../assets/img/icons/profile.svg"
-                                                                                alt /></a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="/medic/javascript:;"><img
-                                                                                src="../assets/img/icons/edit.svg"
-                                                                                alt /></a>
-                                                                    </li>
-                                                                </ul>
-                                                                <a class="btn btn-primary appoint-start">Start
-                                                                    Appointment</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="teaching-card">
-                                    <ul class="steps-history">
-                                        <li>09:00</li>
-                                    </ul>
-                                    <ul class="activity-feed">
-                                        <li class="feed-item d-flex align-items-center">
-                                            <div class="dolor-activity">
-                                                <ul class="doctor-date-list mb-2">
-                                                    <li>
-                                                        <i class="fas fa-circle me-2"></i>09:00
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fas fa-circle me-2"></i>09:20
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fas fa-circle me-2"></i>09:40
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="teaching-card">
-                                    <ul class="steps-history">
-                                        <li>10:00</li>
-                                    </ul>
-                                    <ul class="activity-feed">
-                                        <li class="feed-item d-flex align-items-center">
-                                            <div class="dolor-activity">
-                                                <ul class="doctor-date-list mb-2">
-                                                    <li>
-                                                        <i class="fas fa-circle me-2"></i>10:00
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fas fa-circle me-2"></i>10:30
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="teaching-card">
-                                    <ul class="steps-history">
-                                        <li>11:00</li>
-                                    </ul>
-                                    <ul class="activity-feed">
-                                        <li class="feed-item d-flex align-items-center">
-                                            <div class="dolor-activity">
-                                                <ul class="doctor-date-list mb-2">
-                                                    <li>
-                                                        <i class="fas fa-circle me-2"></i>11:00
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fas fa-circle me-2"></i>11:30
-                                                        <span>Lorem Ipsum </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
                     <div class="row">
-                        <div class="col-12 col-xl-12">
+                        <div class="col-12 col-md-12 col-lg-6 col-xl-10">
                             <div class="card">
-                                <div class="card-header pb-0">
-                                    <h4 class="card-title d-inline-block">Pacientes recentes</h4>
-                                    <a href="/medic/patients.php" class="float-end patient-views">Mostre tudo</a>
-                                </div>
-                                <div class="card-block table-dash" style="margin-top: 10px;">
-                                    <div class="table-responsive" style="margin-top: 10px;">
-                                        <table class="table mb-0 border-0 datatable custom-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="something" />
-                                                        </div>
-                                                    </th>
-                                                    <th>Carterinha</th>
-                                                    <th>Nome do paciente</th>
-                                                    <th> Idade </th>
-
-                                                    <th>Médico </th>
-
-                                                    <th>Tempo</th>
-
-                                                    <th>Diagnóstico</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="something" />
-                                                        </div>
-                                                    </td>
-                                                    <td>R00001</td>
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem Ipsum</h2>
-                                                    </td>
-                                                    <td>21</td>
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem Ipsum</h2>
-                                                    </td>
-
-
-                                                    <td>12.05.2022 at 7.00 PM </td>
-                                                    <td>Lorem Ipsum</td>
-                                                    <td class="text-end">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="/medic/#" class="action-icon dropdown-toggle"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fa fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="edit-patient.php"><i
-                                                                        class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                    Editar</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#delete_appointment"><i
-                                                                        class="fa fa-trash-alt m-r-5"></i>
-                                                                    Excluir</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="something" />
-                                                        </div>
-                                                    </td>
-                                                    <td>R00002</td>
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem Ipsum</h2>
-                                                    </td>
-
-                                                    <td>23</td>
-
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem Ipsum</h2>
-                                                    </td>
-
-                                                    <td>12.05.2022 at 7.00 PM</td>
-
-                                                    <td>Lorem Ipsum</td>
-
-                                                    <td class="text-end">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="/medic/#" class="action-icon dropdown-toggle"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fa fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="edit-patient.php"><i
-                                                                        class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                    Editar</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#delete_appointment"><i
-                                                                        class="fa fa-trash-alt m-r-5"></i>
-                                                                    Excluir</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="something" />
-                                                        </div>
-                                                    </td>
-                                                    <td>R00003</td>
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem ipsum</h2>
-                                                    </td>
-                                                    <td>25</td>
-
-
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem Ipsum</h2>
-                                                    </td>
-
-
-
-                                                    <td>12.05.2022 at 7.00 pm</td>
-                                                    <td>Lorem ipsum</td>
-                                                    <td class="text-end">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="/medic/#" class="action-icon dropdown-toggle"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fa fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="edit-patient.php"><i
-                                                                        class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                    Editar</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#delete_appointment"><i
-                                                                        class="fa fa-trash-alt m-r-5"></i>
-                                                                    Excluir</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="something" />
-                                                        </div>
-                                                    </td>
-                                                    <td>R00004</td>
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem Ipsum</h2>
-                                                    </td>
-                                                    <td>21</td>
-
-
-                                                    <td class="table-image">
-                                                        <img width="28" height="28" class="rounded-circle"
-                                                            src="../assets/img/profiles/avatar-01.jpg" alt />
-                                                        <h2>Lorem Ipsum</h2>
-                                                    </td>
-
-
-                                                    <td>12.05.2022 at 7.00 PM</td>
-                                                    <td>Lorem Ipsum</td>
-
-                                                    <td class="text-end">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="/medic/#" class="action-icon dropdown-toggle"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fa fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="edit-patient.php"><i
-                                                                        class="fa-solid fa-pen-to-square m-r-5"></i>
-                                                                    Edit</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#delete_appointment"><i
-                                                                        class="fa fa-trash-alt m-r-5"></i>
-                                                                    Excluir</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="card-body">
+                                    <div class="chart-title patient-visit">
+                                        <h4>Total de Compromissos por Mês</h4>
+                                    </div>
+                                    <div id="appointment-chart" style="width: 100%; height: 500px;">
+                                        <canvas id="appointmentChart"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                        async function createAppointmentChart() {
+                            const ctx = document.getElementById('appointmentChart').getContext('2d');
+
+                            // Prepara os dados para o gráfico
+                            const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out',
+                                'Nov',
+                                'Dez'
+                            ];
+
+                            // Cores para cada mês
+                            const colors = [
+                                'rgba(255, 99, 132, 0.85)', // Janeiro
+                                'rgba(54, 162, 235, 0.85)', // Fevereiro
+                                'rgba(255, 206, 86, 0.85)', // Março
+                                'rgba(75, 192, 192, 0.85)', // Abril
+                                'rgba(153, 102, 255, 0.85)', // Maio
+                                'rgba(255, 159, 64, 0.85)', // Junho
+                                'rgba(255, 99, 71, 0.85)', // Julho (Tomate)
+                                'rgba(255, 140, 0, 0.85)', // Agosto (Laranja)
+                                'rgba(0, 204, 204, 0.85)', // Setembro (Turquesa)
+                                'rgba(0, 102, 204, 0.85)', // Outubro (Azul)
+                                'rgba(153, 0, 153, 0.85)', // Novembro (Roxo)
+                                'rgba(0, 153, 51, 0.85)' // Dezembro (Verde)
+                            ];
+
+                            const data = {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Total de Compromissos',
+                                    data: total_compromissos, // Dados obtidos do PHP
+                                    backgroundColor: colors, // Usar o array de cores para os meses
+                                    borderColor: 'rgba(46, 55, 164, 1)',
+
+                                }]
+                            };
+
+                            const appointmentChart = new Chart(ctx, {
+                                type: 'bar', // Gráfico de barras
+                                data: data,
+                                options: {
+                                    responsive: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            position: 'top',
+                                        },
+                                        tooltip: {
+                                            callbacks: {
+                                                label: function(context) {
+                                                    let label = context.dataset.label || '';
+                                                    if (label) {
+                                                        label += ': ';
+                                                    }
+                                                    label += context
+                                                        .raw; // Adiciona o número de registros
+                                                    return label;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
+                        // Chamar a função para criar o gráfico ao carregar a página
+                        window.onload = createAppointmentChart;
+                        </script>
+                        <?php
+                            // Conexão com o banco de dados
+                            $conn = new mysqli("localhost", "root", "200812", "higia");
+
+                            if ($conn->connect_error) {
+                                die("Falha na conexão: " . $conn->connect_error);
+                            }
+
+                            // Consulta para contar compromissos por mês
+                            $sql = "SELECT MONTH(date) as mes, COUNT(*) as total_compromissos 
+                                    FROM agendamentos 
+                                    WHERE YEAR(date) = YEAR(CURDATE()) 
+                                    GROUP BY MONTH(date) 
+                                    ORDER BY MONTH(date)";
+
+                            $result = $conn->query($sql);
+
+                            // Preparar os dados para o gráfico
+                            $meses = [];
+                            $total_compromissos = [];
+
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    $meses[] = $row['mes'];
+                                    $total_compromissos[] = $row['total_compromissos'];
+                                }
+                            } else {
+                                // Se não houver dados, preencher com zeros
+                                $meses = range(1, 12);
+                                $total_compromissos = array_fill(0, 12, 0);
+                            }
+
+                          
+                            
+                            ?>
+
+                        <script>
+                        var meses = <?php echo json_encode($meses); ?>;
+                        var total_compromissos = <?php echo json_encode($total_compromissos); ?>;
+                        </script>
+
+                    </div>
+                    <!-- fechamento da div row grafico -->
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-xl-7">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card rounded-card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Compromissos recentes</h4>
+                                        </div>
+                                        <div class="card-body p-0">
+
+
+                                            <?php
+                $doutor = $_SESSION['doctor_username'];
+                $sql = "SELECT id, doctor, paciente, department, date, status, time FROM agendamentos WHERE doctor = '$doutor'";
+                $result = $conn->query($sql);
+                ?>
+
+                                            <div class="table-responsive">
+                                                <table class="table mb-0 border-0 custom-table rounded-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Nome do Paciente</th>
+                                                            <th>Data</th>
+                                                            <th>Horário</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    $statusClass = ($row["status"] == "Concluído") ? "status-green" : "status-red";
+                                    echo '<tr>
+                                            <td>' . htmlspecialchars($row["id"]) . '</td>
+                                           
+                                            <td>' . htmlspecialchars($row["paciente"]) . '</td>
+                                            <td>' . date("d.m.Y", strtotime($row["date"])) . '</td>
+                                            <td>' . date("H:i", strtotime($row["time"])) . '</td>
+                                            <td><button class="custom-badge ' . $statusClass . '" onclick="updateStatus(' . $row["id"] . ')">' . htmlspecialchars($row["status"]) . '</button></td>
+                                            
+                                        </tr>';
+                                }
+                            } else {
+                                echo '<tr><td colspan="7" class="text-center">Nenhum dado encontrado.</td></tr>';
+                            }
+                            ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                            document.getElementById('reiniciarBtn').addEventListener('click', function() {
+                                location.reload();
+                            });
+
+                            function updateStatus(id) {
+                                if (confirm('Você deseja atualizar o status deste compromisso?')) {
+                                    window.location.href = 'update_status.php?id=' + id; // Exemplo de redirecionamento
+                                }
+                            }
+                            </script>
+
+                            <style>
+                            .rounded-card {
+                                border-radius: 15px;
+                                overflow: hidden;
+                            }
+
+                            .rounded-table {
+                                border-radius: 15px;
+                            }
+
+                            .status-green {
+                                background-color: #28a745;
+                                color: white;
+                                border: none;
+                                border-radius: 4px;
+                                padding: 5px 10px;
+                            }
+
+                            .status-red {
+                                background-color: #dc3545;
+                                color: white;
+                                border: none;
+                                border-radius: 4px;
+                                padding: 5px 10px;
+                            }
+                            </style>
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <style>
+                        .text-decoration-line-through {
+                            text-decoration: line-through;
+                            color: red;
+                            /* Define a cor do texto para vermelho */
+                        }
+                        </style>
+
+                        <?php
+// Conectar ao banco de dados
+include './database.php';
+
+session_start();
+$doctorLoggedIn = $_SESSION['doctor_username'];
+date_default_timezone_set('America/Sao_Paulo'); // Ajuste para o fuso horário correto
+$currentDateTime = date('Y-m-d H:i:s');
+$startOfDay = date('Y-m-d 00:00:00');
+$endDateTime = date('Y-m-d H:i:s', strtotime('+1 day'));
+
+// Verificar se o médico está logado
+if (!$doctorLoggedIn) {
+    echo "Erro: Médico não logado.";
+    exit;
+}
+
+// Consulta para compromissos de hoje e próximas 24 horas
+$sql = "SELECT * FROM agendamentos 
+        WHERE doctor = ? 
+        AND CONCAT(date, ' ', time) BETWEEN ? AND ?
+        ORDER BY date, time";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sss", $doctorLoggedIn, $startOfDay, $endDateTime);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+                        <div class="col-12 col-lg-12 col-xl-5 d-flex">
+                            <div class="card flex-fill comman-shadow">
+                                <div class="card-header">
+                                    <h4 class="card-title d-inline-block">Compromissos</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="teaching-card">
+                                        <?php if ($result->num_rows > 0): ?>
+                                        <ul class="activity-feed">
+                                            <?php while ($row = $result->fetch_assoc()): 
+                            // Concatenar a data e hora do compromisso
+                            $appointmentTime = $row['date'] . ' ' . $row['time'];
+
+                            // Inicializar a classe vazia
+                            $class = '';
+
+                            // Verificar se o horário do compromisso já passou
+                            if (strtotime($appointmentTime) < strtotime($currentDateTime)) {
+                                $class = 'text-decoration-line-through';
+                            }
+                        ?>
+                                            <li class="feed-item d-flex align-items-center">
+                                                <div class="dolor-activity <?php echo $class; ?>">
+                                                    <ul class="doctor-date-list mb-2">
+                                                        <li class="">
+                                                            <i
+                                                                class="fas fa-circle me-2"></i><?php echo date('H:i', strtotime($row['time'])); ?>
+                                                            <span><?php echo htmlspecialchars($row['paciente']); ?></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <?php endwhile; ?>
+                                        </ul>
+                                        <?php else: ?>
+                                        <p>Não há compromissos agendados para hoje e próximas 24 horas.</p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
 
 
@@ -925,243 +603,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-            </div>
-            <div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                    <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="/medic/chat.php">See all messages</a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
     <div class="sidebar-overlay" data-reff></div>
 
     <script src="../assets/js/jquery-3.7.1.min.js" type="289d0519ad93de500f359347-text/javascript"></script>
@@ -1184,7 +631,8 @@
 
     <script src="../assets/plugins/apexchart/apexcharts.min.js" type="289d0519ad93de500f359347-text/javascript">
     </script>
-    <script src="../assets/plugins/apexchart/chart-data.js" type="289d0519ad93de500f359347-text/javascript"></script>
+    <script src="../assets/plugins/apexchart/chart-data.js" type="289d0519ad93de500f359347-text/javascript">
+    </script>
 
     <script src="../assets/js/circle-progress.min.js" type="289d0519ad93de500f359347-text/javascript"></script>
 

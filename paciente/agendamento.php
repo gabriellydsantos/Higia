@@ -2,7 +2,8 @@
 // Desativa a exibição de erros no navegador
 error_reporting(0);
 ini_set('display_errors', 0);
-
+session_start();
+//echo $_SESSION['patients_carteirinha'];
 include "../database.php";
 
 // Inicializar variáveis
@@ -11,18 +12,52 @@ $selected_doctor = '';
 $horario = '';
 $data = '';
 
+
+
+// Verifica se a carteirinha está definida na sessão
+if (isset($_SESSION['patients_carteirinha'])) {
+    $carteirinha = $_SESSION['patients_carteirinha'];
+
+    // Consulta para obter o nome e o sobrenome do paciente
+    $stmt = $conn->prepare("SELECT first_name, last_name FROM patients WHERE carteirinha = ?");
+    $stmt->bind_param("s", $carteirinha);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Armazena os dados do paciente na sessão
+        $row = $result->fetch_assoc();
+        $_SESSION['patients_first_name'] = $row['first_name'];
+        $_SESSION['patients_last_name'] = $row['last_name'];
+        
+        // Concatena o nome completo na variável $paciente
+        $paciente = $_SESSION['patients_first_name'] . " " . $_SESSION['patients_last_name'];
+    } else {
+        echo "Paciente não encontrado.";
+        exit;
+    }
+    $stmt->close();
+} else {
+    echo "Carteirinha não definida na sessão.";
+    exit;
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selected_department = $_POST['departments'] ?? '';
     $selected_doctor = $_POST['doctors'] ?? '';
     $data = $_POST['data'] ?? '';
     $horario = $_POST['horario'] ?? '';
+    $status = "inconcluído";
+    $carteirinha = $_SESSION['patients_carteirinha'];
+    //$paciente = $_SESSION['patients_first_name'] . " "  . $_SESSION['patients_last_name'];  
 
     if ($selected_department && $selected_doctor && $data && $horario) {
         $horario = str_replace('h', ':', $horario) . ':00';
         
         // Inserir agendamento no banco de dados
-        $stmt = $conn->prepare("INSERT INTO agendamentos (doctor, department, date, time) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param('ssss', $selected_doctor, $selected_department, $data, $horario);
+        $stmt = $conn->prepare("INSERT INTO agendamentos (doctor, carteirinhaPaciente, paciente, department, date, status, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('sssssss', $selected_doctor, $carteirinha, $paciente, $selected_department, $data, $status, $horario);
 
         if ($stmt->execute()) {
             echo "<script>alert('Agendamento confirmado com sucesso!');</script>";
