@@ -222,6 +222,10 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
                     <?php
                     $sql = "SELECT COUNT(*) AS total FROM agendamentos";
                     $result = $conn->query($sql);
@@ -265,6 +269,49 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
                 </div>
+
+
+                <div class="good-morning-blk">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="morning-user" style="padding: 20px 30px 20px">
+                                <h2 id="horarioser">Horários Serviços</h2>
+                                <!-- <p>Tenha um bom dia de trabalho</p> -->
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 position-blk">
+                            <div class="morning-img">
+                                <a href="profile.php">
+                                    <button type="button"
+                                        class="btn w-100 btn-outline-primary active">Adicionar</button>
+                                </a>
+                                <style>
+                                #horarioser {
+                                    font-size: 20px;
+                                }
+
+                                .btn-outline-primary.active:not(:disabled):not(.disabled),
+                                .btn-outline-primary:active:not(:disabled):not(.disabled),
+                                .show>.btn-outline-primary.dropdown-toggle {
+                                    background-color: #009efb;
+                                    border-color: #009efb;
+                                    color: #fff;
+                                    width: 30%;
+                                    margin-left: 60%;
+                                }
+
+                                .position-blk {
+                                    position: relative;
+                                    align-content: center;
+                                }
+                                </style>
+                                <!-- <img src="../assets/img/morning-img-01.png" alt> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 
                 <div class="row">
