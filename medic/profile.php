@@ -46,7 +46,7 @@ if (!isset($id)) {
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
     <div class="main-wrapper">
@@ -156,7 +156,7 @@ if (!isset($id)) {
                         <div class="user-names">
                             <h5><?php
                                 include "conexao.php";
-                                session_start();
+                           
                                 echo $_SESSION['doctor_username'];
                                 ?></h5>
                             <span>Médico</span>
@@ -267,10 +267,11 @@ if (!isset($id)) {
                     }
                     ?>
 
-                    <div class="col-sm-5 col-6 text-end m-b-30">
+                    <div class="col-sm-5 col-6 text-end m-b-55">
                         <?php echo '<a class="btn btn-primary btn-rounded" href="edit-profile.php?id=' . $doctorId . '">Editar Perfil</a>'; ?>
                     </div>
                 </div>
+
                 <div class="card-box profile-header">
                     <div class="row">
                         <div class="col-md-12">
@@ -287,10 +288,15 @@ if (!isset($id)) {
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="profile-info-left">
-                                                <h3 class="user-name m-t-0 mb-0"><?php echo $_SESSION['doctor_first_name'] . " " . $_SESSION['doctor_last_name']; ?></h3>
-                                                <small class="text-muted"><?php echo $_SESSION['doctor_department']; ?></small>
+                                                <h3 class="user-name m-t-0 mb-0">
+                                                    <?php echo $_SESSION['doctor_first_name'] . " " . $_SESSION['doctor_last_name']; ?>
+                                                </h3>
+                                                <small
+                                                    class="text-muted"><?php echo $_SESSION['doctor_department']; ?></small>
                                                 <div class="staff-id">CRM/SP 123355</div>
-                                                <div class="staff-msg"><a href="https://api.whatsapp.com/send?phone=5511941782793&text=Olá,%20gostaria%20de%20acessar%20o%20suporte" target="_blank" class="btn btn-primary">Central de
+                                                <div class="staff-msg"><a
+                                                        href="https://api.whatsapp.com/send?phone=5511941782793&text=Olá,%20gostaria%20de%20acessar%20o%20suporte"
+                                                        target="_blank" class="btn btn-primary">Central de
                                                         ajuda</a></div>
                                             </div>
                                         </div>
@@ -298,7 +304,8 @@ if (!isset($id)) {
                                             <ul class="personal-info">
                                                 <li>
                                                     <span class="title">Telefone</span>
-                                                    <span class="text"><a href><?php echo $_SESSION['doctor_phone']; ?></a></span>
+                                                    <span class="text"><a
+                                                            href><?php echo $_SESSION['doctor_phone']; ?></a></span>
                                                 </li>
                                                 <li>
                                                     <span class="title">Email:</span>
@@ -311,7 +318,8 @@ if (!isset($id)) {
                                                 </li>
                                                 <li>
                                                     <span class="title">Endereço:</span>
-                                                    <span class="text"><?php echo $_SESSION['doctor_address']  . ", " . $_SESSION['doctor_city'] . "-" . $_SESSION['doctor_state']; ?></span>
+                                                    <span
+                                                        class="text"><?php echo $_SESSION['doctor_address']  . ", " . $_SESSION['doctor_city'] . "-" . $_SESSION['doctor_state']; ?></span>
                                                 </li>
                                                 <li>
                                                     <span class="title">CEP:</span>
@@ -350,29 +358,29 @@ if (!isset($id)) {
                                     <a href="#adicionar"> <button type="button"
                                             class="btn w-100 btn-outline-primary active">Adicionar</button> </a>
                                     <style>
-                                        .row {
-                                            margin-top: 40px;
-                                            margin-bottom: 40px;
-                                        }
+                                    .row {
+                                        margin-top: 40px;
+                                        margin-bottom: 40px;
+                                    }
 
-                                        #horarioser {
-                                            font-size: 20px;
-                                        }
+                                    #horarioser {
+                                        font-size: 20px;
+                                    }
 
-                                        .btn-outline-primary.active:not(:disabled):not(.disabled),
-                                        .btn-outline-primary:active:not(:disabled):not(.disabled),
-                                        .show>.btn-outline-primary.dropdown-toggle {
-                                            background-color: #009efb;
-                                            border-color: #009efb;
-                                            color: #fff;
-                                            width: 30%;
-                                            margin-left: 60%;
-                                        }
+                                    .btn-outline-primary.active:not(:disabled):not(.disabled),
+                                    .btn-outline-primary:active:not(:disabled):not(.disabled),
+                                    .show>.btn-outline-primary.dropdown-toggle {
+                                        background-color: #009efb;
+                                        border-color: #009efb;
+                                        color: #fff;
+                                        width: 30%;
+                                        margin-left: 60%;
+                                    }
 
-                                        .position-blk {
-                                            position: relative;
-                                            align-content: center;
-                                        }
+                                    .position-blk {
+                                        position: relative;
+                                        align-content: center;
+                                    }
                                     </style>
                                     <!-- <img src="../assets/img/morning-img-01.png" alt> -->
                                 </div>
@@ -391,36 +399,14 @@ if (!isset($id)) {
                                     <div class="col">
                                         <div class="doctor-table-blk">
                                             <h3>Semanalmente</h3>
-
                                         </div>
                                     </div>
-
-
-
-
-
                                 </div>
                             </div>
 
                             <div class="staff-search-table">
                                 <form method="POST" id="adicionar">
                                     <div class="row">
-
-                                        <!-- <div class="col-12 col-md-6 col-xl-4">
-                        <div class="input-block local-forms">
-                            <label>Especialidade </label>
-                            <select class="form-control select">
-                                <option>Selecione a especialidade</option>
-                                <option>Medical Leave</option>
-                                <option>Casual Leave</option>
-                                <option>Loss of Pay</option>
-
-                            </select>
-                        </div>
-                    </div> -->
-
-
-
                                         <div class="col-12 col-md-6 col-xl-4">
                                             <div class="input-block local-forms cal-icon">
                                                 <label>Data </label>
@@ -443,119 +429,109 @@ if (!isset($id)) {
                                     </div>
                                 </form>
                             </div>
-                            <?php
-                            // Verifica se o formulário foi enviado
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                                // Capturar os valores enviados pelo formulário
-                                $data = $_POST['data'] ?? '';
-                                $horario = $_POST['horario'] ?? '';
-                                $medico = $_SESSION['doctor_username'];
-                                $especialidade = $_SESSION['doctor_department'];
-
-                                // Converte a data de dd/mm/yyyy para yyyy-mm-dd
-                                $data_formatada = DateTime::createFromFormat('d/m/Y', $data)->format('Y-m-d');
-
-                                // Valida se os campos foram preenchidos
-                                if (!empty($data) && !empty($horario) && !empty($medico) && !empty($especialidade)) {
-                                    // Inserir os dados na tabela appointments
-                                    $query = "INSERT INTO appointments (data, horario, medico, especialidade) VALUES (?, ?, ?, ?)";
-
-                                    // Preparar a consulta
-                                    $stmt = $conn->prepare($query);
-                                    if ($stmt) {
-                                        // Passar as variáveis diretamente sem aspas simples
-                                        $stmt->bind_param("ssss", $data_formatada, $horario, $medico, $especialidade);
-
-                                        // Executar a consulta
-                                        if ($stmt->execute()) {
-                                            echo " <p class='sucess'> Horário agendada com sucesso! </p>";
-                                        } else {
-                                            echo "Erro ao agendar a consulta: " . $stmt->error;
-                                        }
-
-                                        // Fechar a declaração
-                                        $stmt->close();
-                                    } else {
-                                        echo "Erro ao preparar a consulta: " . $conn->error;
-                                    }
-                                } else {
-                                    echo "Por favor, preencha todos os campos.";
-                                }
-
-                                // Fechar a conexão com o banco de dados
-                                $conn->close();
-                            }
-                            ?>
-
 
                             <?php
-                            include 'conexao.php'; // Certifique-se de ter o arquivo de conexão com o banco de dados
-                            $medico = $_SESSION['doctor_username'];
-                            // Consulta para buscar os registros da tabela appointments
-                            $query = "SELECT * FROM appointments WHERE medico = '$medico'";
-                            $result = $conn->query($query);
+        // Verifica se o formulário foi enviado
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Capturar os valores enviados pelo formulário
+            $data = $_POST['data'] ?? '';
+            $horario = $_POST['horario'] ?? '';
+            $medico = $_SESSION['doctor_username'];
+            $especialidade = $_SESSION['doctor_department'];
 
-                            // Verifica se há registros na tabela
-                            if ($result->num_rows > 0) {
-                                echo '
-    <div class="table-responsive">
-        <table class="table border-0 custom-table comman-table datatable mb-0">
-            <thead>
-                <tr style="margin-top: 70px;">
-                    <th>
+            // Converte a data de dd/mm/yyyy para yyyy-mm-dd
+            $data_formatada = DateTime::createFromFormat('d/m/Y', $data)->format('Y-m-d');
+
+            // Valida se os campos foram preenchidos
+            if (!empty($data) && !empty($horario) && !empty($medico) && !empty($especialidade)) {
+                // Inserir os dados na tabela appointments
+                $query = "INSERT INTO appointments (data, horario, medico, especialidade) VALUES (?, ?, ?, ?)";
+
+                // Preparar a consulta
+                $stmt = $conn->prepare($query);
+                if ($stmt) {
+                    // Passar as variáveis diretamente sem aspas simples
+                    $stmt->bind_param("ssss", $data_formatada, $horario, $medico, $especialidade);
+
+                    // Executar a consulta
+                    if ($stmt->execute()) {
+                        echo "<p class='sucess'> Horário agendado com sucesso! </p>";
+                    } else {
+                        echo "Erro ao agendar a consulta: " . $stmt->error;
+                    }
+
+                    // Fechar a declaração
+                    $stmt->close();
+                } else {
+                    echo "Erro ao preparar a consulta: " . $conn->error;
+                }
+            } else {
+                echo "Por favor, preencha todos os campos.";
+            }
+        }
+
+        include 'conexao.php'; // Certifique-se de ter o arquivo de conexão com o banco de dados
+        $medico = $_SESSION['doctor_username'];
+        // Consulta para buscar os registros da tabela appointments
+        $query = "SELECT * FROM appointments WHERE medico = '$medico'";
+        $result = $conn->query($query);
+
+        // Renderiza o cabeçalho da tabela
+        echo '
+        <div class="table-responsive">
+            <table class="table border-0 custom-table comman-table datatable mb-0">
+                <thead>
+                    <tr style="margin-top: 70px;">
+                        <th>
+                            <div class="form-check check-tables">
+                                <input class="form-check-input" type="checkbox" value="something" />
+                            </div>
+                        </th>
+                        <th>Especialidade</th>
+                        <th>Médico(a)</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+        // Verifica se há registros na tabela
+        if ($result->num_rows > 0) {
+            // Loop através dos registros e exibe cada um deles na tabela
+            while ($row = $result->fetch_assoc()) {
+                // Formatar data e horário para exibição
+                $data_formatada = date("d.m.Y", strtotime($row['data']));
+                $horario_formatado = date("H:i", strtotime($row['horario']));
+
+                echo '
+                <tr>
+                    <td>
                         <div class="form-check check-tables">
                             <input class="form-check-input" type="checkbox" value="something" />
                         </div>
-                    </th>
-                    <th>Especialidade</th>
-                    <th>Médico(a)</th>
-                    <th>Data</th>
-                    <th>Horário</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>';
-
-                                // Loop através dos registros e exibe cada um deles na tabela
-                                while ($row = $result->fetch_assoc()) {
-                                    // Formatar data e horário para exibição
-                                    $data_formatada = date("d.m.Y", strtotime($row['data']));
-                                    $horario_formatado = date("H:i", strtotime($row['horario']));
-
-                                    echo '
+                    </td>
+                    <td class="profile-image">' . htmlspecialchars($row['especialidade']) . '</td>
+                    <td>' . htmlspecialchars($row['medico']) . '</td>
+                    <td>' . $data_formatada . '</td>
+                    <td>' . $horario_formatado . '</td>
+                </tr>';
+            }
+        } else {
+            echo '
             <tr>
-                <td>
-                    <div class="form-check check-tables">
-                        <input class="form-check-input" type="checkbox" value="something" />
-                    </div>
-                </td>
-                <td class="profile-image">' . htmlspecialchars($row['especialidade']) . '</td>
-                <td>' . htmlspecialchars($row['medico']) . '</td>
-                <td>' . $data_formatada . '</td>
-                <td>' . $horario_formatado . '</td>
+                <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
             </tr>';
-                                }
+        }
 
-                                echo '
-            </tbody>
-        </table>
-    </div>';
-                            } else {
-                                echo 'Nenhum registro encontrado.';
-                            }
+        echo '
+                </tbody>
+            </table>
+        </div>';
 
-                            // Fechar a conexão
-                            $conn->close();
-                            ?>
-
-
-
-
-
-
-
-
-
+        // Fechar a conexão
+        $conn->close();
+        ?>
                         </div>
                     </div>
 
