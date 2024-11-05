@@ -234,11 +234,11 @@
                     while ($retorno = mysqli_fetch_assoc($query)) {
                         $nome_cliente = $retorno['nome_cliente'];
                         $data = $retorno['data'];
-                        $carterinha = $retorno['carterinha'];
+                        $carteirinha = $retorno['carteirinha'];
                         $exame_tipo = $retorno['tipo_exame'];
                         $id = $retorno['id'];
 
-                        echo "<a href='baixar.php?id=" . $id . "'>" . $nome_cliente . "_" . $carterinha . "_" . $exame_tipo . "_" . $data . "</a>";
+                        echo "<a href='baixar.php?id=" . $id . "'>" . $nome_cliente . "_" . $carteirinha . "_" . $exame_tipo . "_" . $data . "</a>";
                         echo "<br>";
                     }
                 }

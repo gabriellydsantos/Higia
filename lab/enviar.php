@@ -199,8 +199,8 @@
             </div>
 
             <div class="input-container">
-                <input type="text" id="carterinha" name="carterinha" placeholder=" " required>
-                <label for="carterinha">Carterinha do paciente <span class="required">*</span></label>
+                <input type="text" id="carteirinha" name="carteirinha" placeholder=" " required>
+                <label for="carteirinha">Carterinha do paciente <span class="required">*</span></label>
             </div>
 
             <div class="input-container">
@@ -237,11 +237,11 @@
         // Validação e coleta dos dados do formulário
         $data = date('Y-m-d'); // Formato correto para DATE no MySQL
         $nome_cliente = $_POST['nome_cliente'];
-        $carterinha = $_POST['carterinha'];
+        $carteirinha = $_POST['carteirinha'];
         $exame_tipo = $_POST['exame_tipo'];
 
         // Verifica se todos os campos necessários foram preenchidos
-        if (!$nome_cliente || !$carterinha || !$exame_tipo) {
+        if (!$nome_cliente || !$carteirinha || !$exame_tipo) {
             echo "<script>
             document.getElementById('notification').innerText = 'Todos os campos são obrigatórios!'; 
             document.getElementById('notification').classList.remove('hidden');
@@ -256,14 +256,14 @@
 
         if (isset($_FILES['pdf_arquivo']) && $_FILES['pdf_arquivo']['error'] == 0) {
             $conteudo_pdf = file_get_contents($_FILES['pdf_arquivo']['tmp_name']);
-            $stmt = $mysqli->prepare("INSERT INTO documento(nome_cliente, carterinha, data, tipo_exame, pdf_arquivo) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $mysqli->prepare("INSERT INTO documento(nome_cliente, carteirinha, data, tipo_exame, pdf_arquivo) VALUES (?, ?, ?, ?, ?)");
             // Verificar se a preparação foi bem-sucedida
             if ($stmt === false) {
                 die('Erro na preparação da declaração: ' . $mysqli->error);
             }
 
             // Vincular os parâmetros
-            $stmt->bind_param('sssss', $nome_cliente, $carterinha, $data, $exame_tipo, $conteudo_pdf);
+            $stmt->bind_param('sssss', $nome_cliente, $carteirinha, $data, $exame_tipo, $conteudo_pdf);
 
             if ($stmt->execute()) {
                 echo "<script>

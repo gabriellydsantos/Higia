@@ -144,12 +144,12 @@ if ($selected_doctor) {
         <div class="container">
             <h1>Agendamento</h1>
             <form id="selectionForm" method="post">
-            <div class="form-container">
-                <div class="left-column">
-                <label for="departments">Escolha a especialidade médica:</label>
-                <select id="departments" name="departments" onchange="updateDoctors()" class="form-select">
-                    <option value="">Selecione a especialidade</option>
-                    <?php
+                <div class="form-container">
+                    <div class="left-column">
+                        <label for="departments">Escolha a especialidade médica:</label>
+                        <select id="departments" name="departments" onchange="updateDoctors()" class="form-select">
+                            <option value="">Selecione a especialidade</option>
+                            <?php
                 if ($result_departments->num_rows > 0) {
                     while ($row = $result_departments->fetch_assoc()) {
                         $selected = ($row['id'] == $selected_department) ? 'selected' : '';
@@ -159,23 +159,23 @@ if ($selected_doctor) {
                     echo '<option value="">Nenhum departamento encontrado</option>';
                 }
                 ?>
-                </select>
+                        </select>
 
-                <label for="doctors">Escolha um médico:</label>
-                <select id="doctors" name="doctors" class="form-select">
-                    <option value="">Selecione um médico</option>
-                    <?php echo $doctors_options; ?>
-                </select>
-                </div>
-                <div class="right-column">
-                <label for="data">Escolha uma data:</label>
-                <div class="input-group mb-3">
-                    <input type="date" class="form-control" name="data" value="<?php echo $data; ?>" required
-                        onchange="document.getElementById('selectionForm').submit();">
-                    <input type="hidden" name="horario" id="horario" value="<?php echo $horario; ?>">
-                </div>
+                        <label for="doctors">Escolha um médico:</label>
+                        <select id="doctors" name="doctors" class="form-select">
+                            <option value="">Selecione um médico</option>
+                            <?php echo $doctors_options; ?>
+                        </select>
+                    </div>
+                    <div class="right-column">
+                        <label for="data">Escolha uma data:</label>
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control" name="data" value="<?php echo $data; ?>" required
+                                onchange="document.getElementById('selectionForm').submit();">
+                            <input type="hidden" name="horario" id="horario" value="<?php echo $horario; ?>">
+                        </div>
 
-                <?php 
+                        <?php 
             if ($data) {
                 $data_timestamp = strtotime($data);
                 $data_atual_timestamp = strtotime(date("Y-m-d"));
@@ -199,17 +199,18 @@ if ($selected_doctor) {
                 }
             }
             ?>
-</div></div>
+                    </div>
+                </div>
                 <?php if ($fotoSelecionada) : ?>
-                    <div class="card">
-    <img src="<?php echo htmlspecialchars($fotoSelecionada['image']); ?>" alt="Imagem do médico">
-    <div class="card-content">
-        <h3>Médico Selecionado: <?php echo htmlspecialchars($selected_doctor); ?></h3>
-        <p>Especialidade: <?php echo htmlspecialchars($selected_department); ?></p>
-        <p>Data: <?php echo htmlspecialchars($data); ?></p>
-        <p id="selectedHorario">Horário: <?php echo htmlspecialchars($horario); ?></p>
-    </div>
-</div>
+                <div class="card">
+                    <img src="<?php echo htmlspecialchars($fotoSelecionada['image']); ?>" alt="Imagem do médico">
+                    <div class="card-content">
+                        <h3>Médico Selecionado: <?php echo htmlspecialchars($selected_doctor); ?></h3>
+                        <p>Especialidade: <?php echo htmlspecialchars($selected_department); ?></p>
+                        <p>Data: <?php echo htmlspecialchars($data); ?></p>
+                        <p id="selectedHorario">Horário: <?php echo htmlspecialchars($horario); ?></p>
+                    </div>
+                </div>
                 <?php endif; ?>
                 <br>
                 <button class="btn btn-primary confirm-button" type="submit">Confirmar Agendamento</button>
@@ -219,4 +220,5 @@ if ($selected_doctor) {
     <div class="footer">
         <?php include 'navEfooter/footer.html';?>
     </div>
+
 </html>

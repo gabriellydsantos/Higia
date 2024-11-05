@@ -24,7 +24,7 @@
     $id = intval($_GET['id']); // Converte o ID para um inteiro para segurança
 
     // Preparar a consulta SQL com um parâmetro
-    $stmt = $mysqli->prepare("SELECT nome_cliente, carterinha, pdf_arquivo FROM documento WHERE id=?");
+    $stmt = $mysqli->prepare("SELECT nome_cliente, carteirinha, pdf_arquivo FROM documento WHERE id=?");
     if ($stmt === false) {
         http_response_code(500); // Internal Server Error
         echo "Erro ao preparar a consulta.";

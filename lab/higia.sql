@@ -4,7 +4,7 @@ use higia;
 
 create table clientes (
 	id int auto_increment primary key,
-    carterinha text (6) not null,
+    carteirinha text (6) not null,
     nomeCompleto varchar (80) not null,
     nomeSocial varchar (80),
     email varchar (80) not null,
@@ -22,13 +22,13 @@ create table clientes (
 
 select * from documento;
 
-INSERT INTO `higia`.`clientes` (`id`, `carterinha`, `nomeCompleto`, `nomeSocial`, `email`, `telefone`, `nascimento`, `idade`, `deficiencia`, `doenca`, `cep`, `cpf`, `rg`, `genero`, `plano`)
+INSERT INTO `higia`.`clientes` (`id`, `carteirinha`, `nomeCompleto`, `nomeSocial`, `email`, `telefone`, `nascimento`, `idade`, `deficiencia`, `doenca`, `cep`, `cpf`, `rg`, `genero`, `plano`)
  VALUES (1, 123456, 'Gabriela Silva de Araújo', 'Gabriela Silva de Araújo', 'gabriela@email.com', 1141425642, '2007-04-19', 17, 'Nenhuma', 'Nenhuma', 06661234, 12345678901, 111111111, 'feminino', 'plus');
 
 create table documento(
 	id int primary key auto_increment, 
 	nome_cliente varchar(50) not null, 
-    carterinha int (6) not null,
+    carteirinha int (6) not null,
     data varchar (11) not null,
     tipo_exame varchar (15) not null,
 	pdf_arquivo mediumblob not null
