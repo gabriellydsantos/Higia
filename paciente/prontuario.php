@@ -1,160 +1,201 @@
-<!DOCTYPE html>
-<html lang="pt">
+<?php      
+session_start();
+include "../database.php";
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultas Agendadas</title>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+if (isset($_SESSION['patients_carteirinha'])) {
+    $carteirinha = $_SESSION['patients_carteirinha'];
 
-        .navbar,
-        .footer {
-            background-color: #f8f9fa;
-            padding: 10px;
-        }
+    // Alterar a consulta SQL para pegar o nome do departamento
+    $sql = "SELECT ag.id, ag.doctor, d.department_name AS department, ag.date, ag.time, ag.status 
+        FROM agendamentos ag
+        INNER JOIN departments d ON ag.department = d.id
+        WHERE ag.carteirinhaPaciente = ? AND ag.status = 'Concluido' 
+        ORDER BY ag.date DESC";
 
-        .content {
-            padding: 20px;
-            margin: 0 40px;
-        }
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $carteirinha);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    ?>
 
-        .title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>Meu Prontuário</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+            }
+            .navbar, .footer {
+                color: white;
+                text-align: left;
+            }
+            h2 {
+                color: #161D53;
+                text-align: left;
+                margin-top: 3%;
+                margin-left: 5%;
+            }
+            .btn-container {
+                display: flex;
+                justify-content: flex-start;  
+                margin-left: 5%;
+                gap: 20px; 
+                margin-top: 20px;
+            }
+            .btn {
+                padding: 15px 25px;  /* Aumenta a espessura do botão */
+                background-color: #161D53;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .btn:hover {
+                background-color: #0f143b;
+            }
+            table {
+                width: 90%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                background-color: white;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: center;
+            }
+            th {
+                background-color: #161D53;
+                color: white;
+                font-weight: bold;
+            }
+            td {
+                color: #161D53;
+            }
+            .no-data {
+                text-align: center;
+                color: #555;
+                font-style: italic;
+            }
+            .btn-details {
+                padding: 5px 10px;
+                background-color: #161D53;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+            .btn-details:hover {
+                background-color: #0f143b;
+            }
 
-        .appointment-card {
-            background-color: white;
-            border: 1px solid black;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            margin-top: 20px;
-        }
+            /* Responsividade para dispositivos móveis */
+            @media (max-width: 768px) {
+                table {
+                    width: 100%;
+                    font-size: 14px;
+                }
+                th, td {
+                    padding: 8px;
+                }
+                thead {
+                    display: none; 
+                }
+                tr {
+                    display: block;
+                    margin-bottom: 10px;
+                    border-bottom: 2px solid #ddd;
+                }
+                td {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px;
+                    border: none;
+                    position: relative;
+                    padding-left: 50%;
+                }
+                td:before {
+                    content: attr(data-label);
+                    position: absolute;
+                    left: 10px;
+                    font-weight: bold;
+                    color: #161D53;
+                }
+                .btn-details {
+                    padding: 8px 15px;
+                    font-size: 12px;
+                }
+            }
+        </style>
+    </head>
 
-        .appointment-card p {
-            margin: 10px 0;
-        }
-
-        .appointment-card .header {
-            font-size: 22px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-
-        .details {
-            margin-top: 20px;
-        }
-
-        .details .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        .details .detail-item {
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        .details .detail-item p {
-            margin: 0 30px 0 0;
-        }
-
-        .details .detail-item p:last-child {
-            margin-right: 0;
-        }
-
-        .details .detail-item strong {
-            font-weight: bold;
-        }
-
-        .requests {
-            color: blue;
-            margin: 10px 0;
-            font-weight: normal;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .button-container button {
-            margin: 0 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-            background-color: #0056b3;
-        }
-
-        .download-certificate {
-            background-color: #004085;
-        }
-    </style> <!-- acessibilidade -->
-    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
-
-
-</head>
-
-<body>
+    <body>
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
     </div>
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
+
+    <h2>Meu Prontuário</h2>
+
+    <div class="btn-container">
+        <a href="receitas.php" class="btn">Minhas  Receitas</a>
+        <a href="encaminhamentos.php" class="btn">Meus  Encaminhamentos</a>
     </div>
+
+    <h2>Consultas realizadas</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Médico</th>
+                <th>Departamento</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>...</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td data-label='Médico'>" . htmlspecialchars($row['doctor']) . "</td>";
+                    echo "<td data-label='Departamento'>" . htmlspecialchars($row['department']) . "</td>"; // Agora exibe o nome do departamento
+                    echo "<td data-label='Data'>" . htmlspecialchars($row['date']) . "</td>";
+                    echo "<td data-label='Horário'>" . htmlspecialchars($row['time']) . "</td>";
+                    echo "<td data-label='...'><a class='btn-details' href='detalhes.php?id=" . htmlspecialchars($row['id']) . "'>Comprovante</a></td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='5' class='no-data'>Nenhuma consulta concluída encontrada.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+    
+    <br><br><br><br><br>
+    <div class="footer">
+        <?php include 'navEfooter/footer.html'; ?>
+    </div>
+
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-    <div class="content">
-        <div class="title">Meu Prontuário</div>
+    </body>
+    </html>
 
-        <div class="appointment-card">
-            <p class="header">Consulta em: <strong>Ortopedia</strong></p>
-            <div class="details">
-                <div class="detail-item">
-                    <p><strong>Profissional:</strong> Dr. João Silva</p>
-                    <p><strong>Data:</strong> 10/08/2024</p>
-                    <p><strong>Horário:</strong> 14:00</p>
-                </div>
-                <div class="detail-item">
-                    <p><strong>Paciente:</strong> Maria Souza</p>
-                    <p><strong>Idade:</strong> 30</p>
-                </div>
-                <p><strong>Unidade:</strong> Barueri</p>
-
-                <p class="section-title">Observação do Médico:</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel purus eu lorem ultricies bibendum.</p>
-
-                <p class="section-title">Solicitações do Médico:</p>
-                <p class="requests">Raio X da coluna</p>
-            </div>
-            <div class="button-container">
-                <button class="download-guide">Baixar Guia do Exame</button>
-                <button class="download-certificate">Baixar Atestado</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <?php include 'navEfooter/footer.html'; ?>
-    </div>
-</body>
-
-</html>
+    <?php
+    $conn->close();
+} else {
+    echo "Erro: Carteirinha do paciente não encontrada.";
+}
+?>

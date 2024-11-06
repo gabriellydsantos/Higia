@@ -277,11 +277,12 @@ if (!isset($id)) {
                                                 <div class="doctor-search-blk">
                                                     <div class="top-nav-search table-search-blk">
                                                         <form>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="Procure aqui" />
-                                                            <a class="btn"><img
+                                                            <input type="text" class="form-control" id="search-input"
+                                                                placeholder="Procure aqui"
+                                                                style="background-color:#c0c4e599;">
+                                                            <a href="javascript:void(0)" class="btn"><img
                                                                     src="../assets/img/icons/search-normal.svg"
-                                                                    alt /></a>
+                                                                    alt="Pesquisar"></a>
                                                         </form>
                                                     </div>
                                                     <div class="add-group">
@@ -301,7 +302,34 @@ if (!isset($id)) {
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                document.getElementById("search-input").addEventListener("keyup", function() {
+                                    var input = document.getElementById("search-input").value.toLowerCase();
+                                    var table = document.querySelector(".table"); // Seleciona a tabela
+                                    var rows = table.querySelectorAll(
+                                        "tbody tr"); // Seleciona todas as linhas da tabela
 
+                                    rows.forEach(function(row) {
+                                        var cells = row.getElementsByTagName("td");
+                                        var found = false;
+
+                                        // Verifica se algum dos valores das células da linha contém o texto pesquisado
+                                        for (var i = 0; i < cells.length; i++) {
+                                            if (cells[i].textContent.toLowerCase().includes(input)) {
+                                                found = true;
+                                                break;
+                                            }
+                                        }
+
+                                        // Exibe ou oculta a linha com base na pesquisa
+                                        if (found) {
+                                            row.style.display = "";
+                                        } else {
+                                            row.style.display = "none";
+                                        }
+                                    });
+                                });
+                                </script>
                                 <?php
 $doutor = $_SESSION['doctor_username'];
 $sql = "SELECT id, doctor, carteirinhaPaciente, department, date, status, time FROM agendamentos WHERE doctor = '$doutor' AND DATE(date) = CURDATE()";

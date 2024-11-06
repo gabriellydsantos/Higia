@@ -41,7 +41,7 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
 
 <div class="main-wrapper">
@@ -428,228 +428,7 @@
                 </div>
             </div>
         </div>
-        <div class="notification-box">
-            <div class="msg-sidebar notifications msg-noti">
-                <div class="topnav-dropdown-header">
-                    <span>Mensagens</span>
-                </div>
-                <div class="drop-scroll msg-list-scroll" id="msg_list">
-                    <ul class="list-box">
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">R</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item new-message">
-                                    <div class="list-left">
-                                        <span class="avatar">J</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">johnDoe</span>
-                                        <span class="message-time">1 de agosto</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">T</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">M</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">C</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">D</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">B</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">R</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author"> Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">C</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum </span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">M</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">J</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">L</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsumn</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="chat.php">
-                                <div class="list-item">
-                                    <div class="list-left">
-                                        <span class="avatar">T</span>
-                                    </div>
-                                    <div class="list-body">
-                                        <span class="message-author">Lorem Ipsum</span>
-                                        <span class="message-time">12:28</span>
-                                        <div class="clearfix"></div>
-                                        <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="chat.php">Veja todas as mensagens</a>
-                </div>
-            </div>
-        </div>
+
     </div>
     <div id="delete_patient" class="modal fade delete-modal" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
@@ -672,35 +451,35 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Atualizar a página ao clicar no botão de refresh
-        $('.doctor-refresh').click(function() {
-            location.reload(); // Recarrega a página
-        });
-
-        // Função para carregar os médicos com base na consulta de pesquisa
-        function loadDoctors(query = '') {
-            $.ajax({
-                url: "fetch_doctors.php", // Arquivo PHP que fará a consulta ao banco de dados
-                method: "GET",
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    $('#doctors-table-body').html(data); // Atualiza o corpo da tabela com os resultados
-                }
-            });
-        }
-
-        // Chamar a função loadDoctors ao digitar no campo de pesquisa
-        $('.table-search-blk input').on('keyup', function() {
-            var query = $(this).val();
-            loadDoctors(query);
-        });
-
-        // Carregar todos os médicos ao carregar a página
-        loadDoctors();
+$(document).ready(function() {
+    // Atualizar a página ao clicar no botão de refresh
+    $('.doctor-refresh').click(function() {
+        location.reload(); // Recarrega a página
     });
+
+    // Função para carregar os médicos com base na consulta de pesquisa
+    function loadDoctors(query = '') {
+        $.ajax({
+            url: "fetch_doctors.php", // Arquivo PHP que fará a consulta ao banco de dados
+            method: "GET",
+            data: {
+                query: query
+            },
+            success: function(data) {
+                $('#doctors-table-body').html(data); // Atualiza o corpo da tabela com os resultados
+            }
+        });
+    }
+
+    // Chamar a função loadDoctors ao digitar no campo de pesquisa
+    $('.table-search-blk input').on('keyup', function() {
+        var query = $(this).val();
+        loadDoctors(query);
+    });
+
+    // Carregar todos os médicos ao carregar a página
+    loadDoctors();
+});
 </script>
 
 <div class="sidebar-overlay" data-reff></div>

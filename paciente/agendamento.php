@@ -131,7 +131,22 @@ if ($selected_doctor) {
     </script>
 
 </head>
-
+<style>
+    .alert-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:  #FAD939;
+    color: #333;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: none; /* Inicialmente escondido */
+    z-index: 9999;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+</style>
 <body>
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
@@ -224,7 +239,7 @@ if ($selected_doctor) {
                     <p id="selectedHorario">Horário Selecionado: <?php echo htmlspecialchars($horario); ?></p>
                 </div>
             </div>
-            <?php endif; ?>
+            <?php endif; ?> <br><br>
 
 
             <div class="confirm-button">
@@ -234,10 +249,27 @@ if ($selected_doctor) {
         </form>
 
         <?php if (isset($message)) : ?>
-        <div class="message">
-            <p><?php echo htmlspecialchars($message); ?></p>
-        </div>
-        <?php endif; ?>
+    <script>
+        window.onload = function() {
+            // Exibe o alerta
+            var message = "<?php echo htmlspecialchars($message); ?>";
+            var alertElement = document.createElement('div');
+            alertElement.classList.add('alert-message');
+            alertElement.innerText = message;
+            
+            // Adiciona o alerta à página
+            document.body.appendChild(alertElement);
+            
+            // Exibe o alerta
+            alertElement.style.display = 'block';
+            
+            // Remove o alerta após 5 segundos
+            setTimeout(function() {
+                alertElement.style.display = 'none';
+            }, 5000);
+        };
+    </script>
+<?php endif; ?>
     </div>
 </body>
 

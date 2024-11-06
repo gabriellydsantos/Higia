@@ -43,8 +43,10 @@
 </div>
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
+new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
+
+
 <div class="main-wrapper">
     <div class="header">
         <div class="header-left">
@@ -675,28 +677,28 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Função para realizar a busca dinâmica
-        $('#search-patient').on('input', function() {
-            var query = $(this).val();
+$(document).ready(function() {
+    // Função para realizar a busca dinâmica
+    $('#search-patient').on('input', function() {
+        var query = $(this).val();
 
-            $.ajax({
-                url: 'fetch_patients.php',
-                type: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    $('#patients-table-body').html(data);
-                }
-            });
-        });
-
-        // Recarregar a página ao clicar no botão de refresh
-        $('#refresh-button').on('click', function() {
-            location.reload();
+        $.ajax({
+            url: 'fetch_patients.php',
+            type: 'GET',
+            data: {
+                query: query
+            },
+            success: function(data) {
+                $('#patients-table-body').html(data);
+            }
         });
     });
+
+    // Recarregar a página ao clicar no botão de refresh
+    $('#refresh-button').on('click', function() {
+        location.reload();
+    });
+});
 </script>
 
 <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

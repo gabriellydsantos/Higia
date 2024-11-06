@@ -47,6 +47,7 @@
     <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
     <div class="main-wrapper">
@@ -332,44 +333,34 @@
 
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                         <script>
-                        async function createAppointmentChart() {
+                        function createAppointmentChart(total_compromissos) {
                             const ctx = document.getElementById('appointmentChart').getContext('2d');
 
-                            // Prepara os dados para o gráfico
-                            const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out',
-                                'Nov',
+                            // Define os meses e as cores
+                            const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov',
                                 'Dez'
                             ];
-
-                            // Cores para cada mês
                             const colors = [
-                                'rgba(255, 99, 132, 0.85)', // Janeiro
-                                'rgba(54, 162, 235, 0.85)', // Fevereiro
-                                'rgba(255, 206, 86, 0.85)', // Março
-                                'rgba(75, 192, 192, 0.85)', // Abril
-                                'rgba(153, 102, 255, 0.85)', // Maio
-                                'rgba(255, 159, 64, 0.85)', // Junho
-                                'rgba(255, 99, 71, 0.85)', // Julho (Tomate)
-                                'rgba(255, 140, 0, 0.85)', // Agosto (Laranja)
-                                'rgba(0, 204, 204, 0.85)', // Setembro (Turquesa)
-                                'rgba(0, 102, 204, 0.85)', // Outubro (Azul)
-                                'rgba(153, 0, 153, 0.85)', // Novembro (Roxo)
-                                'rgba(0, 153, 51, 0.85)' // Dezembro (Verde)
+                                'rgba(255, 99, 132, 0.85)', 'rgba(54, 162, 235, 0.85)',
+                                'rgba(255, 206, 86, 0.85)', 'rgba(75, 192, 192, 0.85)',
+                                'rgba(153, 102, 255, 0.85)', 'rgba(255, 159, 64, 0.85)',
+                                'rgba(255, 99, 71, 0.85)', 'rgba(255, 140, 0, 0.85)',
+                                'rgba(0, 204, 204, 0.85)', 'rgba(0, 102, 204, 0.85)',
+                                'rgba(153, 0, 153, 0.85)', 'rgba(0, 153, 51, 0.85)'
                             ];
 
                             const data = {
                                 labels: labels,
                                 datasets: [{
                                     label: 'Total de Compromissos',
-                                    data: total_compromissos, // Dados obtidos do PHP
-                                    backgroundColor: colors, // Usar o array de cores para os meses
+                                    data: total_compromissos,
+                                    backgroundColor: colors,
                                     borderColor: 'rgba(46, 55, 164, 1)',
-
                                 }]
                             };
 
-                            const appointmentChart = new Chart(ctx, {
-                                type: 'bar', // Gráfico de barras
+                            new Chart(ctx, {
+                                type: 'bar',
                                 data: data,
                                 options: {
                                     responsive: true,
@@ -389,8 +380,7 @@
                                                     if (label) {
                                                         label += ': ';
                                                     }
-                                                    label += context
-                                                        .raw; // Adiciona o número de registros
+                                                    label += context.raw;
                                                     return label;
                                                 }
                                             }
@@ -400,51 +390,47 @@
                             });
                         }
 
-                        // Chamar a função para criar o gráfico ao carregar a página
-                        window.onload = createAppointmentChart;
+                        // Chama a função para criar o gráfico ao carregar a página
+                        window.onload = function() {
+                            createAppointmentChart(total_compromissos);
+                        };
                         </script>
+
                         <?php
-                            // Conexão com o banco de dados
-                            $conn = new mysqli("localhost", "root", "200812", "higia");
+    // Conexão com o banco de dados
+    $conn = new mysqli("localhost", "root", "200812", "higia");
 
-                            if ($conn->connect_error) {
-                                die("Falha na conexão: " . $conn->connect_error);
-                            }
+    if ($conn->connect_error) {
+        die("Falha na conexão: " . $conn->connect_error);
+    }
 
-                            // Consulta para contar compromissos por mês
-                            $sql = "SELECT MONTH(date) as mes, COUNT(*) as total_compromissos 
-                                    FROM agendamentos 
-                                    WHERE YEAR(date) = YEAR(CURDATE()) 
-                                    GROUP BY MONTH(date) 
-                                    ORDER BY MONTH(date)";
+    // Inicializa o array para os 12 meses com zero
+    $total_compromissos = array_fill(0, 12, 0);
 
-                            $result = $conn->query($sql);
+    // Consulta para contar compromissos por mês
+    $sql = "SELECT MONTH(date) as mes, COUNT(*) as total_compromissos 
+            FROM agendamentos 
+            WHERE YEAR(date) = YEAR(CURDATE()) 
+            GROUP BY MONTH(date) 
+            ORDER BY MONTH(date)";
+    $result = $conn->query($sql);
 
-                            // Preparar os dados para o gráfico
-                            $meses = [];
-                            $total_compromissos = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // Ajusta o índice para corresponder aos meses de 0 a 11
+            $total_compromissos[$row['mes'] - 1] = $row['total_compromissos'];
+        }
+    }
 
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    $meses[] = $row['mes'];
-                                    $total_compromissos[] = $row['total_compromissos'];
-                                }
-                            } else {
-                                // Se não houver dados, preencher com zeros
-                                $meses = range(1, 12);
-                                $total_compromissos = array_fill(0, 12, 0);
-                            }
-
-                          
-                            
-                            ?>
-
+    
+    ?>
                         <script>
-                        var meses = <?php echo json_encode($meses); ?>;
+                        // Passa os dados para o JavaScript
                         var total_compromissos = <?php echo json_encode($total_compromissos); ?>;
                         </script>
-
                     </div>
+
+
                     <!-- fechamento da div row grafico -->
 
 

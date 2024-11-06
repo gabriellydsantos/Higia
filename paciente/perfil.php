@@ -83,247 +83,250 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png" />
+    <title>Higia</title>
     <style>
+    .upload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4% 0;
+        width: 100%;
+    }
+
+    .upload img {
+        border-radius: 50%;
+        border: 8px solid #DCDCDC;
+        width: 125px;
+        height: 125px;
+        margin-right: -90px;
+    }
+
+    .upload .rightRound {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #161D53;
+        width: 32px;
+        height: 32px;
+        line-height: 33px;
+        text-align: center;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .upload .fa {
+        color: white;
+    }
+
+    .upload input {
+        position: absolute;
+        transform: scale(2);
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .upload input::-webkit-file-upload-button,
+    .upload input[type=submit] {
+        cursor: pointer;
+    }
+
+    .upload .rightRound {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .user-name {
+        font-size: 1.5rem;
+        color: #161D53;
+        text-align: left;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .photo img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .perfil-info {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background-color: #f0f0f0;
+        position: relative;
+    }
+
+    .perfil-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 5px solid #fff;
+        position: absolute;
+        top: -50px;
+        left: 20px;
+    }
+
+    .perfil-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .user-name {
+        margin-left: 140px;
+        font-size: 24px;
+    }
+
+    .info-card {
+        width: 80%;
+        margin: 0 auto;
+        background-color: #e0f7fa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-card h2 {
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .info-columns {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .column-left,
+    .column-right {
+        width: 45%;
+    }
+
+    .column-left p,
+    .column-right p {
+        margin: 5px 0;
+    }
+
+    .itens {
+        width: 80%;
+        margin: 20px auto;
+    }
+
+    .itens h2 {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .item-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-between;
+    }
+
+    .item-box {
+        flex: 1 1 calc(20% - 10px);
+        background-color: #b2ebf2;
+        color: #000;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .item-box:hover {
+        background-color: #81d4fa;
+    }
+
+    @media (max-width: 768px) {
         .upload {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4% 0;
-            width: 100%;
+            flex-direction: column;
         }
 
         .upload img {
-            border-radius: 50%;
-            border: 8px solid #DCDCDC;
-            width: 125px;
-            height: 125px;
-            margin-right: -90px;
-        }
-
-        .upload .rightRound {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background: #161D53;
-            width: 32px;
-            height: 32px;
-            line-height: 33px;
-            text-align: center;
-            border-radius: 50%;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .upload .fa {
-            color: white;
-        }
-
-        .upload input {
-            position: absolute;
-            transform: scale(2);
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .upload input::-webkit-file-upload-button,
-        .upload input[type=submit] {
-            cursor: pointer;
-        }
-
-        .upload .rightRound {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin-right: 0;
+            margin-bottom: 10px;
         }
 
         .user-name {
-            font-size: 1.5rem;
-            color: #161D53;
-            text-align: left;
+            text-align: center;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .photo img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .perfil-card {
+            width: 95%;
         }
 
         .perfil-info {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            background-color: #f0f0f0;
-            position: relative;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-top: 60px;
         }
 
         .perfil-photo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 5px solid #fff;
-            position: absolute;
-            top: -50px;
-            left: 20px;
-        }
-
-        .perfil-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .user-name {
-            margin-left: 140px;
-            font-size: 24px;
+            margin-left: 0;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
         }
 
         .info-card {
-            width: 80%;
-            margin: 0 auto;
-            background-color: #e0f7fa;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .info-card h2 {
-            margin: 0;
-            margin-bottom: 20px;
+            width: 95%;
         }
 
         .info-columns {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
 
         .column-left,
         .column-right {
-            width: 45%;
-        }
-
-        .column-left p,
-        .column-right p {
-            margin: 5px 0;
+            width: 100%;
         }
 
         .itens {
-            width: 80%;
-            margin: 20px auto;
-        }
-
-        .itens h2 {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .item-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: space-between;
+            width: 95%;
         }
 
         .item-box {
-            flex: 1 1 calc(20% - 10px);
-            background-color: #b2ebf2;
-            color: #000;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
-            cursor: pointer;
+            flex: 1 1 calc(50% - 10px);
         }
+    }
 
-        .item-box:hover {
-            background-color: #81d4fa;
+    @media (max-width: 480px) {
+        .item-box {
+            flex: 1 1 calc(100% - 10px);
         }
+    }
 
-        @media (max-width: 768px) {
-            .upload {
-                flex-direction: column;
-            }
+    .message {
+        text-align: center;
+        margin: 20px;
+        font-size: 1.2rem;
+        color: green;
+    }
 
-            .upload img {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-
-            .user-name {
-                text-align: center;
-            }
-
-            .perfil-card {
-                width: 95%;
-            }
-
-            .perfil-info {
-                flex-direction: column;
-                align-items: flex-start;
-                padding-top: 60px;
-            }
-
-            .perfil-photo {
-                top: -30px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .user-name {
-                margin-left: 0;
-                margin-top: 20px;
-                text-align: center;
-                width: 100%;
-            }
-
-            .info-card {
-                width: 95%;
-            }
-
-            .info-columns {
-                flex-direction: column;
-            }
-
-            .column-left,
-            .column-right {
-                width: 100%;
-            }
-
-            .itens {
-                width: 95%;
-            }
-
-            .item-box {
-                flex: 1 1 calc(50% - 10px);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .item-box {
-                flex: 1 1 calc(100% - 10px);
-            }
-        }
-
-        .message {
-            text-align: center;
-            margin: 20px;
-            font-size: 1.2rem;
-            color: green;
-        }
-
-        .error {
-            text-align: center;
-            margin: 20px;
-            font-size: 1.2rem;
-            color: red;
-        }
+    .error {
+        text-align: center;
+        margin: 20px;
+        font-size: 1.2rem;
+        color: red;
+    }
     </style> <!-- acessibilidade -->
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
@@ -343,7 +346,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
     <div id="containerPerfil">
