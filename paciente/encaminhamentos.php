@@ -193,6 +193,7 @@ $stmt->close();
 $conn->close();
 ?>
 
+    <br><br><br>
     <div class="footer">
         <?php include 'navEfooter/footer.html'; ?>
     </div>
