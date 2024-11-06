@@ -566,7 +566,6 @@
                             /* Define a cor do texto para vermelho */
                         }
                         </style>
-
                         <?php
 // Conectar ao banco de dados
 include './database.php';
@@ -587,7 +586,7 @@ if (!$doctorLoggedIn) {
 // Consulta para compromissos de hoje e próximas 24 horas
 $sql = "SELECT * FROM agendamentos 
         WHERE doctor = ? 
-        AND CONCAT(date, ' ', time) BETWEEN ? AND ?
+        AND CONCAT(date, ' ', time) BETWEEN ? AND ? 
         ORDER BY date, time";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sss", $doctorLoggedIn, $startOfDay, $endDateTime);
@@ -604,24 +603,26 @@ $result = $stmt->get_result();
                                     <div class="teaching-card">
                                         <?php if ($result->num_rows > 0): ?>
                                         <ul class="activity-feed">
-                                            <?php while ($row = $result->fetch_assoc()): 
-                            // Concatenar a data e hora do compromisso
-                            $appointmentTime = $row['date'] . ' ' . $row['time'];
+                                            <?php while ($row = $result->fetch_assoc()):
+                        // Concatenar a data e hora do compromisso
+                        $appointmentDate = date('d/m/Y', strtotime($row['date']));
+                        $appointmentTime = date('H:i', strtotime($row['time']));
+                        $appointmentDateTime = $row['date'] . ' ' . $row['time'];
 
-                            // Inicializar a classe vazia
-                            $class = '';
+                        // Inicializar a classe vazia
+                        $class = '';
 
-                            // Verificar se o horário do compromisso já passou
-                            if (strtotime($appointmentTime) < strtotime($currentDateTime)) {
-                                $class = 'text-decoration-line-through';
-                            }
-                        ?>
+                        // Verificar se o horário do compromisso já passou
+                        if (strtotime($appointmentDateTime) < strtotime($currentDateTime)) {
+                            $class = 'text-decoration-line-through'; // Aplica o riscado se o horário já passou
+                        }
+                    ?>
                                             <li class="feed-item d-flex align-items-center">
                                                 <div class="dolor-activity <?php echo $class; ?>">
                                                     <ul class="doctor-date-list mb-2">
                                                         <li class="">
-                                                            <i
-                                                                class="fas fa-circle me-2"></i><?php echo date('H:i', strtotime($row['time'])); ?>
+                                                            <i class="fas fa-circle me-2"></i>
+                                                            <?php echo $appointmentDate . ' ' . $appointmentTime; ?>
                                                             <span><?php echo htmlspecialchars($row['paciente']); ?></span>
                                                         </li>
                                                     </ul>
@@ -636,6 +637,7 @@ $result = $stmt->get_result();
                                 </div>
                             </div>
                         </div>
+
 
 
 

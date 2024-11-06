@@ -44,7 +44,7 @@ if (!isset($id)) {
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
@@ -298,287 +298,70 @@ if (!isset($id)) {
                                     </div>
                                 </div>
 
+
+                                <style>
+                                .rounded-table {
+                                    border-radius: 10px;
+                                    /* Ajuste o valor para o arredondamento desejado */
+                                    overflow: hidden;
+                                    /* Necessário para que o arredondamento funcione corretamente */
+                                    border: 1px solid #ddd;
+                                    /* Cor da borda (opcional) */
+                                }
+                                </style>
                                 <div class="table-responsive">
-                                    <?php
-                                    $doutor = $_SESSION['doctor_username'];
-                                    $sql = "SELECT id, nome, carteirinha, carteirinhaDoutor, doctor, procedimento, sessoes, dataRetorno, obs FROM guia WHERE doctor = '$doutor'";
-                                    $result = $conn->query($sql);
+                                    <table
+                                        class="table border-0 custom-table comman-table datatable mb-0 rounded-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Médico(a)</th>
+                                                <th>Paciente</th>
+                                                <th>Carteirinha do Paciente</th>
+                                                <th>Tratamento indicado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+            $doutor = $_SESSION['doctor_username'];
+            $sql = "SELECT id, nome, carteirinha, carteirinhaDoutor, doctor, procedimento, sessoes, dataRetorno, obs FROM guia WHERE doctor = '$doutor'";
+            $result = $conn->query($sql);
 
-                                    if ($result->num_rows > 0) {
-                                        echo '<table class="table border-0 custom-table comman-table datatable mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Médico(a)</th>
-                                                        <th>Paciente</th>
-                                                        <th>Carteirinha do Paciente</th>
-                                                        <th>Tratamento indicado</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>';
-
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<tr>
-                                                    <td>' . $row["id"] . '</td>
-                                                    <td>' . $row["doctor"] . '</td>
-                                                    <td>' . $row["nome"] . '</td>
-                                                    <td>' . $row["carteirinha"] . '</td>
-                                                    <td>' . $row["procedimento"] . '</td>
-                                                    <td class="text-end">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <i class="fa fa-ellipsis-v"></i>
-                                                            </a>
-                                                            
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="view-unicoGuia.php?id=' . $row["id"] . '"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ver</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>';
-                                        }
-
-                                        echo '</tbody></table>';
-                                    } else {
-                                        echo "Nenhum dado encontrado.";
-                                    }
-                                    $conn->close();
-                                    ?>
-                                    <!--  Código para reiniciar a página e assim atualizar a tabela -->
-                                    <script>
-                                        const reiniciarBtn = document.getElementById('reiniciarBtn');
-                                        reiniciarBtn.addEventListener('click', function() {
-                                            location.reload();
-                                        });
-                                    </script>
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>
+                            <td>' . $row["id"] . '</td>
+                            <td>' . $row["doctor"] . '</td>
+                            <td>' . $row["nome"] . '</td>
+                            <td>' . $row["carteirinha"] . '</td>
+                            <td>' . $row["procedimento"] . '</td>
+                            <td class="text-end">
+                                <div class="dropdown dropdown-action">
+                                    <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="view-unicoGuia.php?id=' . $row["id"] . '"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ver</a>
+                                    </div>
                                 </div>
+                            </td>
+                        </tr>';
+                }
+            } else {
+                echo '<tr><td colspan="6" class="text-center">Nenhum dado encontrado.</td></tr>';
+            }
+            $conn->close();
+            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                    <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/medic/chat.php">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="/medic/chat.php">See all messages</a>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div id="delete_patient" class="modal fade delete-modal" role="dialog">
             <div class="modal-dialog modal-dialog-centered">

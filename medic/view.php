@@ -44,7 +44,7 @@ if (!isset($id)) {
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
@@ -299,60 +299,65 @@ if (!isset($id)) {
                                     </div>
                                 </div>
 
+
+                                <style>
+                                .rounded-table {
+                                    border-radius: 10px;
+                                    /* Ajuste o valor para o arredondamento desejado */
+                                    overflow: hidden;
+                                    /* Necessário para que o arredondamento funcione corretamente */
+                                    border: 1px solid #ddd;
+                                    /* Cor da borda (opcional) */
+                                }
+                                </style>
+
                                 <div class="table-responsive">
-                                    <?php
-                                    $doutor = $_SESSION['doctor_username'];
-                                    $sql = "SELECT id, doctor, nome, carteirinha, created_at FROM receita WHERE doctor = '$doutor'";
-                                    $result = $conn->query($sql);
+                                    <table
+                                        class="table border-0 custom-table comman-table datatable mb-0 rounded-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Médico(a)</th>
+                                                <th>Paciente</th>
+                                                <th>Carteirinha</th>
+                                                <th>Data de emissão</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+            $doutor = $_SESSION['doctor_username'];
+            $sql = "SELECT id, doctor, nome, carteirinha, created_at FROM receita WHERE doctor = '$doutor'";
+            $result = $conn->query($sql);
 
-                                    if ($result->num_rows > 0) {
-                                        echo '<table class="table border-0 custom-table comman-table datatable mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Médico(a)</th>
-                                                        <th>Paciente</th>
-                                                        <th>Carteirinha</th>
-                                                        <th>Data de emissão</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>';
-
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<tr>
-                                                    <td>' . $row["id"] . '</td>
-                                                    <td>' . $row["doctor"] . '</td>
-                                                    <td>' . $row["nome"] . '</td>
-                                                    <td>' . $row["carteirinha"] . '</td>
-                                                    <td>' . date("d.m.Y", strtotime($row["created_at"])) . '</td>
-                                                    <td class="text-end">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <i class="fa fa-ellipsis-v"></i>
-                                                            </a>
-                                                            
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item" href="view-unico.php?id=' . $row["id"] . '"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ver</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>';
-                                        }
-
-                                        echo '</tbody></table>';
-                                    } else {
-                                        echo "Nenhum dado encontrado.";
-                                    }
-                                    $conn->close();
-                                    ?>
-                                    <!--  Código para reiniciar a página e assim atualizar a tabela -->
-                                    <script>
-                                        const reiniciarBtn = document.getElementById('reiniciarBtn');
-                                        reiniciarBtn.addEventListener('click', function() {
-                                            location.reload();
-                                        });
-                                    </script>
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>
+                            <td>' . $row["id"] . '</td>
+                            <td>' . $row["doctor"] . '</td>
+                            <td>' . $row["nome"] . '</td>
+                            <td>' . $row["carteirinha"] . '</td>
+                            <td>' . date("d.m.Y", strtotime($row["created_at"])) . '</td>
+                            <td class="text-end">
+                                <div class="dropdown dropdown-action">
+                                    <a href="/medic/#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="view-unico.php?id=' . $row["id"] . '"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ver</a>
+                                    </div>
                                 </div>
+                            </td>
+                        </tr>';
+                }
+            } else {
+                echo '<tr><td colspan="6" class="text-center">Nenhum dado encontrado.</td></tr>';
+            }
+            $conn->close();
+            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>

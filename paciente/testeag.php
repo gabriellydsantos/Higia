@@ -46,26 +46,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($selected_department && $selected_doctor && $data && $horario) {
         $horario = str_replace('h', ':', $horario);
 
-        // Verificar se o horário já está ocupado para o mesmo médico na mesma data
-        $stmt = $conn->prepare("SELECT * FROM agendamentos WHERE doctor = ? AND date = ? AND time = ?");
-        $stmt->bind_param('sss', $selected_doctor, $data, $horario);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // Inserir agendamento no banco de dados
+        $stmt = $conn->prepare("INSERT INTO agendamentos (doctor, carteirinhaPaciente, paciente, department, date, status, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('sssssss', $selected_doctor, $carteirinha, $paciente, $selected_department, $data, $status, $horario);
 
-        if ($result->num_rows > 0) {
-            $message = "Este horário já está ocupado. Por favor, escolha outro.";
+        if ($stmt->execute()) {
+            $message = "Agendamento confirmado com sucesso!";
         } else {
-            // Inserir agendamento no banco de dados
-            $stmt = $conn->prepare("INSERT INTO agendamentos (doctor, carteirinhaPaciente, paciente, department, date, status, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param('sssssss', $selected_doctor, $carteirinha, $paciente, $selected_department, $data, $status, $horario);
-
-            if ($stmt->execute()) {
-                $message = "Agendamento confirmado com sucesso!";
-            } else {
-                $message = "Erro ao confirmar o agendamento.";
-            }
-            $stmt->close();
+            $message = "Erro ao confirmar o agendamento.";
         }
+        $stmt->close();
     }
 }
 
@@ -81,7 +71,6 @@ if ($selected_department) {
     $department_name = $department_row['department_name'];
     $stmt->close();
 }
-
 
 // Consultar médicos para um departamento selecionado
 $doctors_options = '';
@@ -213,10 +202,10 @@ if ($selected_doctor) {
                 </div>
             </div>
 
+
             <?php if ($fotoSelecionada) : ?>
             <div class="card">
-                <img src="<?php echo htmlspecialchars($fotoSelecionada['image']); ?>" alt="Imagem do médico"
-                    class="doctor-photo">
+                <img src="<?php echo htmlspecialchars($fotoSelecionada['image']); ?>" alt="Imagem do médico">
                 <div class="card-content">
                     <h3>Médico Selecionado: <?php echo htmlspecialchars($selected_doctor); ?></h3>
                     <p>Especialidade: <?php echo htmlspecialchars($department_name); ?></p>
@@ -225,20 +214,76 @@ if ($selected_doctor) {
                 </div>
             </div>
             <?php endif; ?>
-
-
-            <div class="confirm-button">
-                <button type="submit" name="confirmar" class="btn-confirmar">Confirmar Agendamento</button>
-            </div>
-
+            <br>
+            <button class="btn btn-primary confirm-button" type="submit">Confirmar Agendamento</button>
         </form>
-
-        <?php if (isset($message)) : ?>
-        <div class="message">
-            <p><?php echo htmlspecialchars($message); ?></p>
-        </div>
-        <?php endif; ?>
     </div>
+
+    <?php if (isset($message)) : ?>
+    <div class="alert-message">
+        <p><?php echo htmlspecialchars($message); ?></p>
+    </div>
+    <?php endif; ?>
+
+    <style>
+    /* Estilo do alert */
+    .alert-message {
+        position: fixed;
+        top: 45%;
+        right: 45%;
+        background-color: #FAD939;
+        color: #333;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .alert-message p {
+        margin: 0;
+    }
+
+    .alert-message.close {
+        opacity: 0;
+    }
+
+    .alert-message.success {
+        background-color: #FAD939;
+        color: #FAD939;
+    }
+
+    .alert-message.error {
+        background-color: #FAD939;
+        color: #FAD939;
+    }
+
+    .alert-message.warning {
+        background-color: #FAD939;
+        color: #856404;
+    }
+    </style>
+
+    <script>
+    window.onload = function() {
+        var alertMessage = document.querySelector('.alert-message');
+        if (alertMessage) {
+            setTimeout(function() {
+                alertMessage.classList.add('close');
+            }, 5000); // Alerta desaparece após 5 segundos
+        }
+    };
+    </script>
+
+</body>
+<div class="footer">
+    <?php include 'navEfooter/footer.html';?>
+</div>
+
+
+</div>
 </body>
 
 </html>
