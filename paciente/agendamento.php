@@ -115,6 +115,7 @@ if ($selected_doctor) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleção de Departamento e Médico</title>
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
     <link rel="stylesheet" href="agendamento.css">
 
     <script>
@@ -131,22 +132,36 @@ if ($selected_doctor) {
     </script>
 
 </head>
+
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
+
 <style>
-    .alert-message {
+.alert-message {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color:  #FAD939;
+    background-color: #FAD939;
     color: #333;
     padding: 15px;
     border-radius: 5px;
     font-weight: bold;
-    display: none; /* Inicialmente escondido */
+    display: none;
+    /* Inicialmente escondido */
     z-index: 9999;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 </style>
+
 <body>
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
@@ -249,28 +264,34 @@ if ($selected_doctor) {
         </form>
 
         <?php if (isset($message)) : ?>
-    <script>
+        <script>
         window.onload = function() {
             // Exibe o alerta
             var message = "<?php echo htmlspecialchars($message); ?>";
             var alertElement = document.createElement('div');
             alertElement.classList.add('alert-message');
             alertElement.innerText = message;
-            
+
             // Adiciona o alerta à página
             document.body.appendChild(alertElement);
-            
+
             // Exibe o alerta
             alertElement.style.display = 'block';
-            
+
             // Remove o alerta após 5 segundos
             setTimeout(function() {
                 alertElement.style.display = 'none';
             }, 5000);
         };
-    </script>
-<?php endif; ?>
+        </script>
+        <?php endif; ?>
     </div>
+
+    <div class="footer">
+        <?php include 'navEfooter/footer.html'; ?>
+    </div>
+
+
 </body>
 
 </html>

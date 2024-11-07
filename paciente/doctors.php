@@ -34,6 +34,7 @@ if (isset($_GET['query'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="doctors.css">
     <title>Higia</title>

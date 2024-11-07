@@ -18,127 +18,161 @@ if (isset($_SESSION['patients_carteirinha'])) {
     $result = $stmt->get_result();
     ?>
 
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <title>Meu Prontuário</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-            }
-            .navbar, .footer {
-                color: white;
-                text-align: left;
-            }
-            h2 {
-                color: #161D53;
-                text-align: left;
-                margin-top: 3%;
-                margin-left: 5%;
-            }
-            .btn-container {
-                display: flex;
-                justify-content: flex-start;  
-                margin-left: 5%;
-                gap: 20px; 
-                margin-top: 20px;
-            }
-            .btn {
-                padding: 15px 25px;  /* Aumenta a espessura do botão */
-                background-color: #161D53;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                text-decoration: none;
-                font-size: 16px;
-                font-weight: bold;
-            }
-            .btn:hover {
-                background-color: #0f143b;
-            }
-            table {
-                width: 90%;
-                margin: 20px auto;
-                border-collapse: collapse;
-                background-color: white;
-                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-                border-radius: 8px;
-            }
-            th, td {
-                border: 1px solid #ddd;
-                padding: 12px;
-                text-align: center;
-            }
-            th {
-                background-color: #161D53;
-                color: white;
-                font-weight: bold;
-            }
-            td {
-                color: #161D53;
-            }
-            .no-data {
-                text-align: center;
-                color: #555;
-                font-style: italic;
-            }
-            .btn-details {
-                padding: 5px 10px;
-                background-color: #161D53;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                text-decoration: none;
-            }
-            .btn-details:hover {
-                background-color: #0f143b;
-            }
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-            /* Responsividade para dispositivos móveis */
-            @media (max-width: 768px) {
-                table {
-                    width: 100%;
-                    font-size: 14px;
-                }
-                th, td {
-                    padding: 8px;
-                }
-                thead {
-                    display: none; 
-                }
-                tr {
-                    display: block;
-                    margin-bottom: 10px;
-                    border-bottom: 2px solid #ddd;
-                }
-                td {
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 10px;
-                    border: none;
-                    position: relative;
-                    padding-left: 50%;
-                }
-                td:before {
-                    content: attr(data-label);
-                    position: absolute;
-                    left: 10px;
-                    font-weight: bold;
-                    color: #161D53;
-                }
-                .btn-details {
-                    padding: 8px 15px;
-                    font-size: 12px;
-                }
-            }
-        </style>
-    </head>
+<head>
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+    <meta charset="UTF-8">
+    <title>Meu Prontuário</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+    }
 
-    <body>
+    .navbar,
+    .footer {
+        color: white;
+        text-align: left;
+    }
+
+    h2 {
+        color: #161D53;
+        text-align: left;
+        margin-top: 3%;
+        margin-left: 5%;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: flex-start;
+        margin-left: 5%;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 15px 25px;
+        /* Aumenta a espessura do botão */
+        background-color: #161D53;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        background-color: #0f143b;
+    }
+
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #161D53;
+        color: white;
+        font-weight: bold;
+    }
+
+    td {
+        color: #161D53;
+    }
+
+    .no-data {
+        text-align: center;
+        color: #555;
+        font-style: italic;
+    }
+
+    .btn-details {
+        padding: 5px 10px;
+        background-color: #161D53;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn-details:hover {
+        background-color: #0f143b;
+    }
+
+    /* Responsividade para dispositivos móveis */
+    @media (max-width: 768px) {
+        table {
+            width: 100%;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+
+        thead {
+            display: none;
+        }
+
+        tr {
+            display: block;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border: none;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        td:before {
+            content: attr(data-label);
+            position: absolute;
+            left: 10px;
+            font-weight: bold;
+            color: #161D53;
+        }
+
+        .btn-details {
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+    }
+    </style>
+</head>
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
+
+<body>
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>
     </div>
@@ -146,12 +180,12 @@ if (isset($_SESSION['patients_carteirinha'])) {
     <h2>Meu Prontuário</h2>
 
     <div class="btn-container">
-        <a href="receitas.php" class="btn">Minhas  Receitas</a>
-        <a href="encaminhamentos.php" class="btn">Meus  Encaminhamentos</a>
+        <a href="receitas.php" class="btn">Minhas Receitas</a>
+        <a href="encaminhamentos.php" class="btn">Meus Encaminhamentos</a>
     </div>
 
     <h2>Consultas realizadas</h2>
-    
+
     <table>
         <thead>
             <tr>
@@ -180,7 +214,7 @@ if (isset($_SESSION['patients_carteirinha'])) {
             ?>
         </tbody>
     </table>
-    
+
     <br><br><br><br><br>
     <div class="footer">
         <?php include 'navEfooter/footer.html'; ?>
@@ -188,12 +222,13 @@ if (isset($_SESSION['patients_carteirinha'])) {
 
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-    </body>
-    </html>
+</body>
 
-    <?php
+</html>
+
+<?php
     $conn->close();
 } else {
     echo "Erro: Carteirinha do paciente não encontrada.";

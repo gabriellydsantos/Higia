@@ -10,104 +10,106 @@ include '../database.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comprovante de Agendamento</title>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-        body {
-            font-family: 'Montserrat', 'Inter';
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        font-family: 'Montserrat', 'Inter';
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
 
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    .content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
-        .card {
-            font-family: 'Montserrat', 'Inter';
-            background-color: white;
-            border-radius: 5px;
-            position: relative;
-            overflow: hidden;
-            padding: 20px;
-        }
+    .card {
+        font-family: 'Montserrat', 'Inter';
+        background-color: white;
+        border-radius: 5px;
+        position: relative;
+        overflow: hidden;
+        padding: 20px;
+    }
 
-        .card::before {
-            font-family: 'Montserrat', 'Inter';
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background-color: #003d80;
-            clip-path: polygon(0 0, 100% 0, 100% 80%, 0 50%);
-            z-index: -1;
-        }
+    .card::before {
+        font-family: 'Montserrat', 'Inter';
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background-color: #003d80;
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 0 50%);
+        z-index: -1;
+    }
 
-        .card p {
-            font-family: 'Montserrat', 'Inter';
-            margin: 10px 0;
-        }
+    .card p {
+        font-family: 'Montserrat', 'Inter';
+        margin: 10px 0;
+    }
 
-        .card strong {
-            font-family: 'Montserrat', 'Inter';
-            font-weight: bold;
-        }
+    .card strong {
+        font-family: 'Montserrat', 'Inter';
+        font-weight: bold;
+    }
 
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .header h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+        line-height: 40px;
+    }
+
+    .header img {
+        max-height: 40px;
+        width: auto;
+    }
+
+    #download-pdf {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #003d80;
+        color: white;
+        cursor: pointer;
+    }
+
+    #download-pdf:hover {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
         .header {
-            display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .header h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0;
-            line-height: 40px;
         }
 
         .header img {
-            max-height: 40px;
-            width: auto;
+            margin-bottom: 10px;
         }
 
-        #download-pdf {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            background-color: #003d80;
-            color: white;
-            cursor: pointer;
+        .header h2 {
+            text-align: center;
+            margin-bottom: 23px;
         }
-
-        #download-pdf:hover {
-            background-color: #0056b3;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .header img {
-                margin-bottom: 10px;
-            }
-
-            .header h2 {
-                text-align: center;
-                margin-bottom: 23px;
-            }
-        }
+    }
     </style> <!-- acessibilidade -->
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
 
@@ -126,7 +128,7 @@ include '../database.php';
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <br><br>
     <div class="content">
@@ -176,26 +178,26 @@ include '../database.php';
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script>
-        document.getElementById('download-pdf').addEventListener('click', function() {
-            const element = document.querySelector('.card');
-            const options = {
-                margin: 1,
-                filename: 'comprovante-agendamento.pdf',
-                image: {
-                    type: 'jpeg',
-                    quality: 0.98
-                },
-                html2canvas: {
-                    scale: 2
-                },
-                jsPDF: {
-                    unit: 'in',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            };
-            html2pdf().from(element).set(options).save();
-        });
+    document.getElementById('download-pdf').addEventListener('click', function() {
+        const element = document.querySelector('.card');
+        const options = {
+            margin: 1,
+            filename: 'comprovante-agendamento.pdf',
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+        html2pdf().from(element).set(options).save();
+    });
     </script>
 </body>
 

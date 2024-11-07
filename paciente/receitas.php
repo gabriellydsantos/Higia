@@ -29,6 +29,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
     <title>Minhas Receitas</title>
     <style>
     /* Estilo para garantir o rodapé fixo */
@@ -161,6 +162,16 @@ $result = $stmt->get_result();
 </head>
 
 <body>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 
     <div class="navbar">
         <?php include 'ecommerce/navbar.html'; ?>

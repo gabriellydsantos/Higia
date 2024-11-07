@@ -1,6 +1,9 @@
 <?php
     session_start();
-
+    
+    error_reporting(0);
+    ini_set('display_errors', 0);
+    
     if (!isset($_SESSION['admin_id'])) {
         header("Location: ../loginADM.php");
         exit();
@@ -43,7 +46,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -168,7 +171,7 @@
             <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
                     src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
         </li> -->
-        <li class="nav-item dropdown has-arrow user-profile-list">
+                <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
                             <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
@@ -539,29 +542,29 @@ ob_end_flush();
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        // Quando o campo de carteirinha é alterado
-        $('input[name="doctor_carteirinha"]').on('change', function() {
-            var carteirinha = $(this).val();
-            if (carteirinha) {
-                $.ajax({
-                    url: 'get-doctor-name.php', // Arquivo PHP para buscar o nome do médico
-                    type: 'POST',
-                    data: {
-                        carteirinha: carteirinha
-                    },
-                    success: function(response) {
-                        // Limpa o campo "Nome do Departamento" quando a carteirinha é alterada
-                        $('input[name="department_name"]').val('');
-                    },
-                    error: function() {
-                        console.log('Erro ao buscar o nome do médico.');
-                    }
-                });
-            } else {
-                // Limpa o campo "Nome do Departamento" se a carteirinha estiver vazia
-                $('input[name="department_name"]').val('');
-            }
-        });
+$(document).ready(function() {
+    // Quando o campo de carteirinha é alterado
+    $('input[name="doctor_carteirinha"]').on('change', function() {
+        var carteirinha = $(this).val();
+        if (carteirinha) {
+            $.ajax({
+                url: 'get-doctor-name.php', // Arquivo PHP para buscar o nome do médico
+                type: 'POST',
+                data: {
+                    carteirinha: carteirinha
+                },
+                success: function(response) {
+                    // Limpa o campo "Nome do Departamento" quando a carteirinha é alterada
+                    $('input[name="department_name"]').val('');
+                },
+                error: function() {
+                    console.log('Erro ao buscar o nome do médico.');
+                }
+            });
+        } else {
+            // Limpa o campo "Nome do Departamento" se a carteirinha estiver vazia
+            $('input[name="department_name"]').val('');
+        }
     });
+});
 </script>
