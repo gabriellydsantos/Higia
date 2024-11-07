@@ -1,3 +1,11 @@
+<?php
+    session_start();
+
+    if (!isset($_SESSION['admin_id'])) {
+        header("Location: ../loginADM.php");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -168,28 +176,23 @@
             <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
                     src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
         </li> -->
-            <li class="nav-item dropdown has-arrow user-profile-list">
-                <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
-                    <div class="user-names">
-                        <h5>lorem ipsum</h5>
-                        <span>Admin</span>
+        <li class="nav-item dropdown has-arrow user-profile-list">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
+                        <div class="user-names">
+                            <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
+                            <span>Admin</span>
+                        </div>
+                        <span class="user-img">
+                            <img <?php echo 'src="' . $_SESSION['admin_image'] . '"'; ?> alt="Admin" />
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="profile.php">Meu Perfil</a>
+                        <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
+                        <a class="dropdown-item" href="settings.php">Configurações</a>
+                        <a class="dropdown-item" href="login.php">Sair</a>
                     </div>
-                    <span class="user-img">
-                        <img src="../assets/img/user-06.jpg" alt="Admin" />
-                    </span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                    <a class="dropdown-item" href="settings.php">Configurações</a>
-                    <a class="dropdown-item" href="login.php">Sair</a>
-                    </ <div class="dropdown-menu">
-                    <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                    <a class="dropdown-item" href="settings.php">Configurações</a>
-                    <a class="dropdown-item" href="login.php">Sair</a>
-                </div>
-            </li>
+                </li>
             <!-- <li class="nav-item ">
             <a href="settings.php" class="hasnotifications nav-link"><img
                     src="../assets/img/icons/setting-icon-01.svg" alt> </a>
@@ -301,7 +304,7 @@
 
                 </ul>
                 <div class="logout-btn">
-                    <a href="../login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                    <a href="logout.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                 alt="" /></span>
                         <span>Sair</span></a>
                 </div>
@@ -338,7 +341,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="morning-user">
-                            <h2>Olá, Adm <span>lorem ipsum</span></h2>
+                            <h2>Olá, Admin <span><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></span></h2>
                             <p>Tenha um bom dia de trabalho</p>
                         </div>
                     </div>

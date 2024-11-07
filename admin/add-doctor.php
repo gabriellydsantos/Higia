@@ -1,3 +1,11 @@
+<?php
+    session_start();
+
+    if (!isset($_SESSION['admin_id'])) {
+        header("Location: ../loginADM.php");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -8,33 +16,21 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
-
     <title>Higia</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css" />
-
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
-
     <link rel="stylesheet" type="text/css" href="../assets/css/select2.min.css" />
-
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css" />
-
     <link rel="stylesheet" href="../assets/css/feather.css" />
-
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-
     <!-- acessibilidade -->
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
-
     <!-- acessibilidade -->
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
-
-
 </head>
 
 <body>
@@ -168,14 +164,14 @@
                   <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
                           src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
               </li> -->
-                <li class="nav-item dropdown has-arrow user-profile-list">
+              <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
-                            <h5>lorem ipsum</h5>
+                            <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
                             <span>Admin</span>
                         </div>
                         <span class="user-img">
-                            <img src="../assets/img/user-06.jpg" alt="Admin" />
+                            <img <?php echo 'src="' . $_SESSION['admin_image'] . '"'; ?> alt="Admin" />
                         </span>
                     </a>
                     <div class="dropdown-menu">
@@ -295,7 +291,7 @@
 
                     </ul>
                     <div class="logout-btn">
-                        <a href="../login.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
+                        <a href="logout.php"><span class="menu-side"><img src="../assets/img/icons/logout.svg"
                                     alt="" /></span>
                             <span>Sair</span></a>
                     </div>
