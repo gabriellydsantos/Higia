@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="" disabled selected>Selecione...</option>
                             <option value="../loginADM.php">Administrador</option>
                             <option value="../medic/loginM.php">Médico</option>
-                            <option value="login.php">Paciente</option>
+                            <option value="../login.php">Paciente</option>
                         </select>
                     </p>
 
