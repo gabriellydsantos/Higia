@@ -100,25 +100,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <form action="" method="post">
 
                     <p class="input-box">
-
-                        <select name="carteirinha" id="carteirinha-select" class="styled-select" required>
-                            <option value="" disabled selected>Selecione...</option>
+                        <select id="carteirinha-select" class="styled-select">
+                            <option value="" disabled>Selecione...</option>
                             <option value="loginADM.php">Administrador</option>
                             <option value="./medic/loginM.php">Médico</option>
                             <option value="login.php">Paciente</option>
                         </select>
                     </p>
 
-
                     <script>
-                    // Redirecionar ao selecionar uma opção
-                    document.getElementById('carteirinha-select').addEventListener('change', function() {
-                        const selectedPage = this.value;
+                    // Recuperar a URL atual para indicar a página selecionada
+                    const currentURL = window.location.pathname;
+                    const selectElement = document.getElementById('carteirinha-select');
+
+                    // Iterar pelas opções para verificar se alguma corresponde à URL atual
+                    Array.from(selectElement.options).forEach(option => {
+                        if (option.value && currentURL.endsWith(option.value)) {
+                            option.selected = true; // Define a opção correspondente como selecionada
+                        }
+                    });
+
+                    // Atualizar o `select` ao trocar de página (redireciona)
+                    selectElement.addEventListener('change', function() {
+                        const selectedPage = selectElement.value;
                         if (selectedPage) {
-                            window.location.href = selectedPage;
+                            window.location.href = selectedPage; // Redireciona para a página
                         }
                     });
                     </script>
+
 
                     <p class="input-box">
                         <span class="input-group">E-mail</span>

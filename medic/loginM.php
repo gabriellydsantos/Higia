@@ -2,30 +2,24 @@
 // Iniciar a sessão
 session_start();
 include_once("conexao.php");
-
 // Variável de erro
 $error = "";
-
 // Verificar se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Pegar os dados do formulário e sanitizá-los
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
-
     // Preparar a consulta SQL para verificar o e-mail e a senha
     $sql = "SELECT * FROM doctors WHERE email = ?";
     $stmt = $conn->prepare($sql);
-
     if ($stmt) {
         // Vincular parâmetros
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-
         // Verificar se o médico foi encontrado
         if ($result->num_rows > 0) {
             $doctor = $result->fetch_assoc();
-
             // Verificar a senha (assumindo que a senha esteja hashada no banco de dados)
             if (password_verify($password, $doctor['password'])) {
                 $error = "E-mail ou senha incorretos!";
@@ -51,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['doctor_image'] = $doctor['image'];
                 $_SESSION['doctor_cpf'] = $doctor['cpf'];
                 $_SESSION['doctor_rg'] = $doctor['rg'];
-
                 // Redirecionar para a página desejada após o login
                 header("Location: doctor-dashboard.php");
                 exit();
@@ -59,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $error = "E-mail ou senha incorretos!";
         }
-
         $stmt->close();
     } else {
         $error = "Erro ao preparar a consulta!";
@@ -78,8 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="manifest" href="../site.webmanifest" />
     <title>Higia</title> <!-- acessibilidade -->
     <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
-
-
 </head>
 
 <body>
@@ -101,38 +91,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "<p style='color: red;'>$error</p>";
                 } ?>
                 <form action="" method="post">
-
                     <p class="input-box">
-
-                        <select name="carteirinha" id="carteirinha-select" class="styled-select" required>
-                            <option value="" disabled selected>Selecione...</option>
+                        <select id="carteirinha-select" class="styled-select">
+                            <option value="" disabled>Selecione...</option>
+                            <option value="./medic/loginM.php">Médico</option>
                             <option value="../loginADM.php">Administrador</option>
-                            <option value="../medic/loginM.php">Médico</option>
                             <option value="../login.php">Paciente</option>
                         </select>
                     </p>
 
-
                     <script>
-                    // Redirecionar ao selecionar uma opção
-                    document.getElementById('carteirinha-select').addEventListener('change', function() {
-                        const selectedPage = this.value;
+                    // Recuperar a URL atual para indicar a página selecionada
+                    const currentURL = window.location.pathname;
+                    const selectElement = document.getElementById('carteirinha-select');
+
+                    // Iterar pelas opções para verificar se alguma corresponde à URL atual
+                    Array.from(selectElement.options).forEach(option => {
+                        if (option.value && currentURL.endsWith(option.value)) {
+                            option.selected = true; // Define a opção correspondente como selecionada
+                        }
+                    });
+
+                    // Atualizar o `select` ao trocar de página (redireciona)
+                    selectElement.addEventListener('change', function() {
+                        const selectedPage = selectElement.value;
                         if (selectedPage) {
-                            window.location.href = selectedPage;
+                            window.location.href = selectedPage; // Redireciona para a página
                         }
                     });
                     </script>
+
 
                     <p class="input-box">
                         <span class="input-group">E-mail</span>
                         <input type="text" required placeholder="email@gmail.com" name="email">
                     </p>
-
                     <p class="input-box">
                         <span class="input-group">Senha:</span>
                         <input type="password" placeholder="Digite sua senha" required name="password">
                     </p>
-
                     <div class="input-box">
                         <input type="submit" value="Entrar">
                     </div>
@@ -145,7 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </body>
 
 </html>
-
 <style>
 * {
     margin: 0;
@@ -332,7 +328,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     .container-login .content-box .form-box .remember a {
         margin-top: 20px;
     }
-
 }
 
 .styled-select {
