@@ -12,25 +12,6 @@ CREATE TABLE documento (
     pdf_arquivo MEDIUMBLOB NOT NULL
 );
 
--- Tabela de clientes
-CREATE TABLE clientes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    carterinha VARCHAR(6) NOT NULL,
-    nomeCompleto VARCHAR(80) NOT NULL,
-    nomeSocial VARCHAR(80),
-    email VARCHAR(80) NOT NULL,
-    telefone VARCHAR(13) NOT NULL,
-    nascimento DATE NOT NULL,
-    idade INT NOT NULL,
-    deficiencia VARCHAR(50),
-    doenca VARCHAR(50),
-    cep VARCHAR(8) NOT NULL,
-    cpf VARCHAR(11) NOT NULL,
-    rg VARCHAR(9) NOT NULL,
-    genero VARCHAR(10) NOT NULL,
-    plano VARCHAR(10) NOT NULL
-);
-
 -- Tabela de usuários
 CREATE TABLE tb_user (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -194,5 +175,71 @@ CREATE TABLE IF NOT EXISTS events (
     obs TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabela admin
+CREATE TABLE admin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    carteirinha VARCHAR(6) NOT NULL,
+    birth_date DATE NOT NULL,
+    gender ENUM('Masculino', 'Feminino') NOT NULL,
+    address TEXT NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    zipcode VARCHAR(20) NOT NULL,
+    status ENUM('Ativa', 'Inativo') NOT NULL,
+    image VARCHAR(255),
+    cpf VARCHAR(14),
+    rg VARCHAR(12),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+select * from admin;
+
+INSERT INTO admin (
+    first_name, 
+    last_name, 
+    username, 
+    phone, 
+    email, 
+    password, 
+    carteirinha, 
+    birth_date, 
+    gender, 
+    address, 
+    city, 
+    state, 
+    country, 
+    zipcode, 
+    status, 
+    image, 
+    cpf, 
+    rg
+) VALUES (
+    'Higia', 
+    'Admin', 
+    'higia_admin', 
+    '123456789', 
+    'admin@higia.com', 
+    '12345678',  -- Usa MD5 como exemplo de hash para senha
+    '000000', 
+    '2000-01-01', 
+    'Feminino', 
+    'Av. Principal, 1000', 
+    'Cidade Empresa', 
+    'Estado Empresa', 
+    'Brasil', 
+    '00000-000', 
+    'Ativa', 
+    NULL, 
+    '000.000.000-00', 
+    '00.000.000-0'
+);
+
 
 drop database higia;
