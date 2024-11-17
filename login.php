@@ -78,10 +78,34 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
         <div class="form-box">
             <h2>Login</h2>
             <form action="" method="post">
+
+                <p class="input-box">
+
+                    <select name="carteirinha" id="carteirinha-select" class="styled-select" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="loginADM.php">Administrador</option>
+                        <option value="./medic/loginM.php">Médico</option>
+                        <option value="login.php">Paciente</option>
+                    </select>
+                </p>
+
+
+                <script>
+                // Redirecionar ao selecionar uma opção
+                document.getElementById('carteirinha-select').addEventListener('change', function() {
+                    const selectedPage = this.value;
+                    if (selectedPage) {
+                        window.location.href = selectedPage;
+                    }
+                });
+                </script>
+
+
                 <p class="input-box">
                     <span class="input-group">N° Carteirinha:</span>
                     <input type="text" required placeholder="000000" name="carteirinha">
                 </p>
+
 
                 <p class="input-box">
                     <span class="input-group">Senha:</span>
@@ -298,5 +322,48 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
         margin-top: 20px;
     }
 
+}
+
+.styled-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 17px;
+    color: #32324f;
+    background-color: #ecf2f7;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    appearance: none;
+    /* Remove a aparência padrão do navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Cpath fill="%2360708B" d="M5 8l5 5 5-5z"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 20px 20px;
+}
+
+.styled-select:hover {
+    background-color: #dfe8f0;
+}
+
+.styled-select:focus {
+    border: 1px solid #3286ca;
+    box-shadow: 0 0 5px rgba(50, 134, 202, 0.5);
+}
+
+.content-box .form-box select {
+    width: 50%;
+    /* Ajuste a largura como preferir */
+    padding: 5px;
+    /* Alinhe o padding com o restante dos campos */
+    font-size: 16px;
+    background-color: #ecf2f7;
+    /* Cor de fundo para manter o design consistente */
+    color: #32324f;
+    /* Cor do texto */
+    border: none;
+    border-radius: 5px;
+    outline: none;
 }
 </style>
