@@ -1,10 +1,10 @@
 <?php
-    session_start();
+session_start();
 
-    if (!isset($_SESSION['admin_id'])) {
-        header("Location: ../loginADM.php");
-        exit();
-    }
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../loginADM.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,9 +13,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png" />
+    <link rel="manifest" href="../site.webmanifest" />
 
     <title>Higia</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -173,7 +173,7 @@
                   <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
                           src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
               </li> -->
-              <li class="nav-item dropdown has-arrow user-profile-list">
+                <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
                             <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
@@ -287,7 +287,7 @@
                                     <a class="" href="departments.php">Especialidade</a>
                                 </li>
                                 <li><a href="../admin/add-department.php">Add Especialidade</a></li>
-                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
+                                <li><a href="../admin/edit-department.php"></a></li>
                             </ul>
                         </li>
 

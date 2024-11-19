@@ -171,7 +171,7 @@
                   <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
                           src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
               </li> -->
-              <li class="nav-item dropdown has-arrow user-profile-list">
+                <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
                             <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
@@ -285,7 +285,7 @@
                                     <a class="" href="departments.php">Especialidade</a>
                                 </li>
                                 <li><a href="../admin/add-department.php">Add Especialidade</a></li>
-                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
+
                             </ul>
                         </li>
 

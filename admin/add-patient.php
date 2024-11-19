@@ -170,23 +170,23 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                   <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
                           src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
               </li> -->
-              <li class="nav-item dropdown has-arrow user-profile-list">
-                    <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
-                        <div class="user-names">
-                            <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
-                            <span>Admin</span>
-                        </div>
-                        <span class="user-img">
-                            <img <?php echo 'src="' . $_SESSION['admin_image'] . '"'; ?> alt="Admin" />
-                        </span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile.php">Meu Perfil</a>
-                        <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
-                        <a class="dropdown-item" href="settings.php">Configurações</a>
-                        <a class="dropdown-item" href="login.php">Sair</a>
+            <li class="nav-item dropdown has-arrow user-profile-list">
+                <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
+                    <div class="user-names">
+                        <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
+                        <span>Admin</span>
                     </div>
-                </li>
+                    <span class="user-img">
+                        <img <?php echo 'src="' . $_SESSION['admin_image'] . '"'; ?> alt="Admin" />
+                    </span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="profile.php">Meu Perfil</a>
+                    <a class="dropdown-item" href="edit-profile.php">Editar Perfil</a>
+                    <a class="dropdown-item" href="settings.php">Configurações</a>
+                    <a class="dropdown-item" href="login.php">Sair</a>
+                </div>
+            </li>
             <!-- <li class="nav-item ">
                   <a href="settings.php" class="hasnotifications nav-link"><img
                           src="../assets/img/icons/setting-icon-01.svg" alt> </a>
@@ -284,8 +284,7 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                                 <a class="" href="departments.php">Especialidade</a>
                             </li>
                             <li><a href="../admin/add-department.php">Add Especialidade</a></li>
-                            <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
-                        </ul>
+
                     </li>
 
 

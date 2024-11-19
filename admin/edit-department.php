@@ -278,7 +278,7 @@
                                     <a class="" href="departments.php">Especialidade</a>
                                 </li>
                                 <li><a href="../admin/add-department.php">Add Especialidade</a></li>
-                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
+                               
                             </ul>
                         </li>
 
