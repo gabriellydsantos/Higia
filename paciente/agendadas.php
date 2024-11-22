@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 include("../database.php");
 ?>
@@ -16,6 +16,7 @@ include("../database.php");
 
     <title>Higia</title>
     <style>
+    /* Aqui vai o estilo da página */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -27,9 +28,16 @@ include("../database.php");
     }
 
     .card-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
         gap: 20px;
+        justify-content: flex-start;
+        padding: 20px;
+    }
+
+    .card-container-right {
+        justify-content: flex-end;
+        /* Alinha à direita */
     }
 
     .card {
@@ -38,105 +46,85 @@ include("../database.php");
         border-radius: 8px;
         overflow: hidden;
         padding: 20px;
-        transition: transform 0.2s;
+        width: 300px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .card:hover {
-        transform: scale(1.02);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .card h3 {
         margin: 0 0 10px;
-        font-size: 1.2em;
+        font-size: 1.3em;
         color: #1a237e;
     }
 
     .card p {
         margin: 5px 0;
         color: #333;
+        line-height: 1.4;
     }
 
-    /* Badge padrão */
     .custom-badge {
-        display: inline-block;
-        width: 100px;
-        /* Define uma largura fixa */
-        text-align: center;
-        /* Centraliza o texto */
-        border: none;
-        padding: 8px 0;
+        padding: 8px 12px;
         font-size: 0.9em;
-        cursor: pointer;
-        border-radius: 5px;
         font-weight: bold;
         color: white;
+        border-radius: 5px;
         margin-top: 10px;
+        text-align: center;
     }
 
-    /* Cores específicas para o status */
     .status-completed {
-        background-color: #4CAF50;
-        /* Verde para "Concluído" */
+        background-color: #28a745;
     }
 
     .status-incomplete {
-        background-color: #f44336;
-        /* Vermelho para "Inconcluído" */
+        background-color: #FF9800;
     }
 
-    /* Botão de geração de PDF */
-    .generate-pdf {
-        margin-top: 10px;
-        margin-left: 5px;
-        padding: 7px 12px;
-        background-color: #1a237e;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        text-decoration: none;
-        font-size: 0.9em;
+    .status-canceled {
+        background-color: #dc3545;
+    }
 
+    .generate-pdf,
+    .cancel-button {
+        margin-top: 10px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 0.9em;
+        text-decoration: none;
+        color: white;
+        align-self: stretch;
+        cursor: pointer;
+        border: none;
+        /* Remove a borda do botão */
+    }
+
+    .generate-pdf {
+        background-color: #1a237e;
     }
 
     .generate-pdf:hover {
         background-color: #0d47a1;
     }
 
-    /* Responsividade para dispositivos móveis */
-    @media (max-width: 600px) {
-        body {
-            padding: 10px;
-        }
+    .cancel-button {
+        background-color: #FF5733;
+    }
 
-        .card {
-            padding: 15px;
-        }
-
-        .card h3 {
-            font-size: 1.1em;
-        }
-
-        .custom-badge {
-            width: 80px;
-            /* Ajuste menor para dispositivos móveis */
-            padding: 6px 0;
-            font-size: 0.8em;
-        }
+    .cancel-button.disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
     }
     </style>
 </head>
-<div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-    </div>
-</div>
-<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-<script>
-new window.VLibras.Widget('https://vlibras.gov.br/app');
-</script>
 
 <body>
 
@@ -144,43 +132,114 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
         <?php include 'ecommerce/navbar.html'; ?>
     </div>
 
+    <script>
+    function cancelAppointment(appointmentId, status) {
+        if (status === "Concluído" || status === "Cancelada") {
+            alert("Não é possível cancelar uma consulta que já está concluída ou foi cancelada.");
+        } else if (status === "Inconcluído") {
+            if (confirm("Tem certeza de que deseja cancelar esta consulta?")) {
+                fetch("cancel_appointment.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            appointment_id: appointmentId
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            location.reload();
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro:", error);
+                        alert("Ocorreu um erro ao cancelar a consulta.");
+                    });
+            }
+        }
+    }
+    </script>
+
     <?php
+    if (!isset($_SESSION['patients_carteirinha'])) {
+        echo "<p>Erro: Carteirinha do paciente não encontrada na sessão.</p>";
+        exit;
+    }
+
     $carteirinha = $_SESSION['patients_carteirinha'];
 
-    // Modificação na consulta para ordenar por data e status
-    $sql = "SELECT id, doctor, paciente, department, date, status, time 
-            FROM agendamentos 
-            WHERE carteirinhaPaciente = '$carteirinha'
-            ORDER BY 
-                CASE WHEN status = 'Concluído' THEN 1 ELSE 0 END, 
-                date ASC";
-    $result = $conn->query($sql);
+    if (!$conn) {
+        echo "<p>Erro ao conectar ao banco de dados.</p>";
+        exit;
+    }
+
+    $stmt = $conn->prepare(
+        "SELECT id, doctor, paciente, department, date, status, time 
+         FROM agendamentos 
+         WHERE carteirinhaPaciente = ? 
+         ORDER BY 
+            CASE WHEN status = 'Cancelada' THEN 1 ELSE 0 END, 
+            date ASC, time ASC"
+    );
+
+    if (!$stmt) {
+        echo "<p>Erro ao preparar a consulta.</p>";
+        exit;
+    }
+
+    $stmt->bind_param('s', $carteirinha);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         echo '<div class="card-container">';
-        
         while ($row = $result->fetch_assoc()) {
-            echo '<div class="card">
-                    <h3>' . htmlspecialchars($row["doctor"]) . '</h3>
-                    <p><strong>Carteirinha do paciente:</strong> ' . htmlspecialchars($carteirinha) . '</p>
-                    <p><strong>Data:</strong> ' . date("d.m.Y", strtotime($row["date"])) . '</p>
-                    <p><strong>Horário:</strong> ' . date("h:i A", strtotime($row["time"])) . '</p>';
-            echo '<button class="custom-badge ' . 
-                    ($row["status"] == "Concluído" ? 'status-completed' : 'status-incomplete') . 
-                    '" onclick="updateStatus(' . $row["id"] . ')">' . htmlspecialchars($row["status"]) . '</button>';
-            echo '<a href="comprovante.php?id=' . $row["id"] . '" class="generate-pdf">Comprovante</a>';
-            echo '</div>';
+            $id = htmlspecialchars($row["id"]);
+            $doctor = htmlspecialchars($row["doctor"]);
+            $date = htmlspecialchars(date("d.m.Y", strtotime($row["date"])));
+            $time = htmlspecialchars(date("H:i", strtotime($row["time"])));
+            $status = htmlspecialchars($row["status"]);
+
+            $statusClass = '';
+            if ($status === "Concluído") {
+                $statusClass = 'status-completed';
+            } elseif ($status === "Inconcluído") {
+                $statusClass = 'status-incomplete';
+            } elseif ($status === "Cancelada") {
+                $statusClass = 'status-canceled';
+            }
+
+            // Exibe o botão de cancelamento
+            $cancelButtonClass = ($status === 'Concluído' || $status === 'Cancelada') ? 'cancel-button disabled' : 'cancel-button';
+            $cancelButtonText = ($status === 'Concluído' || $status === 'Cancelada') ? 'Cancelamento não disponível' : 'Cancelar';
+
+            // Adiciona a classe card-container-right para consultas canceladas
+            $cardClass = ($status === 'Cancelada') ? 'card-container-right' : '';
+
+            echo '<div class="card ' . $cardClass . '">
+                    <h3>' . $doctor . '</h3>
+                    <p><strong>Data:</strong> ' . $date . '</p>
+                    <p><strong>Horário:</strong> ' . $time . '</p>
+                    <span class="custom-badge ' . $statusClass . '">' . $status . '</span>
+                    <a href="comprovante.php?id=' . $id . '" class="generate-pdf">Comprovante</a>
+                    <button class="' . $cancelButtonClass . '" onclick="cancelAppointment(' . $id . ', \'' . $status . '\')">' . $cancelButtonText . '</button>
+                </div>';
         }
-        
-        echo '</div>'; 
+        echo '</div>';
     } else {
-        echo "Nenhum dado encontrado.";
+        echo "<p>Nenhum dado encontrado.</p>";
     }
 
+    $stmt->close();
     $conn->close();
     ?>
 
-    <br><br><br><br><br><br><br><br><br><br>
+    <br><br>
     <div class="footer">
         <?php include 'navEfooter/footer.html'; ?>
     </div>

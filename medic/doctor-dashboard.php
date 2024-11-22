@@ -253,6 +253,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
@@ -268,6 +269,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
                 </div>
 
@@ -468,23 +470,32 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    $statusClass = ($row["status"] == "Concluído") ? "status-green" : "status-red";
-                                    echo '<tr>
-                                            <td>' . htmlspecialchars($row["id"]) . '</td>
-                                           
-                                            <td>' . htmlspecialchars($row["paciente"]) . '</td>
-                                            <td>' . date("d.m.Y", strtotime($row["date"])) . '</td>
-                                            <td>' . date("H:i", strtotime($row["time"])) . '</td>
-                                            <td><button class="custom-badge ' . $statusClass . '" onclick="updateStatus(' . $row["id"] . ')">' . htmlspecialchars($row["status"]) . '</button></td>
-                                            
-                                        </tr>';
-                                }
-                            } else {
-                                echo '<tr><td colspan="7" class="text-center">Nenhum dado encontrado.</td></tr>';
-                            }
-                            ?>
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        // Definir a classe de acordo com o status
+        if ($row["status"] == "Concluído") {
+            $statusClass = "status-completed"; // Verde para concluído
+        } elseif ($row["status"] == "Inconcluído") {
+            $statusClass = "status-incomplete"; // Laranja para inconcluído
+        } elseif ($row["status"] == "Cancelada") {
+            $statusClass = "status-canceled"; // Vermelho para cancelada
+        } else {
+            $statusClass = "status-red"; // Para qualquer outro status (opcional)
+        }
+
+        echo '<tr>
+                <td>' . htmlspecialchars($row["id"]) . '</td>
+                <td>' . htmlspecialchars($row["paciente"]) . '</td>
+                <td>' . date("d.m.Y", strtotime($row["date"])) . '</td>
+                <td>' . date("H:i", strtotime($row["time"])) . '</td>
+                <td><button class="custom-badge ' . $statusClass . '" onclick="updateStatus(' . $row["id"] . ')">' . htmlspecialchars($row["status"]) . '</button></td>
+              </tr>';
+    }
+} else {
+    echo '<tr><td colspan="7" class="text-center">Nenhum dado encontrado.</td></tr>';
+}
+?>
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -515,16 +526,27 @@
                                 border-radius: 15px;
                             }
 
-                            .status-green {
+                            .status-completed {
                                 background-color: #28a745;
+                                /* verde */
                                 color: white;
                                 border: none;
                                 border-radius: 4px;
                                 padding: 5px 10px;
                             }
 
-                            .status-red {
+                            .status-incomplete {
+                                background-color: #FF9800;
+                                /* laranja */
+                                color: white;
+                                border: none;
+                                border-radius: 4px;
+                                padding: 5px 10px;
+                            }
+
+                            .status-canceled {
                                 background-color: #dc3545;
+                                /* vermelho */
                                 color: white;
                                 border: none;
                                 border-radius: 4px;
