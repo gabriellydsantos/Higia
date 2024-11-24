@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+   <html lang="pt-BR">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+      <link rel="shortcut icon" href="favicon_io/android-chrome-512x512.png" type="image/x-icon">
+      <link rel="manifest" href="../site.webmanifest" />
+      <link rel="stylesheet" href="index.css">
+      <title>Higia Plataforma</title>
+   </head>
+   <body>
+      <header class="header">
+         <nav class="nav container">
+            <div class="nav__data">
+               <a href="#" class="nav__logo">
+                 <img class="logoImg" src="paciente/img/logo.png" alt="Clínica Higia">
+               </a>
+               
+               <div class="nav__toggle" id="nav-toggle">
+                  <i class="ri-menu-line nav__burger"></i>
+                  <i class="ri-close-line nav__close"></i>
+               </div>
+            </div>
+            <div class="nav__menu" id="nav-menu">
+               <ul class="nav__list">
+                  <li><a href="#" class="nav__link">Home</a></li>
+                  <li><a href="#" class="nav__link">Sobre nós</a></li>
+                  <li class="dropdown__item">
+                     <div class="nav__link">
+                        Planos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                     </div>
+
+                     <ul class="dropdown__menu">
+                        <li>
+                           <a href="#" class="dropdown__link">
+                               Apolo
+                           </a>                          
+                        </li>
+
+                        <li>
+                           <a href="#" class="dropdown__link">
+                               Esculápio
+                           </a>
+                        </li>
+                        <li class="dropdown__subitem">
+                           <div class="dropdown__link">
+                              Panaceia
+                           </div>
+                        </li>
+                     </ul>
+                  </li>
+                  
+                  <li><a href="#" class="nav__link">Serviços</a></li>
+                  <li class="dropdown__item">
+                     <div class="nav__link">
+                        Entrar <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                     </div>
+
+                     <ul class="dropdown__menu">
+                        <li>
+                           <a href="login.php" class="dropdown__link">
+                               Paciente
+                           </a>                          
+                        </li>
+
+                        <li>
+                           <a href="medic/index.php" class="dropdown__link">
+                               Médico
+                           </a>
+                        </li>
+
+                        <li>
+                           <a href="lab/index.php" class="dropdown__link">
+                              Laboratório
+                           </a>
+                        </li>
+
+                        
+                        <li>
+                            <a href="loginADM.php" class="dropdown__link">
+                               Administrador
+                            </a>
+                         </li>
+                     </ul>
+                  </li>
+
+                  <li><a href="#" class="nav__link">Contato</a></li>
+               </ul>
+            </div>
+         </nav>
+      </header>
+
+      <section class="section">
+         <div class="header-inner text-white text-center">
+             <div class="container grid">
+                 <div class="header-inner-left">
+                     <h1>Venha fazer parte<br> <span>Clínica Higia</span></h1>
+                     <p class="lead">A melhor para a sua saúde</p>
+                     <p class="text text-md">Com uma ligação de 10 minutos você cria o seu convênio conosco e garante o
+                         melhor para a sua saúde pelo menor preço</p>
+                     <div class="btn-group">
+                         <a href="#" class="btn btn-white">Ligar</a>
+                         <!--<a href="javascript:void(0);" onclick="window.location.href='<?php echo 'tel:+5511941782793'; ?>'"> Ligar</a>-->
+ 
+                         <p class='btn btn-blue'>
+                             <a href="javascript:void(0);">WhatsApp</a>
+                         </p>
+                     </div>
+                 </div>
+                 <div class="header-inner-right">
+                     <img src="capa.png">
+                 </div>
+             </div>
+         </div>
+       </section>
+
+      <script>
+const showMenu = (toggleId, navId) =>{
+   const toggle = document.getElementById(toggleId),
+         nav = document.getElementById(navId)
+
+   toggle.addEventListener('click', () =>{
+       // Add show-menu class to nav menu
+       nav.classList.toggle('show-menu')
+
+       // Add show-icon to show and hide the menu icon
+       toggle.classList.toggle('show-icon')
+   })
+}
+
+showMenu('nav-toggle','nav-menu')
+      </script>
+   </body>
+</html>

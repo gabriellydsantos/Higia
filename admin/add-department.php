@@ -284,7 +284,8 @@
                                     <a class="" href="departments.php">Especialidade</a>
                                 </li>
                                 <li><a href="../admin/add-department.php">Add Especialidade</a></li>
-                               
+                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
+                            </ul>
                         </li>
                     </ul>
                     <div class="logout-btn">
@@ -420,26 +421,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
             <div id="delete_patient" class="modal fade delete-modal" role="dialog">
                 <div class="modal-dialog modal-dialog-centered">
@@ -470,8 +451,6 @@
         <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
             data-cf-settings="99b33d9fe545964c14218df7-|49" defer></script>
 </body>
-
-
 </html>
 
 <?php
@@ -488,7 +467,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
     $department_date = $_POST['department_date'];
     $status = $_POST['status'];
-
+    
     // Converte a data para o formato correto (Y-m-d)
     $department_date = DateTime::createFromFormat('d/m/Y', $department_date)->format('Y-m-d');
 
@@ -499,12 +478,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    // Pesquisa o id do doutor com base na carteirinha
+    $query = "SELECT id FROM doctors WHERE carteirinha = ? LIMIT 1";
+    $stmt = $conn->prepare($query);
+
+    // Verifica se a preparação da consulta foi bem-sucedida
+    if ($stmt) {
+        $stmt->bind_param("s", $doctor_carteirinha); // "s" indica que o parâmetro é uma string
+        $stmt->execute();
+        
+        $resultado = $stmt->get_result();
+        $doutor = $resultado->fetch_assoc();
+        
+        // Verifica se o resultado foi encontrado e armazena o ID do doutor
+        if ($doutor && isset($doutor['id'])) {
+            $id_doutor = $doutor['id'];
+            echo "ID do Doutor: " . $id_doutor;
+        } else {
+            echo "Doutor não encontrado para a carteirinha fornecida.";
+            $id_doutor = null; // Certifica-se de que $id_doutor seja null caso não haja resultado
+        }
+
+        // Fecha o statement
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $conn->error;
+    }
+
     // Prepara a consulta SQL para inserir o novo departamento
-    $sql = "INSERT INTO departments (department_name, doctor_carteirinha, description, department_date, status)
-            VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO departments (id_doutor, department_name, doctor_carteirinha, description, department_date, status)
+            VALUES (?, ?, ?, ?, ?, ?)";
 
     if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("sssss", $department_name, $doctor_carteirinha, $description, $department_date, $status);
+        $stmt->bind_param("isssss", $id_doutor, $department_name, $doctor_carteirinha, $description, $department_date, $status);
 
         if ($stmt->execute()) {
             // Atualiza o departamento na tabela de médicos com base na carteirinha
@@ -519,7 +525,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
             $conn->close();
             ob_end_clean(); // Limpa o buffer de saída
-            header("Location: departments.php?message=success");
             exit();
         } else {
             echo "Erro: " . $stmt->error;
@@ -535,6 +540,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Finaliza o buffer de saída
 ob_end_flush();
 ?>
+
+
 
 <!-- Restante do código HTML do formulário -->
 

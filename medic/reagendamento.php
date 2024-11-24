@@ -277,7 +277,6 @@ ini_set('display_errors', 0);
             </div>
         </div>
 
-
         <div class="page-wrapper">
             <div class="content">
                 <div class="page-header">
@@ -417,9 +416,36 @@ ini_set('display_errors', 0);
                         $carteirinhaDoutor = $_SESSION['doctor_carteirinha'];
                         $doctorUsername = $_SESSION['doctor_username'];
 
+    // Pesquisa o id do doutor com base na carteirinha
+    $query = "SELECT id FROM patients WHERE carteirinha = ? LIMIT 1";
+    $stmt = $conn->prepare($query);
+
+    // Verifica se a preparação da consulta foi bem-sucedida
+    if ($stmt) {
+        $stmt->bind_param("s", $carteirinha); // "s" indica que o parâmetro é uma string
+        $stmt->execute();
+        
+        $resultado = $stmt->get_result();
+        $paciente = $resultado->fetch_assoc();
+        
+        // Verifica se o resultado foi encontrado e armazena o ID do paciente
+        if ($paciente && isset($paciente['id'])) {
+            $id_paciente = $paciente['id'];
+           // echo "ID do paciente: " . $id_paciente;
+        } else {
+            echo "paciente não encontrado para a carteirinha fornecida.";
+            $id_paciente = null; // Certifica-se de que $id_doutor seja null caso não haja resultado
+        }
+
+        // Fecha o statement
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $conn->error;
+    }
+
                         // Preparar a consulta SQL de inserção
-                        $sql = "INSERT INTO guia (nome, carteirinha, carteirinhaDoutor, doctor, procedimento, sessoes, dataRetorno, obs) 
-                                    VALUES ('$nome', '$carteirinha', '$carteirinhaDoutor', '$doctorUsername', '$procedimento', '$sessoes', '$dataRetorno', '$obs')";
+                        $sql = "INSERT INTO guia (id_paciente, id_medico, nome, carteirinha, carteirinhaDoutor, doctor, procedimento, sessoes, dataRetorno, obs) 
+                                    VALUES ($id_paciente, $id, '$nome', '$carteirinha', '$carteirinhaDoutor', '$doctorUsername', '$procedimento', '$sessoes', '$dataRetorno', '$obs')";
 
                         // Executar a consulta
                         if ($conn->query($sql) === TRUE) {

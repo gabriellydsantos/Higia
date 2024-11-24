@@ -565,13 +565,40 @@ if (!isset($id)) {
         // Obter o nome do médico da sessão
         $doctor_username = $_SESSION['doctor_username'];
 
+    // Pesquisa o id do paciente com base na carteirinha
+    $query = "SELECT id FROM patients WHERE carteirinha = ? LIMIT 1";
+    $stmt = $conn->prepare($query);
+
+    // Verifica se a preparação da consulta foi bem-sucedida
+    if ($stmt) {
+        $stmt->bind_param("s", $carterinha); // "s" indica que o parâmetro é uma string
+        $stmt->execute();
+        
+        $resultado = $stmt->get_result();
+        $paciente = $resultado->fetch_assoc();
+        
+        // Verifica se o resultado foi encontrado e armazena o ID do paciente
+        if ($paciente && isset($paciente['id'])) {
+            $id_paciente = $paciente['id'];
+            echo "ID do paciente: " . $id_paciente;
+        } else {
+            echo "paciente não encontrado para a carteirinha fornecida.";
+            $id_paciente = null; // Certifica-se de que $id_doutor seja null caso não haja resultado
+        }
+
+        // Fecha o statement
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $conn->error;
+    }
+
         // Preparar a consulta SQL para inserção
-        $sql = "INSERT INTO receita (doctor, nome, carteirinha, receita) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO receita (id_paciente, id_medico, doctor, nome, carteirinha, receita) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 
         if ($stmt) {
             // Vincular os parâmetros (s = string)
-            $stmt->bind_param("ssss", $doctor_username, $nome, $carterinha, $receita);
+            $stmt->bind_param("iissss", $id_paciente, $id, $doctor_username, $nome, $carterinha, $receita);
 
             // Executar a consulta
             if ($stmt->execute()) {

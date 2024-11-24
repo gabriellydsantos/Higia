@@ -2,7 +2,8 @@
 // Iniciar a sessão e incluir a conexão com o banco de dados
 session_start();
 include "../database.php";
-
+error_reporting(0);
+ini_set('display_errors', 0);
 // Variáveis para dados do paciente
 $selected_department = '';
 $selected_doctor = '';
@@ -41,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = $_POST['data'] ?? '';
     $horario = $_POST['horario'] ?? '';
     $status = "inconcluído";
-    $carteirinha = $_SESSION['patients_carteirinha'];
 
     if ($selected_department && $selected_doctor && $data && $horario) {
         $horario = str_replace('h', ':', $horario);
@@ -55,16 +55,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $message = "Este horário já está ocupado. Por favor, escolha outro.";
         } else {
-            // Inserir agendamento no banco de dados
-            $stmt = $conn->prepare("INSERT INTO agendamentos (doctor, carteirinhaPaciente, paciente, department, date, status, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param('sssssss', $selected_doctor, $carteirinha, $paciente, $selected_department, $data, $status, $horario);
+            // Pesquisa o id do doutor com base no seu nome
+            $query = "SELECT id FROM doctors WHERE username = ? LIMIT 1";
+            $stmt = $conn->prepare($query);
 
-            if ($stmt->execute()) {
+            if ($stmt) {
+                $stmt->bind_param("s", $selected_doctor);
+                $stmt->execute();
+                
+                $resultado = $stmt->get_result();
+                $doutor = $resultado->fetch_assoc();
+                
+                if ($doutor && isset($doutor['id'])) {
+                    $id_doutor = $doutor['id'];
+                } else {
+                    echo "Doutor não encontrado para o nome fornecido.";
+                    $id_doutor = null;
+                }
+                $stmt->close();
+            } else {
+                echo "Erro ao preparar a consulta: " . $conn->error;
+            }
+
+            // Pesquisa o id do paciente com base na carteirinha
+            $query2 = "SELECT id FROM patients WHERE carteirinha = ? LIMIT 1";
+            $stmt2 = $conn->prepare($query2);
+
+            if ($stmt2) {
+                $stmt2->bind_param("s", $carteirinha);
+                $stmt2->execute();
+                
+                $resultado2 = $stmt2->get_result();
+                $paciente = $resultado2->fetch_assoc();
+                
+                if ($paciente && isset($paciente['id'])) {
+                    $id_paciente = $paciente['id'];
+                } else {
+                    echo "Paciente não encontrado para a carteirinha fornecida.";
+                    $id_paciente = null;
+                }
+                $stmt2->close();
+            } else {
+                echo "Erro ao preparar a consulta: " . $conn->error;
+            }
+
+            // Inserir agendamento no banco de dados
+            $stmt3 = $conn->prepare("INSERT INTO agendamentos (id_paciente, id_medico, doctor, carteirinhaPaciente, paciente, department, date, status, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt3->bind_param('iisssssss', $id_paciente, $id_doutor, $selected_doctor, $carteirinha, $paciente, $selected_department, $data, $status, $horario);
+
+            if ($stmt3->execute()) {
                 $message = "Agendamento confirmado com sucesso!";
             } else {
                 $message = "Erro ao confirmar o agendamento.";
             }
-            $stmt->close();
+            $stmt3->close();
         }
     }
 }
@@ -81,7 +125,6 @@ if ($selected_department) {
     $department_name = $department_row['department_name'];
     $stmt->close();
 }
-
 
 // Consultar médicos para um departamento selecionado
 $doctors_options = '';
@@ -107,6 +150,7 @@ if ($selected_doctor) {
     $stmt->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">

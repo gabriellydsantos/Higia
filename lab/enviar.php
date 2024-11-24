@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -240,6 +241,33 @@
         $carteirinha = $_POST['carteirinha'];
         $exame_tipo = $_POST['exame_tipo'];
 
+    // Pesquisa o id do paciente com base na carteirinha
+    $query = "SELECT id FROM patients WHERE carteirinha = ? LIMIT 1";
+    $stmt = $mysqli->prepare($query);
+
+    // Verifica se a preparação da consulta foi bem-sucedida
+    if ($stmt) {
+        $stmt->bind_param("s", $carteirinha); // "s" indica que o parâmetro é uma string
+        $stmt->execute();
+        
+        $resultado = $stmt->get_result();
+        $paciente = $resultado->fetch_assoc();
+        
+        // Verifica se o resultado foi encontrado e armazena o ID do paciente
+        if ($paciente && isset($paciente['id'])) {
+            $id_paciente = $paciente['id'];
+            //echo "ID do paciente: " . $id_paciente;
+        } else {
+            echo "paciente não encontrado para a carteirinha fornecida.";
+            $id_paciente = null; // Certifica-se de que $id_doutor seja null caso não haja resultado
+        }
+
+        // Fecha o statement
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $mysqli->error;
+    }
+
         // Verifica se todos os campos necessários foram preenchidos
         if (!$nome_cliente || !$carteirinha || !$exame_tipo) {
             echo "<script>
@@ -256,14 +284,14 @@
 
         if (isset($_FILES['pdf_arquivo']) && $_FILES['pdf_arquivo']['error'] == 0) {
             $conteudo_pdf = file_get_contents($_FILES['pdf_arquivo']['tmp_name']);
-            $stmt = $mysqli->prepare("INSERT INTO documento(nome_cliente, carteirinha, data, tipo_exame, pdf_arquivo) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $mysqli->prepare("INSERT INTO documento(id_paciente, nome_cliente, carteirinha, data, tipo_exame, pdf_arquivo) VALUES (?, ?, ?, ?, ?, ?)");
             // Verificar se a preparação foi bem-sucedida
             if ($stmt === false) {
                 die('Erro na preparação da declaração: ' . $mysqli->error);
             }
 
             // Vincular os parâmetros
-            $stmt->bind_param('sssss', $nome_cliente, $carteirinha, $data, $exame_tipo, $conteudo_pdf);
+            $stmt->bind_param('isssss', $id_paciente, $nome_cliente, $carteirinha, $data, $exame_tipo, $conteudo_pdf);
 
             if ($stmt->execute()) {
                 echo "<script>
