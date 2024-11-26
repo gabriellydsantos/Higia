@@ -24,8 +24,10 @@ body {
 }
 
 .content {
-    max-width: 50%;
-    margin-right: 20px;
+    max-width: 100%;
+    text-align: center; /* Centraliza o conteúdo */
+    margin: auto; /* Garante alinhamento central horizontal */
+    padding: 10px; /* Espaçamento interno */
 }
 
 #titulo {
@@ -80,87 +82,15 @@ button:hover {
 .image2 {
     max-width: 45%; 
     margin-left: 20px;
-        border-radius: 25%; 
-        overflow: hidden; 
+    border-radius: 25%; 
+    overflow: hidden; 
 }
-
 
 #picture {
     width: 100%;
     height: auto;
     max-height: calc(100vh - 10vh); 
     object-fit: contain;
-}
-
-.contact-bar {
-    background-color: #161D53;
-    padding: 20px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.contact-field {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 0 5px;
-}
-
-.contact-field label {
-    color: #fff;
-    margin-bottom: 5px;
-}
-
-.contact-input {
-    padding: 10px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    width: 100%;
-}
-
-.contact-button {
-    padding: 10px 20px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #0F6FE7;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.contact-button:hover {
-    background-color: #0D5BB5;
-}
-
-.doctors-section {
-    text-align: center;
-    padding: 40px 0;
-    background-color: #f8f8f8;
-}
-
-.section-title {
-    font-size: 2em;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.section-subtitle {
-    font-size: 1.2em;
-    color: #666;
-    margin-bottom: 30px;
-}
-
-.doctor-cards {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start; 
-    padding: 20px;
-    background-color: #f8f8f8;
 }
 
 .card {
@@ -250,20 +180,6 @@ button:hover {
     #picture {
         max-height: 40vh;
     }
-    .contact-bar {
-        flex-direction: column;
-        padding: 20px;
-    }
-    .contact-field {
-        width: 100%;
-        margin: 10px 0;
-    }
-    .contact-input {
-        margin: 5px 0;
-    }
-    .contact-button {
-        margin-top: 10px;
-    }
     .doctor-cards {
         flex-direction: column;
     }
@@ -272,4 +188,3 @@ button:hover {
         margin-bottom: 20px;
     }
 }
-

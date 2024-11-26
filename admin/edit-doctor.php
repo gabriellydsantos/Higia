@@ -55,7 +55,7 @@ if (!isset($_SESSION['admin_id'])) {
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <div class="main-wrapper">
         <div class="header">
@@ -228,7 +228,7 @@ if (!isset($_SESSION['admin_id'])) {
                             <ul>
                                 <li><a href="../admin/doctors.php">Lista de Médicos</a></li>
                                 <li><a href="../admin/add-doctor.php">Adicionar Médico</a></li>
-                                <li><a href="../admin/edit-doctor.php">Editar Médico</a></li>
+
                                 <li><a href="../admin/doctor-profile.php">Perfil do Médico</a></li>
                             </ul>
                         </li>
@@ -239,7 +239,7 @@ if (!isset($_SESSION['admin_id'])) {
                             <ul style="display: none">
                                 <li><a href="../admin/patients.php">Lista de Pacientes</a></li>
                                 <li><a href="../admin/add-patient.php">Adicionar Paciente</a></li>
-                                <li><a href="../admin/edit-patient.php">Editar Paciente</a></li>
+
                                 <li><a href="../admin/patient-profile.php">Perfil do Paciente</a></li>
                             </ul>
                         </li>
@@ -250,7 +250,7 @@ if (!isset($_SESSION['admin_id'])) {
                             <ul style="display: none">
                                 <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                                 <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
-                                <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
+
                                 <li>
                                     <a href="staff-profile.php">Perfil do Funcionário</a>
                                 </li>
@@ -657,13 +657,13 @@ if (!isset($_SESSION['admin_id'])) {
                                                 <label>Foto</label>
                                                 <input class="form-control" type="file" name="image" />
                                                 <?php if ($image): ?>
-                                                    <img src="<?php echo htmlspecialchars($image); ?>" alt="Avatar"
-                                                        width="100" height="100" class="avatar-img" />
+                                                <img src="<?php echo htmlspecialchars($image); ?>" alt="Avatar"
+                                                    width="100" height="100" class="avatar-img" />
                                                 <?php endif; ?>
                                                 <style>
-                                                    .avatar-img {
-                                                        margin-top: 0.80rem;
-                                                    }
+                                                .avatar-img {
+                                                    margin-top: 0.80rem;
+                                                }
                                                 </style>
                                             </div>
                                         </div>
@@ -676,34 +676,34 @@ if (!isset($_SESSION['admin_id'])) {
                                 </form>
 
                                 <script>
-                                    $(document).ready(function() {
-                                        $('input[name="phone"]').mask('(00) 00000-0000');
-                                    });
+                                $(document).ready(function() {
+                                    $('input[name="phone"]').mask('(00) 00000-0000');
+                                });
 
-                                    function buscarEndereco() {
-                                        var cep = document.getElementById('zipcode').value;
-                                        var url = 'https://viacep.com.br/ws/' + cep + '/json/';
+                                function buscarEndereco() {
+                                    var cep = document.getElementById('zipcode').value;
+                                    var url = 'https://viacep.com.br/ws/' + cep + '/json/';
 
-                                        if (cep.length == 8) { // Verifica se o CEP tem 8 dígitos
-                                            fetch(url)
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    if (data.erro) {
-                                                        alert('CEP não encontrado.');
-                                                    } else {
-                                                        document.getElementById('address').value = data.logradouro;
-                                                        document.getElementById('city').value = data.localidade;
-                                                        document.getElementById('state').value = data.uf;
-                                                        document.getElementById('country').value =
-                                                            'Brasil'; // País fixo como Brasil
-                                                    }
-                                                })
-                                                .catch(error => {
-                                                    console.error('Erro:', error);
-                                                    alert('Erro ao buscar o endereço.');
-                                                });
-                                        }
+                                    if (cep.length == 8) { // Verifica se o CEP tem 8 dígitos
+                                        fetch(url)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.erro) {
+                                                    alert('CEP não encontrado.');
+                                                } else {
+                                                    document.getElementById('address').value = data.logradouro;
+                                                    document.getElementById('city').value = data.localidade;
+                                                    document.getElementById('state').value = data.uf;
+                                                    document.getElementById('country').value =
+                                                        'Brasil'; // País fixo como Brasil
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Erro:', error);
+                                                alert('Erro ao buscar o endereço.');
+                                            });
                                     }
+                                }
                                 </script>
                             </div>
                         </div>

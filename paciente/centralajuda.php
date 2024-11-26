@@ -213,11 +213,7 @@
     new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <div class="header">
-        <h1>Como Podemos Ajudar?</h1>
-        <p>Descreva brevemente o que você está procurando e vamos ajudá-lo a encontrar as melhores respostas.</p>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Pesquisar...">
-        </div>
+        <h1>Podemos Ajudar?</h1>
     </div>
 
     <div class="container">

@@ -1,10 +1,10 @@
 <?php
-    session_start();
+session_start();
 
-    if (!isset($_SESSION['admin_id'])) {
-        header("Location: ../loginADM.php");
-        exit();
-    }
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../loginADM.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -143,7 +143,7 @@
                             <ul>
                                 <li><a href="../admin/doctors.php">Lista de Médicos</a></li>
                                 <li><a href="../admin/add-doctor.php">Adicionar Médico</a></li>
-                                <li><a href="../admin/edit-doctor.php">Editar Médico</a></li>
+
                                 <li><a href="../admin/doctor-profile.php">Perfil do Médico</a></li>
                             </ul>
                         </li>
@@ -154,7 +154,7 @@
                             <ul style="display: none">
                                 <li><a href="../admin/patients.php">Lista de Pacientes</a></li>
                                 <li><a href="../admin/add-patient.php">Adicionar Paciente</a></li>
-                                <li><a href="../admin/edit-patient.php">Editar Paciente</a></li>
+
                                 <li><a href="../admin/patient-profile.php">Perfil do Paciente</a></li>
                             </ul>
                         </li>
@@ -165,7 +165,7 @@
                             <ul style="display: none">
                                 <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                                 <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
-                                <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
+
                                 <li>
                                     <a href="staff-profile.php">Perfil do Funcionário</a>
                                 </li>

@@ -1,10 +1,10 @@
 <?php
-    session_start();
+session_start();
 
-    if (!isset($_SESSION['admin_id'])) {
-        header("Location: ../loginADM.php");
-        exit();
-    }
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../loginADM.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -39,25 +39,25 @@
 
 <body>
     <script id="__bs_script__">
-    //<![CDATA[
-    document.write(
-        "<script async src='/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace(
-            "HOST",
-            location.hostname
-        )
-    );
-    //]]>
+        //<![CDATA[
+        document.write(
+            "<script async src='/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace(
+                "HOST",
+                location.hostname
+            )
+        );
+        //]]>
     </script>
     <script async="" src="/browser-sync/browser-sync-client.js?v=2.26.7"></script>
     <script id="__bs_script__">
-    //<![CDATA[
-    document.write(
-        "<script async src='/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace(
-            "HOST",
-            location.hostname
-        )
-    );
-    //]]>
+        //<![CDATA[
+        document.write(
+            "<script async src='/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace(
+                "HOST",
+                location.hostname
+            )
+        );
+        //]]>
     </script>
     <script async="" src="/browser-sync/browser-sync-client.js?v=2.26.7"></script>
     <script async="" src="/browser-sync/browser-sync-client.js?v=2.26.7"></script>
@@ -206,7 +206,7 @@
                             <ul style="display: none">
                                 <li><a href="../admin/patients.php">Lista de Pacientes</a></li>
                                 <li><a href="../admin/add-patient.php">Adicionar Paciente</a></li>
-                                <li><a href="../admin/edit-patient.php">Editar Paciente</a></li>
+                             
                                 <li><a href="../admin/patient-profile.php">Perfil do Paciente</a></li>
                             </ul>
                         </li>

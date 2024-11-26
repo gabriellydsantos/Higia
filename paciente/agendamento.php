@@ -204,6 +204,13 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
     z-index: 9999;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.button-ocupado {
+    background-color: #D3D3D3;
+    /* Cor de fundo cinza para os botões ocupados */
+    cursor: not-allowed;
+    /* Indica que o botão não é interativo */
+}
 </style>
 
 <body>
@@ -274,10 +281,20 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
 
                             if (!empty($appointments)) {
                                 foreach ($appointments as $horario) {
-                                    echo "<button type='button' value='" . htmlspecialchars($horario) . "' name='horario' class='day' onclick='selectTime(this.value)'>" . htmlspecialchars($horario) . "</button>";
+                                    // Verificar se o horário já está ocupado
+                                    $stmt = $conn->prepare("SELECT * FROM agendamentos WHERE doctor = ? AND date = ? AND time = ?");
+                                    $stmt->bind_param('sss', $selected_doctor, $data, $horario);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                            
+                                    // Se o horário já estiver ocupado, adiciona a classe 'button-ocupado'
+                                    $isOccupied = $result->num_rows > 0;
+                            
+                                    // Adicionar a classe de acordo com a disponibilidade
+                                    $buttonClass = $isOccupied ? 'day button-ocupado' : 'day';
+                            
+                                    echo "<button type='button' value='" . htmlspecialchars($horario) . "' name='horario' class='" . $buttonClass . "' onclick='selectTime(this.value)'>" . htmlspecialchars($horario) . "</button>";
                                 }
-                            } else {
-                                echo "<p>Nenhum horário disponível.</p>";
                             }
 
                             echo "</td></tr></table>";

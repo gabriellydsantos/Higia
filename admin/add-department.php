@@ -225,7 +225,7 @@
                             <ul>
                                 <li><a href="../admin/doctors.php">Lista de Médicos</a></li>
                                 <li><a href="../admin/add-doctor.php">Adicionar Médico</a></li>
-                                <li><a href="../admin/edit-doctor.php">Editar Médico</a></li>
+
                                 <li><a href="../admin/doctor-profile.php">Perfil do Médico</a></li>
                             </ul>
                         </li>
@@ -236,7 +236,7 @@
                             <ul style="display: none">
                                 <li><a href="../admin/patients.php">Lista de Pacientes</a></li>
                                 <li><a href="../admin/add-patient.php">Adicionar Paciente</a></li>
-                                <li><a href="../admin/edit-patient.php">Editar Paciente</a></li>
+
                                 <li><a href="../admin/patient-profile.php">Perfil do Paciente</a></li>
                             </ul>
                         </li>
@@ -247,7 +247,7 @@
                             <ul style="display: none">
                                 <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                                 <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
-                                <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
+
                                 <li>
                                     <a href="staff-profile.php">Perfil do Funcionário</a>
                                 </li>
@@ -284,7 +284,7 @@
                                     <a class="" href="departments.php">Especialidade</a>
                                 </li>
                                 <li><a href="../admin/add-department.php">Add Especialidade</a></li>
-                                <li><a href="../admin/edit-department.php">Editar Especialidade</a></li>
+
                             </ul>
                         </li>
                     </ul>
@@ -451,6 +451,7 @@
         <script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
             data-cf-settings="99b33d9fe545964c14218df7-|49" defer></script>
 </body>
+
 </html>
 
 <?php

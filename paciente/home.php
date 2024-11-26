@@ -17,6 +17,51 @@
 <div class="navbar">
     <?php include 'ecommerc/navbar.html'; ?>
 </div>
+<style>
+.contact-bar {
+    text-align: center;
+    padding: 20px 10px;
+    /* Ajuste para responsividade */
+    background-color: #161D53;
+    display: flex;
+    /* Flexbox para centralização */
+    flex-direction: column;
+    /* Alinha itens verticalmente */
+    align-items: center;
+    /* Centraliza horizontalmente */
+    justify-content: center;
+    /* Centraliza verticalmente */
+}
+
+.title {
+    font-size: 2.3rem;
+    margin: 10px 0;
+    color: white;
+}
+
+.section-subtitle {
+    font-size: 1.5rem;
+    color: #ffdf5a;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+        /* Reduz tamanho em telas menores */
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+        /* Ajusta subtítulo para telas pequenas */
+    }
+
+    .contact-bar {
+        padding: 15px 5px;
+        /* Menor espaçamento em dispositivos móveis */
+    }
+}
+</style>
 
 <body>
 
@@ -29,7 +74,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -49,48 +94,12 @@
     </div>
     <div class="contact-bar">
         <div class="contact-field">
-            <label for="name">Nome Completo</label>
-            <input type="text" id="name" placeholder="Digite seu nome" class="contact-input">
+            <h2 class="title">Utilize nossos serviços</h2>
+            <p class="section-subtitle">Médicos Bem Qualificados Estão Prontos para Atendê-la</p>
         </div>
-        <div class="contact-field">
-            <label for="email">Endereço de email</label>
-            <input type="email" id="email" placeholder="Digite seu email" class="contact-input">
-        </div>
-        <div class="contact-field">
-            <label for="message">Ajuda</label>
-            <input type="text" id="message" placeholder="Digite sua mensagem" class="contact-input">
-        </div>
-        <button class="contact-button">Enviar</button>
     </div>
     <div class="doctors-section">
-        <h2 class="section-title">Conheça Nossos Médicos</h2>
-        <p class="section-subtitle">Médicos Bem Qualificados Estão Prontos para Atendê-la</p>
-        <div class="doctor-cards">
-            <div class="card">
-                <div class="image-wrapper">
-                    <div class="image-background"></div>
-                    <img src="img/doutora1.png" alt="Dra. Sicrana" class="doctor-image">
-                </div>
-                <h3>Dr. Fulana</h3>
-                <p>Especialidade</p>
-            </div>
-            <div class="card">
-                <div class="image-wrapper">
-                    <div class="image-background"></div>
-                    <img src="img/doutor1.png" alt="Dr. Fulano" class="doctor-image">
-                </div>
-                <h3>Dra. Sicrano</h3>
-                <p>Especialidade</p>
-            </div>
-            <div class="card">
-                <div class="image-wrapper">
-                    <div class="image-background"></div>
-                    <img src="img/doutor2.png" alt="Dr. Beltrano" class="doctor-image">
-                </div>
-                <h3>Dr. Beltrano</h3>
-                <p>Especialidade</p>
-            </div>
-        </div>
+
     </div>
     <div class="agende">
         <div class="image2">

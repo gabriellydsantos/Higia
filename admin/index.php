@@ -1,10 +1,10 @@
 <?php
-    session_start();
+session_start();
 
-    if (!isset($_SESSION['admin_id'])) {
-        header("Location: ../loginADM.php");
-        exit();
-    }
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../loginADM.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -232,7 +232,7 @@
                         <ul>
                             <li><a href="../admin/doctors.php">Lista de Médicos</a></li>
                             <li><a href="../admin/add-doctor.php">Adicionar Médico</a></li>
-                            <li><a href="../admin/edit-doctor.php">Editar Médico</a></li>
+
                             <li><a href="../admin/doctor-profile.php">Perfil do Médico</a></li>
                         </ul>
                     </li>
@@ -243,7 +243,7 @@
                         <ul style="display: none">
                             <li><a href="../admin/patients.php">Lista de Pacientes</a></li>
                             <li><a href="../admin/add-patient.php">Adicionar Paciente</a></li>
-                            <li><a href="../admin/edit-patient.php">Editar Paciente</a></li>
+
                             <li><a href="../admin/patient-profile.php">Perfil do Paciente</a></li>
                         </ul>
                     </li>
@@ -254,7 +254,7 @@
                         <ul style="display: none">
                             <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                             <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
-                            <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
+
                             <li>
                                 <a href="staff-profile.php">Perfil do Funcionário</a>
                             </li>
@@ -662,11 +662,12 @@
 
                 // Consulta SQL para contar os agendamentos por departamento
                 $query = "
-    SELECT department, COUNT(*) as total_agendamentos 
-    FROM agendamentos 
-    GROUP BY department 
-    ORDER BY total_agendamentos DESC;
-";
+        SELECT d.department_name AS department_name, COUNT(a.id) as total_agendamentos 
+        FROM agendamentos a
+        INNER JOIN departments d ON a.department = d.id
+        GROUP BY d.department_name 
+        ORDER BY total_agendamentos DESC;
+    ";
 
                 $result = $conn->query($query);
 
@@ -679,7 +680,7 @@
                 // Preparar os dados para exibição
                 $departamentos = [];
                 while ($row = $result->fetch_assoc()) {
-                    $departamento = $row['department'];
+                    $departamento = $row['department_name'];
                     $total = $row['total_agendamentos'];
                     $porcentagem = ($total / $totalAgendamentos) * 100;
                     $departamentos[] = [
@@ -692,6 +693,7 @@
 
 
 
+
                 <div class="col-12 col-md-12 col-xl-4">
                     <div class="card top-departments">
                         <div class="card-header">
@@ -701,7 +703,7 @@
                             <?php foreach ($departamentos as $dep): ?>
                             <div class="activity-top">
                                 <div class="activity-boxs comman-flex-center">
-                                    <!-- <img src="../assets/img/icons/dep-icon-01.svg" alt /> -->
+
                                 </div>
                                 <div class="departments-list">
                                     <h4><?php echo $dep['department']; ?></h4>
@@ -713,9 +715,13 @@
                     </div>
                 </div>
 
+                <style>
+                .activity-boxs {
 
+                    background-color: #161d53;
 
-
+                }
+                </style>
 
 
                 <?php
@@ -729,12 +735,12 @@
 
 
                 <?php
-include("database.php"); // Inclui o arquivo de conexão
+                include("database.php"); // Inclui o arquivo de conexão
 
-// Consulta para obter os logins recentes
-$sql_recent_logins = "SELECT * FROM logged_patients ORDER BY data_login DESC LIMIT 10";
-$result = $conn->query($sql_recent_logins);
-?>
+                // Consulta para obter os logins recentes
+                $sql_recent_logins = "SELECT * FROM logged_patients ORDER BY data_login DESC LIMIT 10";
+                $result = $conn->query($sql_recent_logins);
+                ?>
 
                 <div class="col-12 col-md-12 col-xl-8">
                     <div class="card rounded-card">
@@ -756,25 +762,25 @@ $result = $conn->query($sql_recent_logins);
                                     </thead>
                                     <tbody>
                                         <?php
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                // Extrair a data e a hora separadamente
-                                $data_login = date('d/m/Y', strtotime($row['data_login']));
-                                $hora_login = date('H:i', strtotime($row['data_login']));
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                // Extrair a data e a hora separadamente
+                                                $data_login = date('d/m/Y', strtotime($row['data_login']));
+                                                $hora_login = date('H:i', strtotime($row['data_login']));
 
-                                echo "<tr>";
-                                echo "<td><div class='form-check check-tables'><input class='form-check-input' type='checkbox' /></div></td>";
-                                echo "<td>" . $row['carteirinha'] . "</td>";
-                                echo "<td>" . $row['nome'] . "</td>";
-                                echo "<td>" . $row['telefone'] . "</td>";
-                                echo "<td>" . $data_login . "</td>";
-                                echo "<td>" . $hora_login . "</td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='6'>Nenhum paciente logado recentemente.</td></tr>";
-                        }
-                        ?>
+                                                echo "<tr>";
+                                                echo "<td><div class='form-check check-tables'><input class='form-check-input' type='checkbox' /></div></td>";
+                                                echo "<td>" . $row['carteirinha'] . "</td>";
+                                                echo "<td>" . $row['nome'] . "</td>";
+                                                echo "<td>" . $row['telefone'] . "</td>";
+                                                echo "<td>" . $data_login . "</td>";
+                                                echo "<td>" . $hora_login . "</td>";
+                                                echo "</tr>";
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='6'>Nenhum paciente logado recentemente.</td></tr>";
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

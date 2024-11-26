@@ -1,10 +1,10 @@
 <?php
-    session_start();
+session_start();
 
-    if (!isset($_SESSION['admin_id'])) {
-        header("Location: ../loginADM.php");
-        exit();
-    }
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../loginADM.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -43,7 +43,7 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 
 
@@ -165,7 +165,7 @@
             <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img
                     src="../assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
         </li> -->
-        <li class="nav-item dropdown has-arrow user-profile-list">
+                <li class="nav-item dropdown has-arrow user-profile-list">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                         <div class="user-names">
                             <h5><?php echo $_SESSION['admin_first_name'] . " " . $_SESSION['admin_last_name']; ?></h5>
@@ -219,7 +219,7 @@
                             <ul>
                                 <li><a href="../admin/doctors.php">Lista de Médicos</a></li>
                                 <li><a href="../admin/add-doctor.php">Adicionar Médico</a></li>
-                                <li><a href="../admin/edit-doctor.php">Editar Médico</a></li>
+
                                 <li><a href="../admin/doctor-profile.php">Perfil do Médico</a></li>
                             </ul>
                         </li>
@@ -230,7 +230,7 @@
                             <ul style="display: none">
                                 <li><a href="../admin/patients.php">Lista de Pacientes</a></li>
                                 <li><a href="../admin/add-patient.php">Adicionar Paciente</a></li>
-                                <li><a href="../admin/edit-patient.php">Editar Paciente</a></li>
+
                                 <li><a href="../admin/patient-profile.php">Perfil do Paciente</a></li>
                             </ul>
                         </li>
@@ -241,7 +241,7 @@
                             <ul style="display: none">
                                 <li><a href="../admin/staff-list.php">Lista de Funcionários</a></li>
                                 <li><a href="../admin/add-staff.php">Adicionar Funcionário</a></li>
-                                <li><a href="../admin/edit-staff.php">Editar Funcionário</a></li>
+
                                 <li>
                                     <a href="staff-profile.php">Perfil do Funcionário</a>
                                 </li>
@@ -278,7 +278,7 @@
                                     <a class="" href="departments.php">Especialidade</a>
                                 </li>
                                 <li><a href="../admin/add-department.php">Add Especialidade</a></li>
-                               
+
                             </ul>
                         </li>
 
