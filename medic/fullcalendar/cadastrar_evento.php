@@ -2,17 +2,23 @@
 
 // Incluir o arquivo com a conexão com banco de dados
 include_once './conexao.php';
-
+//iniciar sessão
+session_start();
+//pegar o nome e o id do profissional
+$profissional = $_SESSION['doctor_username'];
+$id = $_SESSION['doctor_id'];
 // Receber os dados enviado pelo JavaScript
 $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 // Criar a QUERY cadastrar evento no banco de dados
-$query_cad_event = "INSERT INTO events (title, color, start, end, obs) VALUES (:title, :color, :start, :end, :obs)";
+$query_cad_event = "INSERT INTO events (id_medico, profissional, title, color, start, end, obs) VALUES (:id_medico, :profissional, :title, :color, :start, :end, :obs)";
 
 // Prepara a QUERY
 $cad_event = $conn->prepare($query_cad_event);
 
 // Substituir o link pelo valor
+$cad_event->bindParam(':id_medico', $id);
+$cad_event->bindParam(':profissional', $profissional);
 $cad_event->bindParam(':title', $dados['cad_title']);
 $cad_event->bindParam(':color', $dados['cad_color']);
 $cad_event->bindParam(':start', $dados['cad_start']);
@@ -28,3 +34,4 @@ if ($cad_event->execute()) {
 
 // Converter o array em objeto e retornar para o JavaScript
 echo json_encode($retorna);
+?>

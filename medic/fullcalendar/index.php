@@ -1,7 +1,7 @@
 <?php
     include "conexao.php";
         session_start();
-        //echo "Bem-vindo, " . $_SESSION['doctor_username'];
+
         error_reporting(0);
         ini_set('display_errors', 0);
 ?>

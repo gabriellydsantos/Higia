@@ -223,6 +223,8 @@ CREATE TABLE events (
     FOREIGN KEY (id_medico) REFERENCES doctors(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+ALTER TABLE agendamentos MODIFY COLUMN id_paciente INT NOT NULL;
+
 -- Inserção inicial na tabela admin
 INSERT INTO admin (
     first_name, 

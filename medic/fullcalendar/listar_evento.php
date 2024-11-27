@@ -3,9 +3,12 @@
 // Incluir o arquivo com a conexão com banco de dados
 include_once './conexao.php';
 
+session_start();
+//pegar o nome do profissional
+$profissional = $_SESSION['doctor_username'];
+
 // QUERY para recuperar os eventos
-$query_events = "SELECT id, title, color, start, end, obs
-                FROM events";
+$query_events = "SELECT id, title, color, start, end, obs FROM events WHERE profissional = '$profissional'";
 
 // Prepara a QUERY
 $result_events = $conn->prepare($query_events);

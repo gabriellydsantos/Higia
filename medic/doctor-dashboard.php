@@ -191,28 +191,27 @@
                 </div>
 
 
-
                 <div class="row">
+                    <!-- Compromissos -->
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
                                 <img src="../assets/img/icons/calendar.svg" alt />
                             </div>
                             <?php
-                            // Consulta para contar o número de linhas na tabela agendamentos
-                            $sql_agendamentos = "SELECT COUNT(*) AS total_agendamentos FROM agendamentos";
-                            $result_agendamentos = $conn->query($sql_agendamentos);
-                            $total_agendamentos = ($result_agendamentos->num_rows > 0) ? $result_agendamentos->fetch_assoc()['total_agendamentos'] : 0;
+                // Consulta para contar o número de linhas na tabela agendamentos
+                $sql_agendamentos = "SELECT COUNT(*) AS total_agendamentos FROM agendamentos";
+                $result_agendamentos = $conn->query($sql_agendamentos);
+                $total_agendamentos = ($result_agendamentos->num_rows > 0) ? $result_agendamentos->fetch_assoc()['total_agendamentos'] : 0;
 
-                            // Consulta para contar o número de linhas na tabela events
-                            $sql_events = "SELECT COUNT(*) AS total_events FROM events";
-                            $result_events = $conn->query($sql_events);
-                            $total_events = ($result_events->num_rows > 0) ? $result_events->fetch_assoc()['total_events'] : 0;
+                // Consulta para contar o número de linhas na tabela events
+                $sql_events = "SELECT COUNT(*) AS total_events FROM events";
+                $result_events = $conn->query($sql_events);
+                $total_events = ($result_events->num_rows > 0) ? $result_events->fetch_assoc()['total_events'] : 0;
 
-                            // Soma dos totais das duas tabelas
-                            $total_linhas = $total_agendamentos + $total_events;
-                            ?>
-
+                // Soma dos totais das duas tabelas
+                $total_linhas = $total_agendamentos + $total_events;
+            ?>
                             <div class="dash-content dash-count">
                                 <h4>Compromissos</h4>
                                 <h2><span class="counter-up"><?php echo $total_linhas; ?></span></h2>
@@ -224,13 +223,7 @@
                         </div>
                     </div>
 
-
-
-
-                    <?php
-                    $sql = "SELECT COUNT(*) AS total FROM agendamentos";
-                    $result = $conn->query($sql);
-                    ?>
+                    <!-- Pacientes -->
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
@@ -238,14 +231,19 @@
                             </div>
                             <div class="dash-content dash-count">
                                 <h4>Pacientes</h4>
-                                <h2><span class="counter-up"><?php
-                                                                if ($result->num_rows > 0) {
-                                                                    $row = $result->fetch_assoc();
-                                                                    echo $row['total'];
-                                                                } else {
-                                                                    echo "0";
-                                                                }
-                                                                ?></span></h2>
+                                <h2><span class="counter-up">
+                                        <?php
+                    // Consulta para contar o número de pacientes
+                    $sql_pacientes = "SELECT COUNT(*) AS total_pacientes FROM patients";
+                    $result_pacientes = $conn->query($sql_pacientes);
+                    if ($result_pacientes->num_rows > 0) {
+                        $row = $result_pacientes->fetch_assoc();
+                        echo $row['total_pacientes'];
+                    } else {
+                        echo "0";
+                    }
+                    ?>
+                                    </span></h2>
                                 <p>
                                     <span class="passive-view"><i class="feather-arrow-up-right me-1"></i>20%</span>
                                     vs Mês passado
@@ -254,6 +252,7 @@
                         </div>
                     </div>
 
+                    <!-- Cancelados -->
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <div class="dash-boxs comman-flex-center">
@@ -261,7 +260,21 @@
                             </div>
                             <div class="dash-content dash-count">
                                 <h4>Cancelado</h4>
-                                <h2><span class="counter-up">0</span></h2>
+                                <?php
+            // Consulta para contar o número de agendamentos cancelados
+            $sql_cancelados = "SELECT COUNT(*) AS total_cancelados FROM agendamentos WHERE TRIM(LOWER(status)) = 'cancelada'"; // Ajustando o status para 'cancelada'
+            $result_cancelados = $conn->query($sql_cancelados);
+
+            if ($result_cancelados) {
+                $row = $result_cancelados->fetch_assoc();
+                $total_cancelados = $row['total_cancelados'];
+            } else {
+                // Caso haja algum erro na consulta SQL
+                $total_cancelados = 0;
+                echo "Erro na consulta: " . $conn->error; // Exibe o erro da consulta, caso ocorra
+            }
+            ?>
+                                <h2><span class="counter-up"><?php echo $total_cancelados; ?></span></h2>
                                 <p>
                                     <span class="negative-view"><i class="feather-arrow-down-right me-1"></i>15%</span>
                                     Mês passado
@@ -270,8 +283,16 @@
                         </div>
                     </div>
 
+
+
+                    <!-- Coluna em branco -->
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3"></div>
                 </div>
+
+
+
+
+
 
 
                 <div class="good-morning-blk">
@@ -487,28 +508,32 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        if ($result->num_rows > 0) {
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                // Definir a classe de status
-                                                                $statusClass = match ($row["status"]) {
-                                                                    "Concluído" => "status-completed",  // Verde
-                                                                    "Inconcluído" => "status-incomplete", // Laranja
-                                                                    "Cancelada" => "status-canceled", // Vermelho
-                                                                    default => "status-default",
-                                                                };
+                            // Verificar se a consulta retorna resultados
+                            if ($result->num_rows > 0) {
+                                // Iterar sobre os resultados
+                                while ($row = $result->fetch_assoc()) {
+                                    // Definir a classe de status com base no valor do status
+                                    $statusClass = match ($row["status"]) {
+                                        "Concluído" => "status-completed",  // Verde
+                                        "Inconcluído" => "status-incomplete", // Laranja
+                                        "Cancelada" => "status-canceled", // Vermelho
+                                        default => "status-default",
+                                    };
 
-                                                                echo '<tr>
-                                            <td>' . htmlspecialchars($row["id"]) . '</td>
-                                            <td>' . htmlspecialchars($row["paciente_nome"]) . '</td>
-                                            <td>' . date("d.m.Y", strtotime($row["date"])) . '</td>
-                                            <td>' . date("H:i", strtotime($row["time"])) . '</td>
-                                            <td><button class="custom-badge ' . $statusClass . '" onclick="updateStatus(' . $row["id"] . ')">' . htmlspecialchars($row["status"]) . '</button></td>
-                                        </tr>';
-                                                            }
-                                                        } else {
-                                                            echo '<tr><td colspan="5" class="text-center">Nenhum dado encontrado.</td></tr>';
-                                                        }
-                                                        ?>
+                                    // Exibir os dados na tabela
+                                    echo '<tr>
+                                        <td>' . htmlspecialchars($row["id"]) . '</td>
+                                        <td>' . htmlspecialchars($row["paciente_nome"]) . '</td>
+                                        <td>' . date("d.m.Y", strtotime($row["date"])) . '</td>
+                                        <td>' . date("H:i", strtotime($row["time"])) . '</td>
+                                        <td><button class="custom-badge ' . $statusClass . '" onclick="updateStatus(' . $row["id"] . ')">' . htmlspecialchars($row["status"]) . '</button></td>
+                                    </tr>';
+                                }
+                            } else {
+                                // Caso não haja dados para exibir
+                                echo '<tr><td colspan="5" class="text-center">Nenhum dado encontrado.</td></tr>';
+                            }
+                            ?>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -516,6 +541,7 @@
                                     </div>
                                 </div>
                             </div>
+
 
 
                             <script>
@@ -588,78 +614,81 @@
                             /* Define a cor do texto para vermelho */
                         }
                         </style>
-                        <?php
-                        // Conectar ao banco de dados
-                        include './database.php';
+                       <?php
+// Conectar ao banco de dados
+include './database.php';
 
-                        session_start();
-                        $doctorLoggedIn = $_SESSION['doctor_username'];
-                        date_default_timezone_set('America/Sao_Paulo'); // Ajuste para o fuso horário correto
-                        $currentDateTime = date('Y-m-d H:i:s');
-                        $startOfDay = date('Y-m-d 00:00:00');
-                        $endDateTime = date('Y-m-d H:i:s', strtotime('+1 day'));
+session_start();
+$doctorLoggedIn = $_SESSION['doctor_username'];
+date_default_timezone_set('America/Sao_Paulo'); // Ajuste para o fuso horário correto
+$currentDateTime = date('Y-m-d H:i:s');
+$startOfDay = date('Y-m-d 00:00:00');
+$endDateTime = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-                        // Verificar se o médico está logado
-                        if (!$doctorLoggedIn) {
-                            echo "Erro: Médico não logado.";
-                            exit;
+// Verificar se o médico está logado
+if (!$doctorLoggedIn) {
+    echo "Erro: Médico não logado.";
+    exit;
+}
+
+// Consulta para compromissos de hoje e próximas 24 horas com junção para obter o nome do paciente
+$sql = "
+    SELECT agendamentos.*, patients.first_name AS paciente_first_name, patients.last_name AS paciente_last_name
+    FROM agendamentos 
+    JOIN patients ON agendamentos.id_paciente = patients.id
+    WHERE agendamentos.doctor = ? 
+    AND CONCAT(agendamentos.date, ' ', agendamentos.time) BETWEEN ? AND ? 
+    ORDER BY agendamentos.date, agendamentos.time
+";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sss", $doctorLoggedIn, $startOfDay, $endDateTime);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+<div class="col-12 col-lg-12 col-xl-5 d-flex">
+    <div class="card flex-fill comman-shadow">
+        <div class="card-header">
+            <h4 class="card-title d-inline-block">Compromissos</h4>
+        </div>
+        <div class="card-body">
+            <div class="teaching-card">
+                <?php if ($result->num_rows > 0): ?>
+                <ul class="activity-feed">
+                    <?php while ($row = $result->fetch_assoc()):
+                        // Concatenar a data e hora do compromisso
+                        $appointmentDate = date('d/m/Y', strtotime($row['date']));
+                        $appointmentTime = date('H:i', strtotime($row['time']));
+                        $appointmentDateTime = $row['date'] . ' ' . $row['time'];
+
+                        // Inicializar a classe vazia
+                        $class = '';
+
+                        // Verificar se o horário do compromisso já passou
+                        if (strtotime($appointmentDateTime) < strtotime($currentDateTime)) {
+                            $class = 'text-decoration-line-through'; // Aplica o riscado se o horário já passou
                         }
-
-                        // Consulta para compromissos de hoje e próximas 24 horas
-                        $sql = "SELECT * FROM agendamentos 
-        WHERE doctor = ? 
-        AND CONCAT(date, ' ', time) BETWEEN ? AND ? 
-        ORDER BY date, time";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("sss", $doctorLoggedIn, $startOfDay, $endDateTime);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        ?>
-
-                        <div class="col-12 col-lg-12 col-xl-5 d-flex">
-                            <div class="card flex-fill comman-shadow">
-                                <div class="card-header">
-                                    <h4 class="card-title d-inline-block">Compromissos</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="teaching-card">
-                                        <?php if ($result->num_rows > 0): ?>
-                                        <ul class="activity-feed">
-                                            <?php while ($row = $result->fetch_assoc()):
-                                                    // Concatenar a data e hora do compromisso
-                                                    $appointmentDate = date('d/m/Y', strtotime($row['date']));
-                                                    $appointmentTime = date('H:i', strtotime($row['time']));
-                                                    $appointmentDateTime = $row['date'] . ' ' . $row['time'];
-
-                                                    // Inicializar a classe vazia
-                                                    $class = '';
-
-                                                    // Verificar se o horário do compromisso já passou
-                                                    if (strtotime($appointmentDateTime) < strtotime($currentDateTime)) {
-                                                        $class = 'text-decoration-line-through'; // Aplica o riscado se o horário já passou
-                                                    }
-                                                ?>
-                                            <li class="feed-item d-flex align-items-center">
-                                                <div class="dolor-activity <?php echo $class; ?>">
-                                                    <ul class="doctor-date-list mb-2">
-                                                        <li class="">
-                                                            <i class="fas fa-circle me-2"></i>
-                                                            <?php echo $appointmentDate . ' ' . $appointmentTime; ?>
-                                                            <span><?php echo htmlspecialchars($row['paciente']); ?></span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <?php endwhile; ?>
-                                        </ul>
-                                        <?php else: ?>
-                                        <p>Não há compromissos agendados para hoje e próximas 24 horas.</p>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
+                    ?>
+                    <li class="feed-item d-flex align-items-center">
+                        <div class="dolor-activity <?php echo $class; ?>">
+                            <ul class="doctor-date-list mb-2">
+                                <li class="">
+                                    <i class="fas fa-circle me-2"></i>
+                                    <?php echo $appointmentDate . ' ' . $appointmentTime; ?>
+                                    <span><?php echo htmlspecialchars($row['paciente_first_name'] . ' ' . $row['paciente_last_name']); ?></span>
+                                </li>
+                            </ul>
                         </div>
-
+                    </li>
+                    <?php endwhile; ?>
+                </ul>
+                <?php else: ?>
+                <p>Não há compromissos agendados para hoje e próximas 24 horas.</p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

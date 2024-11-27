@@ -1,20 +1,14 @@
 <?php
-
-// Inicio da conexão com o banco de dados utilizando PDO
-$host = "localhost";
-$user = "root";
-$pass = "200812";
+$servername = "localhost";
+$username = "root";
+$password = "200812";
 $dbname = "higia";
-$port = 3306;
 
-try {
-    // Conexão com a porta
-    //$conn = new PDO("mysql:host=$host;port=$port;dbname=" . $dbname, $user, $pass);
+// Cria a conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    //Conexão sem a porta
-    $conn = new PDO("mysql:host=$host;dbname=" . $dbname, $user, $pass);
-    //echo "Conexão com banco de dados realizado com sucesso.";
-} catch (PDOException $err) {
-    die("Erro: Conexão com banco de dados não realizado com sucesso. Erro gerado " . $err->getMessage());
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
 }
-    // Fim da conexão com o banco de dados utilizando PDO
+?>
