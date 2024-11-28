@@ -100,12 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <form action="" method="post">
 
                     <p class="input-box">
-                        <select id="carteirinha-select" class="styled-select">
-                            <option value="" disabled>Selecione...</option>
-                            <option value="loginADM.php">Administrador</option>
-                            <option value="./medic/loginM.php">Médico</option>
-                            <option value="login.php">Paciente</option>
-                        </select>
+
                     </p>
 
                     <script>

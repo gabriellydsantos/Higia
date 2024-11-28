@@ -82,12 +82,7 @@ new window.VLibras.Widget('https://vlibras.gov.br/app');
                 <p class="input-box">
 
                 <p class="input-box">
-                    <select id="carteirinha-select" class="styled-select">
-                        <option value="" disabled>Selecione...</option>
-                        <option value="loginADM.php" data-page="Administrador">Administrador</option>
-                        <option value="./medic/loginM.php" data-page="Médico">Médico</option>
-                        <option value="login.php" data-page="Paciente">Paciente</option>
-                    </select>
+
                 </p>
 
                 <script>
