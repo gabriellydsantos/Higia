@@ -614,7 +614,7 @@
                             /* Define a cor do texto para vermelho */
                         }
                         </style>
-                       <?php
+                        <?php
 // Conectar ao banco de dados
 include './database.php';
 
@@ -646,16 +646,16 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
-<div class="col-12 col-lg-12 col-xl-5 d-flex">
-    <div class="card flex-fill comman-shadow">
-        <div class="card-header">
-            <h4 class="card-title d-inline-block">Compromissos</h4>
-        </div>
-        <div class="card-body">
-            <div class="teaching-card">
-                <?php if ($result->num_rows > 0): ?>
-                <ul class="activity-feed">
-                    <?php while ($row = $result->fetch_assoc()):
+                        <div class="col-12 col-lg-12 col-xl-5 d-flex">
+                            <div class="card flex-fill comman-shadow">
+                                <div class="card-header">
+                                    <h4 class="card-title d-inline-block">Compromissos</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="teaching-card">
+                                        <?php if ($result->num_rows > 0): ?>
+                                        <ul class="activity-feed">
+                                            <?php while ($row = $result->fetch_assoc()):
                         // Concatenar a data e hora do compromisso
                         $appointmentDate = date('d/m/Y', strtotime($row['date']));
                         $appointmentTime = date('H:i', strtotime($row['time']));
@@ -669,26 +669,26 @@ $result = $stmt->get_result();
                             $class = 'text-decoration-line-through'; // Aplica o riscado se o horário já passou
                         }
                     ?>
-                    <li class="feed-item d-flex align-items-center">
-                        <div class="dolor-activity <?php echo $class; ?>">
-                            <ul class="doctor-date-list mb-2">
-                                <li class="">
-                                    <i class="fas fa-circle me-2"></i>
-                                    <?php echo $appointmentDate . ' ' . $appointmentTime; ?>
-                                    <span><?php echo htmlspecialchars($row['paciente_first_name'] . ' ' . $row['paciente_last_name']); ?></span>
-                                </li>
-                            </ul>
+                                            <li class="feed-item d-flex align-items-center">
+                                                <div class="dolor-activity <?php echo $class; ?>">
+                                                    <ul class="doctor-date-list mb-2">
+                                                        <li class="">
+                                                            <i class="fas fa-circle me-2"></i>
+                                                            <?php echo $appointmentDate . ' ' . $appointmentTime; ?>
+                                                            <span><?php echo htmlspecialchars($row['paciente_first_name'] . ' ' . $row['paciente_last_name']); ?></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <?php endwhile; ?>
+                                        </ul>
+                                        <?php else: ?>
+                                        <p>Não há compromissos agendados para hoje e próximas 24 horas.</p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                    <?php endwhile; ?>
-                </ul>
-                <?php else: ?>
-                <p>Não há compromissos agendados para hoje e próximas 24 horas.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -741,6 +741,5 @@ $result = $stmt->get_result();
         data-cf-settings="289d0519ad93de500f359347-|49" defer></script>
 </body>
 
-<!-- Mirrored from preclinic.dreamstechnologies.com/html/template/doctor-dashboard.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 21:42:55 GMT -->
 
 </html>

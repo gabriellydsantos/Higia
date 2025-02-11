@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-
+    <script src="https://cdn.userway.org/widget.js" data-account="xGxZhlc6l4"></script>
     <div class="container-login">
         <div class="content-box">
             <div class="form-box">
@@ -98,10 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "<p style='color: red;'>$error</p>";
                 } ?>
                 <form action="" method="post">
-
-                    <p class="input-box">
-
-                    </p>
 
                     <script>
                     // Recuperar a URL atual para indicar a página selecionada
