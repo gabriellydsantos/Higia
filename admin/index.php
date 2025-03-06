@@ -568,7 +568,7 @@ if (!isset($_SESSION['admin_id'])) {
                 </script>
                 <?php
                 // Conexão com o banco de dados
-                $conn = new mysqli("localhost", "u556615341_root", "%H1G2A#root$", "u556615341_higia");
+                include('database.php');
 
                 if ($conn->connect_error) {
                     die("Falha na conexão: " . $conn->connect_error);
